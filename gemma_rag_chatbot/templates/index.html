@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <title>Neo4j + Gemma Chatbot</title>
+    <style>
+        body { font-family: Arial; background: #1f1f1f; color: white; padding: 2rem; }
+        input[type="text"] { width: 100%; padding: 0.7rem; font-size: 1rem; }
+        button { margin-top: 1rem; padding: 0.5rem 1rem; font-size: 1rem; cursor: pointer; }
+        .response { margin-top: 2rem; background: #333; padding: 1rem; border-radius: 8px; }
+    </style>
+</head>
+<body>
+    <h1>🎬 Film Chatbot</h1>
+    <form method="POST">
+        <input type="text" name="question" placeholder="Bir soru sor (ör: The Matrix filminde kimler oynamıştır?)" required />
+        <button type="submit">Sor</button>
+    </form>
+
+    {% if answer %}
+    <div class="response">
+        <h3>Cevap:</h3>
+        <p>{{ answer | safe }}</p>
+    </div>
+    {% endif %}
+</body>
+</html>
