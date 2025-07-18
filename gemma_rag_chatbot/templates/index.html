@@ -2,26 +2,270 @@
 <html lang="tr">
 <head>
     <meta charset="UTF-8">
-    <title>Neo4j + Gemma Chatbot</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Neo4j Film Chatbot</title>
     <style>
-        body { font-family: Arial; background: #1f1f1f; color: white; padding: 2rem; }
-        input[type="text"] { width: 100%; padding: 0.7rem; font-size: 1rem; }
-        button { margin-top: 1rem; padding: 0.5rem 1rem; font-size: 1rem; cursor: pointer; }
-        .response { margin-top: 2rem; background: #333; padding: 1rem; border-radius: 8px; }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            min-height: 100vh;
+            color: white;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 2.5em;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+            background: linear-gradient(45deg, #ff6b6b, #ffd93d);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .form-container {
+            margin-bottom: 30px;
+        }
+
+        .input-group {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        input[type="text"] {
+            flex: 1;
+            padding: 15px 20px;
+            font-size: 16px;
+            border: none;
+            border-radius: 25px;
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            backdrop-filter: blur(5px);
+            transition: all 0.3s ease;
+        }
+
+        input[type="text"]:focus {
+            outline: none;
+            background: rgba(255, 255, 255, 0.3);
+            transform: scale(1.02);
+        }
+
+        input[type="text"]::placeholder {
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        button {
+            padding: 15px 30px;
+            font-size: 16px;
+            border: none;
+            border-radius: 25px;
+            background: linear-gradient(45deg, #ff6b6b, #ffd93d);
+            color: white;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(255, 107, 107, 0.4);
+        }
+
+        button:active {
+            transform: translateY(0);
+        }
+
+        .response {
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 25px;
+            margin-top: 20px;
+            border-left: 4px solid #ffd93d;
+            animation: fadeIn 0.5s ease-in;
+        }
+
+        .response h3 {
+            margin-bottom: 15px;
+            color: #ffd93d;
+            font-size: 1.3em;
+        }
+
+        .response p {
+            line-height: 1.6;
+            font-size: 16px;
+            white-space: pre-wrap;
+        }
+
+        .examples {
+            margin-top: 20px;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+        }
+
+        .examples h4 {
+            margin-bottom: 15px;
+            color: #ffd93d;
+        }
+
+        .examples ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .examples li {
+            padding: 8px 0;
+            color: rgba(255, 255, 255, 0.8);
+            cursor: pointer;
+            transition: color 0.3s ease;
+        }
+
+        .examples li:hover {
+            color: #ffd93d;
+        }
+
+        .examples li:before {
+            content: "💬 ";
+            margin-right: 8px;
+        }
+
+        .loading {
+            display: none;
+            text-align: center;
+            padding: 20px;
+            color: #ffd93d;
+        }
+
+        .loading.show {
+            display: block;
+        }
+
+        .spinner {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 2px solid rgba(255, 217, 61, 0.3);
+            border-top: 2px solid #ffd93d;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        @media (max-width: 600px) {
+            .container {
+                padding: 20px;
+                margin: 10px;
+            }
+
+            .input-group {
+                flex-direction: column;
+            }
+
+            h1 {
+                font-size: 2em;
+            }
+        }
     </style>
 </head>
 <body>
-    <h1>🎬 Film Chatbot</h1>
-    <form method="POST">
-        <input type="text" name="question" placeholder="Bir soru sor (ör: The Matrix filminde kimler oynamıştır?)" required />
-        <button type="submit">Sor</button>
-    </form>
+    <div class="container">
+        <h1>🎬 Neo4j Film Chatbot</h1>
+        
+        <div class="form-container">
+            <form method="POST" id="chatForm">
+                <div class="input-group">
+                    <input type="text" 
+                           name="question" 
+                           id="questionInput"
+                           placeholder="Filmlere dair sorunu sor... (ör: Matrix filminde kimler oynamıştır?)" 
+                           required 
+                           autocomplete="off">
+                    <button type="submit">🚀 Sor</button>
+                </div>
+            </form>
+            
+            <div class="loading" id="loading">
+                <div class="spinner"></div>
+                <p>Cevap hazırlanıyor...</p>
+            </div>
+        </div>
 
-    {% if answer %}
-    <div class="response">
-        <h3>Cevap:</h3>
-        <p>{{ answer | safe }}</p>
+        {% if answer %}
+        <div class="response">
+            <h3>🤖 Cevap:</h3>
+            <p>{{ answer }}</p>
+        </div>
+        {% endif %}
+
+        <div class="examples">
+            <h4>💡 Örnek Sorular:</h4>
+            <ul>
+                <li onclick="fillQuestion('Matrix filminde kimler oynamıştır?')">Matrix filminde kimler oynamıştır?</li>
+                <li onclick="fillQuestion('En yüksek puanlı filmler hangileri?')">En yüksek puanlı filmler hangileri?</li>
+                <li onclick="fillQuestion('Keanu Reeves hangi filmlerde oynadı?')">Keanu Reeves hangi filmlerde oynadı?</li>
+                <li onclick="fillQuestion('Aksiyon filmlerini listele')">Aksiyon filmlerini listele</li>
+                <li onclick="fillQuestion('2000 yılından sonra çıkan filmler')">2000 yılından sonra çıkan filmler</li>
+            </ul>
+        </div>
     </div>
-    {% endif %}
+
+    <script>
+        function fillQuestion(question) {
+            document.getElementById('questionInput').value = question;
+            document.getElementById('questionInput').focus();
+        }
+
+        document.getElementById('chatForm').addEventListener('submit', function(e) {
+            const loading = document.getElementById('loading');
+            const button = document.querySelector('button[type="submit"]');
+            
+            loading.classList.add('show');
+            button.disabled = true;
+            button.textContent = 'Düşünüyor...';
+        });
+
+        // Enter tuşu ile form gönderme
+        document.getElementById('questionInput').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter' && !e.shiftKey) {
+                e.preventDefault();
+                document.getElementById('chatForm').submit();
+            }
+        });
+
+        // Sayfa yüklendiğinde input'a odaklan
+        window.addEventListener('load', function() {
+            document.getElementById('questionInput').focus();
+        });
+    </script>
 </body>
 </html>
