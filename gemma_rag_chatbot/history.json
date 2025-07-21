@@ -1,20 +1,5 @@
 [
   {
-    "question": "test.csv dosyasını görebiliyor musun",
-    "answer": "Üzgünüm, cevap üretilemedi.",
-    "timestamp": "2025-07-18T10:35:15.334223"
-  },
-  {
-    "question": "test.csv yi görebiliyor musun",
-    "answer": "Üzgünüm, sorunuzu anlayamadım. Lütfen farklı bir şekilde sormayı deneyin.",
-    "timestamp": "2025-07-18T10:36:37.177265"
-  },
-  {
-    "question": "Elektronik Ticaret ini görebiliyor musun veritabanında",
-    "answer": "Üzgünüm, sorunuzu anlayamadım. Lütfen farklı bir şekilde sormayı deneyin.",
-    "timestamp": "2025-07-18T10:45:14.531856"
-  },
-  {
     "question": "Soruları görebiliyor musun veritabanındaki",
     "answer": "Üzgünüm, sorunuzu anlayamadım. Lütfen farklı bir şekilde sormayı deneyin.",
     "timestamp": "2025-07-18T11:36:21.844087"
@@ -48,5 +33,20 @@
     "question": "kaç tane film kaç tane oyuncu var",
     "answer": ":\n\nMerhaba! Veritabanıma göre, şu anda kayıtlı **172 adet film** ve bu filmlerde rol alan **102 adet oyuncu** bulunuyor. 🎬\n\nBu, oldukça geniş bir koleksiyon! İsterseniz, bu filmlerden veya oyunculardan herhangi biri hakkında daha detaylı bilgi arayabiliriz. Ya da belki de belirli bir türdeki filmleri merak ediyorsunuzdur? Ne isterseniz yardımcı olmaktan mutluluk duyarım! 😊\n",
     "timestamp": "2025-07-21T09:40:59.503142"
+  },
+  {
+    "question": "Hangi oyuncular en çok film çekti?",
+    "answer": "Merhaba! Veritabanıma göre en çok filmde rol alan oyuncular şunlar:\n\n1.  Tom Hanks – 12 film\n2.  Keanu Reeves – 7 film\n3.  Jack Nicholson – 5 film\n4.  Meg Ryan – 5 film\n5.  Hugo Weaving – 5 film\n6.  Cuba Gooding Jr. – 4 film\n7.  Bill Paxton – 3 film\n8.  Gene Hackman – 3 film\n9.  Kevin Bacon – 3 film\n10. Robin Williams – 3 film\n\nUmarım bu liste işinize yarar! 😊 Başka bir konuda yardımcı olabilir miyim?",
+    "timestamp": "2025-07-21T09:55:09.552262"
+  },
+  {
+    "question": "En yüksek hasılatlı filmler",
+    "answer": "Merhaba! İşte veritabanımdaki en yüksek hasılatlı ilk 10 film:\n\n1.  Speed Racer (Hızlı Şimşek) – 238,080,880 TL\n2.  The Green Mile (Yeşil Yol) – 204,493,777 TL\n3.  You've Got Mail (Sana Bir Mesajım Var) – 197,694,568 TL\n4.  Stand By Me (Bana Dayan) – 183,743,973 TL\n5.  A Few Good Men (Birkaç İyi Adam) – 174,438,211 TL\n6.  When Harry Met Sally (Harry ve Sally Tanışınca) – 160,407,272 TL\n7.  Johnny Mnemonic (Johnny Mnemonik) – 152,656,527 TL\n8.  Hoffa (Hoffa) – 142,770,881 TL\n9.  A League of Their Own (Kendi Liginde) – 131,591,694 TL\n10. The Matrix Reloaded (Matrix Yükleniyor) – 127,924,601 TL\n\nUmarım bu liste işinize yarar! Başka bir konuda yardımcı olabilir miyim?",
+    "timestamp": "2025-07-21T10:08:53.496365"
+  },
+  {
+    "question": "A League of Their Own (Kendi Liginde) filmindeki oyuncuları ve o oyuncuların maaşlarını listele",
+    "answer": "Merhaba! \"A League of Their Own\" (Kendi Liginde) filmindeki oyuncular ve maaşları aşağıdaki gibidir:\n\n1.  Tom Hanks – 4,401,367 TL (Jimmy Dugan)\n2.  Rosie O'Donnell – 137,032 TL (Doris Murphy)\n3.  Bill Paxton – 23,756,701 TL (Bob Hinson)\n4.  Madonna – 31,271,689 TL (\"All the Way\" Mae Mordabito)\n5.  Geena Davis – 51,249,654 TL (Dottie Hinson)\n6.  Lori Petty – 20,775,251 TL (Kit Keller)\n\nUmarım yardımcı olabilmişimdir. Başka bir konuda yardımcı olabilir miyim?",
+    "timestamp": "2025-07-21T10:10:14.542540"
   }
 ]

@@ -112,3 +112,73 @@ Failed to establish connection to ResolvedIPv4Address(('127.0.0.1', 7687)) (reas
 2025-07-21 09:40:54,478 - __main__ - INFO - Generating answer for question: ka� tane film ka� tane oyuncu var
 2025-07-21 09:40:59,483 - __main__ - INFO - Successfully generated and cached answer
 2025-07-21 09:40:59,509 - werkzeug - INFO - 127.0.0.1 - - [21/Jul/2025 09:40:59] "POST /api/ask HTTP/1.1" 200 -
+2025-07-21 09:54:42,718 - __main__ - INFO - Successfully connected to Neo4j (attempt 1)
+2025-07-21 09:54:42,724 - __main__ - INFO - Starting Flask app on 0.0.0.0:5000 (debug=False)
+2025-07-21 09:54:42,724 - __main__ - INFO - Neo4j available: True
+2025-07-21 09:54:42,726 - __main__ - INFO - Using models: ['google/gemma-3-27b-it:free', 'meta-llama/llama-3.1-8b-instruct:free', 'microsoft/phi-3-mini-128k-instruct:free']
+2025-07-21 09:54:42,916 - werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://10.34.101.131:5000
+2025-07-21 09:54:42,917 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
+2025-07-21 09:54:46,451 - werkzeug - INFO - 127.0.0.1 - - [21/Jul/2025 09:54:46] "GET / HTTP/1.1" 200 -
+2025-07-21 09:54:49,135 - werkzeug - INFO - 127.0.0.1 - - [21/Jul/2025 09:54:49] "GET /api/history HTTP/1.1" 200 -
+2025-07-21 09:54:49,161 - werkzeug - INFO - 127.0.0.1 - - [21/Jul/2025 09:54:49] "GET /api/health HTTP/1.1" 200 -
+2025-07-21 09:54:49,311 - werkzeug - INFO - 127.0.0.1 - - [21/Jul/2025 09:54:49] "GET /api/health HTTP/1.1" 200 -
+2025-07-21 09:54:58,329 - __main__ - INFO - Received question: Hangi oyuncular en çok film çekti?
+2025-07-21 09:54:58,330 - __main__ - INFO - Generating Cypher for question: Hangi oyuncular en çok film çekti?
+2025-07-21 09:55:03,717 - __main__ - INFO - Successfully generated Cypher with google/gemma-3-27b-it:free: MATCH (p:Person)-[r:ACTED_IN]->(m:Movie) RETURN p.name AS OyuncuAdı, count(m) AS FilmSayısı ORDER BY FilmSayısı DESC LIMIT 50
+2025-07-21 09:55:03,720 - __main__ - INFO - Generated Cypher: MATCH (p:Person)-[r:ACTED_IN]->(m:Movie) RETURN p.name AS OyuncuAdı, count(m) AS FilmSayısı ORDER BY FilmSayısı DESC LIMIT 50
+2025-07-21 09:55:04,346 - __main__ - INFO - Query results: 50 rows
+2025-07-21 09:55:04,347 - __main__ - INFO - Generating answer for question: Hangi oyuncular en çok film çekti?
+2025-07-21 09:55:09,545 - __main__ - INFO - Successfully generated answer with google/gemma-3-27b-it:free
+2025-07-21 09:55:09,559 - werkzeug - INFO - 127.0.0.1 - - [21/Jul/2025 09:55:09] "POST /api/ask HTTP/1.1" 200 -
+2025-07-21 09:55:18,928 - werkzeug - INFO - 127.0.0.1 - - [21/Jul/2025 09:55:18] "GET /api/health HTTP/1.1" 200 -
+2025-07-21 09:55:49,567 - werkzeug - INFO - 127.0.0.1 - - [21/Jul/2025 09:55:49] "GET /api/health HTTP/1.1" 200 -
+2025-07-21 09:56:19,572 - werkzeug - INFO - 127.0.0.1 - - [21/Jul/2025 09:56:19] "GET /api/health HTTP/1.1" 200 -
+2025-07-21 09:56:49,561 - werkzeug - INFO - 127.0.0.1 - - [21/Jul/2025 09:56:49] "GET /api/health HTTP/1.1" 200 -
+2025-07-21 09:57:18,926 - werkzeug - INFO - 127.0.0.1 - - [21/Jul/2025 09:57:18] "GET /api/health HTTP/1.1" 200 -
+2025-07-21 09:57:49,555 - werkzeug - INFO - 127.0.0.1 - - [21/Jul/2025 09:57:49] "GET /api/health HTTP/1.1" 200 -
+2025-07-21 09:58:19,587 - werkzeug - INFO - 127.0.0.1 - - [21/Jul/2025 09:58:19] "GET /api/health HTTP/1.1" 200 -
+2025-07-21 09:58:52,574 - werkzeug - INFO - 127.0.0.1 - - [21/Jul/2025 09:58:52] "GET /api/health HTTP/1.1" 200 -
+2025-07-21 09:59:52,611 - werkzeug - INFO - 127.0.0.1 - - [21/Jul/2025 09:59:52] "GET /api/health HTTP/1.1" 200 -
+2025-07-21 10:00:52,587 - werkzeug - INFO - 127.0.0.1 - - [21/Jul/2025 10:00:52] "GET /api/health HTTP/1.1" 200 -
+2025-07-21 10:01:52,553 - werkzeug - INFO - 127.0.0.1 - - [21/Jul/2025 10:01:52] "GET /api/health HTTP/1.1" 200 -
+2025-07-21 10:02:52,549 - werkzeug - INFO - 127.0.0.1 - - [21/Jul/2025 10:02:52] "GET /api/health HTTP/1.1" 200 -
+2025-07-21 10:03:52,556 - werkzeug - INFO - 127.0.0.1 - - [21/Jul/2025 10:03:52] "GET /api/health HTTP/1.1" 200 -
+2025-07-21 10:08:30,158 - __main__ - INFO - Successfully connected to Neo4j (attempt 1)
+2025-07-21 10:08:30,163 - __main__ - INFO - Starting Flask app on 0.0.0.0:5000 (debug=False)
+2025-07-21 10:08:30,163 - __main__ - INFO - Neo4j available: True
+2025-07-21 10:08:30,164 - __main__ - INFO - Using models: ['google/gemma-3-27b-it:free', 'meta-llama/llama-3.1-8b-instruct:free', 'microsoft/phi-3-mini-128k-instruct:free']
+2025-07-21 10:08:30,327 - werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://10.34.101.131:5000
+2025-07-21 10:08:30,328 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
+2025-07-21 10:08:33,863 - werkzeug - INFO - 127.0.0.1 - - [21/Jul/2025 10:08:33] "GET / HTTP/1.1" 200 -
+2025-07-21 10:08:34,085 - werkzeug - INFO - 127.0.0.1 - - [21/Jul/2025 10:08:34] "GET /api/health HTTP/1.1" 200 -
+2025-07-21 10:08:34,439 - werkzeug - INFO - 127.0.0.1 - - [21/Jul/2025 10:08:34] "GET /api/history HTTP/1.1" 200 -
+2025-07-21 10:08:34,475 - werkzeug - INFO - 127.0.0.1 - - [21/Jul/2025 10:08:34] "GET /api/health HTTP/1.1" 200 -
+2025-07-21 10:08:39,711 - __main__ - INFO - Received question: En yüksek hasılatlı filmler
+2025-07-21 10:08:39,712 - __main__ - INFO - Generating Cypher for question: En yüksek hasılatlı filmler
+2025-07-21 10:08:44,344 - __main__ - INFO - Successfully generated Cypher with google/gemma-3-27b-it:free: MATCH (p:Person)-[r:ACTED_IN]->(m:Movie) RETURN m.title AS film, SUM(r.earnings) AS toplam_hasilat ORDER BY toplam_hasilat DESC LIMIT 50
+2025-07-21 10:08:44,346 - __main__ - INFO - Generated Cypher: MATCH (p:Person)-[r:ACTED_IN]->(m:Movie) RETURN m.title AS film, SUM(r.earnings) AS toplam_hasilat ORDER BY toplam_hasilat DESC LIMIT 50
+2025-07-21 10:08:45,275 - __main__ - INFO - Query results: 38 rows
+2025-07-21 10:08:45,275 - __main__ - INFO - Generating answer for question: En yüksek hasılatlı filmler
+2025-07-21 10:08:53,493 - __main__ - INFO - Successfully generated answer with google/gemma-3-27b-it:free
+2025-07-21 10:08:53,504 - werkzeug - INFO - 127.0.0.1 - - [21/Jul/2025 10:08:53] "POST /api/ask HTTP/1.1" 200 -
+2025-07-21 10:09:04,077 - werkzeug - INFO - 127.0.0.1 - - [21/Jul/2025 10:09:04] "GET /api/health HTTP/1.1" 200 -
+2025-07-21 10:09:34,567 - werkzeug - INFO - 127.0.0.1 - - [21/Jul/2025 10:09:34] "GET /api/health HTTP/1.1" 200 -
+2025-07-21 10:10:02,112 - __main__ - INFO - Received question: A League of Their Own (Kendi Liginde) filmindeki oyuncuları ve o oyuncuların maaşlarını listele
+2025-07-21 10:10:02,112 - __main__ - INFO - Generating Cypher for question: A League of Their Own (Kendi Liginde) filmindeki oyuncuları ve o oyuncuların maaşlarını listele
+2025-07-21 10:10:04,080 - werkzeug - INFO - 127.0.0.1 - - [21/Jul/2025 10:10:04] "GET /api/health HTTP/1.1" 200 -
+2025-07-21 10:10:07,877 - __main__ - INFO - Successfully generated Cypher with google/gemma-3-27b-it:free: MATCH (p:Person)-[r:ACTED_IN]->(m:Movie) WHERE m.title = 'A League of Their Own' RETURN p.name AS oyuncu_adi, r.earnings AS maas, r.roles AS roller LIMIT 50
+2025-07-21 10:10:07,880 - __main__ - INFO - Generated Cypher: MATCH (p:Person)-[r:ACTED_IN]->(m:Movie) WHERE m.title = 'A League of Their Own' RETURN p.name AS oyuncu_adi, r.earnings AS maas, r.roles AS roller LIMIT 50
+2025-07-21 10:10:08,314 - __main__ - INFO - Query results: 6 rows
+2025-07-21 10:10:08,314 - __main__ - INFO - Generating answer for question: A League of Their Own (Kendi Liginde) filmindeki oyuncuları ve o oyuncuların maaşlarını listele
+2025-07-21 10:10:14,535 - __main__ - INFO - Successfully generated answer with google/gemma-3-27b-it:free
+2025-07-21 10:10:14,555 - werkzeug - INFO - 127.0.0.1 - - [21/Jul/2025 10:10:14] "POST /api/ask HTTP/1.1" 200 -
+2025-07-21 10:10:34,554 - werkzeug - INFO - 127.0.0.1 - - [21/Jul/2025 10:10:34] "GET /api/health HTTP/1.1" 200 -
+2025-07-21 10:11:04,543 - werkzeug - INFO - 127.0.0.1 - - [21/Jul/2025 10:11:04] "GET /api/health HTTP/1.1" 200 -
+2025-07-21 10:11:34,558 - werkzeug - INFO - 127.0.0.1 - - [21/Jul/2025 10:11:34] "GET /api/health HTTP/1.1" 200 -
+2025-07-21 10:12:04,555 - werkzeug - INFO - 127.0.0.1 - - [21/Jul/2025 10:12:04] "GET /api/health HTTP/1.1" 200 -

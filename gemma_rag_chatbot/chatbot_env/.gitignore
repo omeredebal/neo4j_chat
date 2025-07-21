@@ -1,15 +1,3 @@
-# Environment variables
-.env
-.env.local
-.env.*.local
-
-# Virtual environment
-chatbot_env/
-venv/
-env/
-ENV/
-.venv/
-
 # Python
 __pycache__/
 *.py[cod]
@@ -28,20 +16,32 @@ parts/
 sdist/
 var/
 wheels/
+pip-wheel-metadata/
+share/python-wheels/
 *.egg-info/
 .installed.cfg
 *.egg
 MANIFEST
 
-# Cache and history files
+# Virtual Environments
+venv/
+chatbot_env/
+env/
+ENV/
+.venv/
+
+# Environment Variables
+.env
+.env.local
+.env.production
+.env.staging
+
+# Cache and Data Files
 cache.json
 history.json
-*.cache
-
-# Logs
 *.log
-logs/
-*.log.*
+*.sqlite
+*.db
 
 # IDE
 .vscode/
@@ -49,8 +49,6 @@ logs/
 *.swp
 *.swo
 *~
-.project
-.pydevproject
 
 # OS
 .DS_Store
@@ -61,13 +59,34 @@ logs/
 ehthumbs.db
 Thumbs.db
 
-# Testing
-.pytest_cache/
-.coverage
-htmlcov/
-.tox/
-.hypothesis/
+# Flask
+instance/
+.webassets-cache
 
-# Database
-*.db
-*.sqlite
+# Testing
+.coverage
+.pytest_cache/
+.tox/
+.nox/
+htmlcov/
+.coverage.*
+
+# Documentation
+docs/_build/
+
+# Jupyter Notebook
+.ipynb_checkpoints
+
+# PyCharm
+.idea/
+
+# Backup files
+*.bak
+*.backup
+*.tmp
+
+# Neo4j
+*.neo4j/
+
+# Compiled files
+*.pyc
