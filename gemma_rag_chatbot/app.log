@@ -1,0 +1,114 @@
+2025-07-18 14:19:16,093 - __main__ - ERROR - NEO4J_PASSWORD environment variable is not set
+2025-07-18 14:22:43,793 - __main__ - ERROR - NEO4J_PASSWORD environment variable is not set
+2025-07-18 14:59:47,140 - __main__ - ERROR - NEO4J_PASSWORD environment variable is not set
+2025-07-18 15:00:30,772 - __main__ - INFO - Successfully connected to Neo4j
+2025-07-18 15:00:30,774 - __main__ - INFO - Starting Flask app on 0.0.0.0:5000 (debug=False)
+2025-07-18 15:00:30,847 - werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://10.34.101.131:5000
+2025-07-18 15:00:30,848 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
+2025-07-18 15:00:32,965 - werkzeug - INFO - 127.0.0.1 - - [18/Jul/2025 15:00:32] "GET / HTTP/1.1" 200 -
+2025-07-18 15:00:33,701 - werkzeug - INFO - 127.0.0.1 - - [18/Jul/2025 15:00:33] "[33mGET /favicon.ico HTTP/1.1[0m" 404 -
+2025-07-18 15:00:33,818 - werkzeug - INFO - 127.0.0.1 - - [18/Jul/2025 15:00:33] "GET / HTTP/1.1" 200 -
+2025-07-18 15:00:39,749 - __main__ - INFO - Received question: Tom Cruise hangi filmlerde oynadý?
+2025-07-18 15:00:39,749 - __main__ - INFO - Generating Cypher for question: Tom Cruise hangi filmlerde oynadý?
+2025-07-18 15:00:41,953 - __main__ - ERROR - Request error: 429 Client Error: Too Many Requests for url: https://openrouter.ai/api/v1/chat/completions
+2025-07-18 15:00:41,965 - werkzeug - INFO - 127.0.0.1 - - [18/Jul/2025 15:00:41] "POST /api/ask HTTP/1.1" 200 -
+2025-07-18 15:06:09,086 - __main__ - INFO - Successfully connected to Neo4j
+2025-07-18 15:06:09,092 - __main__ - INFO - Starting Flask app on 0.0.0.0:5000 (debug=False)
+2025-07-18 15:06:09,200 - werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://10.34.101.131:5000
+2025-07-18 15:06:09,203 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
+2025-07-18 15:06:11,762 - werkzeug - INFO - 127.0.0.1 - - [18/Jul/2025 15:06:11] "GET / HTTP/1.1" 200 -
+2025-07-18 15:06:12,435 - werkzeug - INFO - 127.0.0.1 - - [18/Jul/2025 15:06:12] "[33mGET /favicon.ico HTTP/1.1[0m" 404 -
+2025-07-18 15:06:17,737 - __main__ - INFO - Received question: 2000 sonrasý çýkan filmler
+2025-07-18 15:06:17,739 - __main__ - INFO - Generating Cypher for question: 2000 sonrasý çýkan filmler
+2025-07-18 15:06:19,875 - __main__ - ERROR - Request error: 429 Client Error: Too Many Requests for url: https://openrouter.ai/api/v1/chat/completions
+2025-07-18 15:06:19,892 - werkzeug - INFO - 127.0.0.1 - - [18/Jul/2025 15:06:19] "POST /api/ask HTTP/1.1" 200 -
+2025-07-21 09:12:22,072 - __main__ - ERROR - Failed to connect to Neo4j: Couldn't connect to localhost:7687 (resolved to ('[::1]:7687', '127.0.0.1:7687')):
+Failed to establish connection to ResolvedIPv6Address(('::1', 7687, 0, 0)) (reason [WinError 10061] Hedef makine etkin olarak reddettiðinden baðlantý kurulamadý)
+Failed to establish connection to ResolvedIPv4Address(('127.0.0.1', 7687)) (reason [WinError 10061] Hedef makine etkin olarak reddettiðinden baðlantý kurulamadý)
+2025-07-21 09:15:59,134 - __main__ - INFO - Successfully connected to Neo4j
+2025-07-21 09:15:59,137 - __main__ - INFO - Starting Flask app on 0.0.0.0:5000 (debug=False)
+2025-07-21 09:15:59,215 - werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://10.34.101.131:5000
+2025-07-21 09:15:59,216 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
+2025-07-21 09:16:03,167 - werkzeug - INFO - 127.0.0.1 - - [21/Jul/2025 09:16:03] "GET / HTTP/1.1" 200 -
+2025-07-21 09:16:03,725 - werkzeug - INFO - 127.0.0.1 - - [21/Jul/2025 09:16:03] "[33mGET /favicon.ico HTTP/1.1[0m" 404 -
+2025-07-21 09:16:07,051 - __main__ - INFO - Received question: 2000 sonrasý çýkan filmler
+2025-07-21 09:16:07,051 - __main__ - INFO - Generating Cypher for question: 2000 sonrasý çýkan filmler
+2025-07-21 09:16:11,965 - __main__ - INFO - Successfully generated and cached Cypher query
+2025-07-21 09:16:11,971 - __main__ - INFO - Generated Cypher: MATCH (m:Movie) WHERE m.released > 2000 RETURN m.title LIMIT 50
+2025-07-21 09:16:12,213 - __main__ - INFO - Query results: [['The Matrix Reloaded'], ['The Matrix Revolutions'], ['RescueDawn'], ['Cloud Atlas'], ['The Da Vinci Code'], ['V for Vendetta'], ['Speed Racer'], ['Ninja Assassin'], ['Frost/Nixon'], ["Something's Gotta Give"], ["Charlie Wilson's War"], ['The Polar Express']]
+2025-07-21 09:16:12,214 - __main__ - INFO - Generating answer for question: 2000 sonrasý çýkan filmler
+2025-07-21 09:16:16,782 - __main__ - INFO - Successfully generated and cached answer
+2025-07-21 09:16:16,800 - werkzeug - INFO - 127.0.0.1 - - [21/Jul/2025 09:16:16] "POST /api/ask HTTP/1.1" 200 -
+2025-07-21 09:17:07,688 - __main__ - INFO - Received question: Da Vinci Þifresi filminde oynayan oyuncular ve maaþlarý nelerdir?
+2025-07-21 09:17:07,689 - __main__ - INFO - Generating Cypher for question: Da Vinci Þifresi filminde oynayan oyuncular ve maaþlarý nelerdir?
+2025-07-21 09:17:12,601 - __main__ - INFO - Successfully generated and cached Cypher query
+2025-07-21 09:17:12,603 - __main__ - INFO - Generated Cypher: MATCH (p:Person)-[:ACTED_IN]->(m:Movie) WHERE m.title = 'Da Vinci Þifresi' RETURN p.name AS OyuncuAdi, p.birthdate AS DogumTarihi, relationships.ACTED_IN.earnings AS Maas LIMIT 50
+2025-07-21 09:17:12,665 - __main__ - ERROR - Neo4j query error: {code: Neo.ClientError.Statement.SyntaxError} {message: Variable `relationships` not defined (line 1, column 132 (offset: 131))
+"MATCH (p:Person)-[:ACTED_IN]->(m:Movie) WHERE m.title = 'Da Vinci Þifresi' RETURN p.name AS OyuncuAdi, p.birthdate AS DogumTarihi, relationships.ACTED_IN.earnings AS Maas LIMIT 50"
+                                                                                                                                    ^}
+2025-07-21 09:17:12,666 - __main__ - ERROR - Failed to execute query: MATCH (p:Person)-[:ACTED_IN]->(m:Movie) WHERE m.title = 'Da Vinci Þifresi' RETURN p.name AS OyuncuAdi, p.birthdate AS DogumTarihi, relationships.ACTED_IN.earnings AS Maas LIMIT 50
+2025-07-21 09:17:12,668 - __main__ - ERROR - Error: {code: Neo.ClientError.Statement.SyntaxError} {message: Variable `relationships` not defined (line 1, column 132 (offset: 131))
+"MATCH (p:Person)-[:ACTED_IN]->(m:Movie) WHERE m.title = 'Da Vinci Þifresi' RETURN p.name AS OyuncuAdi, p.birthdate AS DogumTarihi, relationships.ACTED_IN.earnings AS Maas LIMIT 50"
+                                                                                                                                    ^}
+2025-07-21 09:17:12,669 - __main__ - INFO - Query results: None
+2025-07-21 09:17:12,670 - __main__ - INFO - Generating answer for question: Da Vinci Þifresi filminde oynayan oyuncular ve maaþlarý nelerdir?
+2025-07-21 09:17:18,225 - __main__ - INFO - Successfully generated and cached answer
+2025-07-21 09:17:18,239 - werkzeug - INFO - 127.0.0.1 - - [21/Jul/2025 09:17:18] "POST /api/ask HTTP/1.1" 200 -
+2025-07-21 09:20:18,290 - __main__ - INFO - Successfully connected to Neo4j
+2025-07-21 09:20:18,295 - __main__ - INFO - Starting Flask app on 0.0.0.0:5000 (debug=False)
+2025-07-21 09:20:18,378 - werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://10.34.101.131:5000
+2025-07-21 09:20:18,379 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
+2025-07-21 09:20:24,181 - werkzeug - INFO - 127.0.0.1 - - [21/Jul/2025 09:20:24] "GET / HTTP/1.1" 200 -
+2025-07-21 09:20:24,222 - werkzeug - INFO - 127.0.0.1 - - [21/Jul/2025 09:20:24] "GET / HTTP/1.1" 200 -
+2025-07-21 09:20:26,094 - werkzeug - INFO - 127.0.0.1 - - [21/Jul/2025 09:20:26] "[33mGET /favicon.ico HTTP/1.1[0m" 404 -
+2025-07-21 09:20:31,661 - __main__ - INFO - Received question: Da Vinci Þifresi filminde oynayan oyuncular ve maaþlarý nelerdir?
+2025-07-21 09:20:31,662 - __main__ - INFO - Generating Cypher for question: Da Vinci Þifresi filminde oynayan oyuncular ve maaþlarý nelerdir?
+2025-07-21 09:20:31,668 - __main__ - INFO - Using cached Cypher query
+2025-07-21 09:20:31,669 - __main__ - INFO - Generated Cypher: MATCH (p:Person)-[:ACTED_IN]->(m:Movie) WHERE m.title = 'Da Vinci Þifresi' RETURN p.name AS OyuncuAdi, p.birthdate AS DogumTarihi, relationships.ACTED_IN.earnings AS Maas LIMIT 50
+2025-07-21 09:20:31,703 - __main__ - ERROR - Neo4j query error: {code: Neo.ClientError.Statement.SyntaxError} {message: Variable `relationships` not defined (line 1, column 132 (offset: 131))
+"MATCH (p:Person)-[:ACTED_IN]->(m:Movie) WHERE m.title = 'Da Vinci Þifresi' RETURN p.name AS OyuncuAdi, p.birthdate AS DogumTarihi, relationships.ACTED_IN.earnings AS Maas LIMIT 50"
+                                                                                                                                    ^}
+2025-07-21 09:20:31,707 - __main__ - ERROR - Failed to execute query: MATCH (p:Person)-[:ACTED_IN]->(m:Movie) WHERE m.title = 'Da Vinci Þifresi' RETURN p.name AS OyuncuAdi, p.birthdate AS DogumTarihi, relationships.ACTED_IN.earnings AS Maas LIMIT 50
+2025-07-21 09:20:31,708 - __main__ - ERROR - Error: {code: Neo.ClientError.Statement.SyntaxError} {message: Variable `relationships` not defined (line 1, column 132 (offset: 131))
+"MATCH (p:Person)-[:ACTED_IN]->(m:Movie) WHERE m.title = 'Da Vinci Þifresi' RETURN p.name AS OyuncuAdi, p.birthdate AS DogumTarihi, relationships.ACTED_IN.earnings AS Maas LIMIT 50"
+                                                                                                                                    ^}
+2025-07-21 09:20:31,709 - __main__ - INFO - Query results: None
+2025-07-21 09:20:31,711 - __main__ - INFO - Generating answer for question: Da Vinci Þifresi filminde oynayan oyuncular ve maaþlarý nelerdir?
+2025-07-21 09:20:31,717 - __main__ - INFO - Using cached answer
+2025-07-21 09:20:31,735 - werkzeug - INFO - 127.0.0.1 - - [21/Jul/2025 09:20:31] "POST /api/ask HTTP/1.1" 200 -
+2025-07-21 09:21:06,773 - __main__ - INFO - Received question: cypher sorgusundaki relationships deðiþkenini yanlýþ yazmýþsýn
+2025-07-21 09:21:06,774 - __main__ - INFO - Generating Cypher for question: cypher sorgusundaki relationships deðiþkenini yanlýþ yazmýþsýn
+2025-07-21 09:21:12,395 - __main__ - INFO - Successfully generated and cached Cypher query: MATCH (p:Person)-[r:ACTED_IN]->(m:Movie) RETURN p.name AS OyuncuAdi, r.earnings AS Kazanc LIMIT 50
+2025-07-21 09:21:12,398 - __main__ - INFO - Generated Cypher: MATCH (p:Person)-[r:ACTED_IN]->(m:Movie) RETURN p.name AS OyuncuAdi, r.earnings AS Kazanc LIMIT 50
+2025-07-21 09:21:12,728 - __main__ - INFO - Query results: [['Keanu Reeves', 40985512], ['Carrie-Anne Moss', 11013692], ['Laurence Fishburne', 6627028], ['Hugo Weaving', 53301987], ['Emil Eifrem', 1376799], ['Keanu Reeves', 14280931], ['Carrie-Anne Moss', 45893844], ['Laurence Fishburne', 29171704], ['Hugo Weaving', 38578122], ['Keanu Reeves', 1774495], ['Carrie-Anne Moss', 847589], ['Laurence Fishburne', 12711369], ['Hugo Weaving', 28693627], ['Keanu Reeves', 3502878], ['Charlize Theron', 52766856], ['Al Pacino', 6352636], ['Tom Cruise', 1558255], ['Jack Nicholson', 18819366], ['Demi Moore', 37443377], ['Kevin Bacon', 175266], ['Kiefer Sutherland', 5691551], ['Noah Wyle', 28918408], ['Cuba Gooding Jr.', 30565936], ['Kevin Pollak', 2380701], ['J.T. Walsh', 25156510], ['James Marshall', 14044480], ['Christopher Guest', 1879870], ['Aaron Sorkin', 7804491], ['Tom Cruise', 5103879], ['Kelly McGillis', 11361850], ['Val Kilmer', 12757451], ['Anthony Edwards', 31422148], ['Tom Skerritt', 1744446], ['Meg Ryan', 9116047], ['Tom Cruise', 22466802], ['Cuba Gooding Jr.', 483256], ['Renee Zellweger', 3615286], ['Kelly Preston', 7724590], ["Jerry O'Connell", 61628789], ['Jay Mohr', 2308070], ['Bonnie Hunt', 11854813], ['Regina King', 2212195], ['Jonathan Lipnicki', 6574228], ['Kiefer Sutherland', 23607426], ["Jerry O'Connell", 12420529], ['River Phoenix', 50529902], ['Corey Feldman', 5758566], ['Wil Wheaton', 33574846], ['John Cusack', 8466257], ['Marshall Bell', 49386447]]
+2025-07-21 09:21:12,730 - __main__ - INFO - Generating answer for question: cypher sorgusundaki relationships deðiþkenini yanlýþ yazmýþsýn
+2025-07-21 09:21:20,050 - __main__ - INFO - Successfully generated and cached answer
+2025-07-21 09:21:20,063 - werkzeug - INFO - 127.0.0.1 - - [21/Jul/2025 09:21:20] "POST /api/ask HTTP/1.1" 200 -
+2025-07-21 09:22:06,518 - __main__ - INFO - Received question: þimdi bana tom cruise ýn kazançlarý listele
+2025-07-21 09:22:06,518 - __main__ - INFO - Generating Cypher for question: þimdi bana tom cruise ýn kazançlarý listele
+2025-07-21 09:22:11,487 - __main__ - INFO - Successfully generated and cached Cypher query: MATCH (p:Person)-[acted:ACTED_IN]->(m:Movie) WHERE p.name = 'Tom Cruise' RETURN m.title AS film_adi, acted.earnings AS kazanc LIMIT 50
+2025-07-21 09:22:11,489 - __main__ - INFO - Generated Cypher: MATCH (p:Person)-[acted:ACTED_IN]->(m:Movie) WHERE p.name = 'Tom Cruise' RETURN m.title AS film_adi, acted.earnings AS kazanc LIMIT 50
+2025-07-21 09:22:11,670 - __main__ - INFO - Query results: [['A Few Good Men', 1558255], ['Top Gun', 5103879], ['Jerry Maguire', 22466802]]
+2025-07-21 09:22:11,671 - __main__ - INFO - Generating answer for question: þimdi bana tom cruise ýn kazançlarý listele
+2025-07-21 09:22:19,039 - __main__ - INFO - Successfully generated and cached answer
+2025-07-21 09:22:19,050 - werkzeug - INFO - 127.0.0.1 - - [21/Jul/2025 09:22:19] "POST /api/ask HTTP/1.1" 200 -
+2025-07-21 09:40:49,530 - __main__ - INFO - Received question: kaç tane film kaç tane oyuncu var
+2025-07-21 09:40:49,531 - __main__ - INFO - Generating Cypher for question: kaç tane film kaç tane oyuncu var
+2025-07-21 09:40:54,174 - __main__ - INFO - Successfully generated and cached Cypher query: MATCH (m:Movie)<-[acted:ACTED_IN]-(p:Person) RETURN count(m) AS movie_count, count(DISTINCT p) AS actor_count LIMIT 50
+2025-07-21 09:40:54,177 - __main__ - INFO - Generated Cypher: MATCH (m:Movie)<-[acted:ACTED_IN]-(p:Person) RETURN count(m) AS movie_count, count(DISTINCT p) AS actor_count LIMIT 50
+2025-07-21 09:40:54,478 - __main__ - INFO - Query results: [[172, 102]]
+2025-07-21 09:40:54,478 - __main__ - INFO - Generating answer for question: kaç tane film kaç tane oyuncu var
+2025-07-21 09:40:59,483 - __main__ - INFO - Successfully generated and cached answer
+2025-07-21 09:40:59,509 - werkzeug - INFO - 127.0.0.1 - - [21/Jul/2025 09:40:59] "POST /api/ask HTTP/1.1" 200 -

@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Neo4j Film Chatbot</title>
+    <title>🎬 Film Veritabanı Asistanı</title>
     <style>
         * {
             margin: 0;
@@ -12,168 +12,178 @@
         }
 
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
             background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
             min-height: 100vh;
-            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
             padding: 20px;
         }
 
         .container {
-            max-width: 800px;
-            margin: 0 auto;
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(10px);
+            background: rgba(255, 255, 255, 0.95);
             border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+            width: 100%;
+            max-width: 800px;
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
             padding: 30px;
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
-        }
-
-        h1 {
             text-align: center;
-            margin-bottom: 30px;
+        }
+
+        .header h1 {
             font-size: 2.5em;
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
-            background: linear-gradient(45deg, #ff6b6b, #ffd93d);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-
-        .form-container {
-            margin-bottom: 30px;
-        }
-
-        .input-group {
+            margin-bottom: 10px;
             display: flex;
-            gap: 15px;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .header p {
+            font-size: 1.1em;
+            opacity: 0.9;
+        }
+
+        .chat-container {
+            height: 500px;
+            overflow-y: auto;
+            padding: 30px;
+            background: #f8f9fa;
+        }
+
+        .message {
             margin-bottom: 20px;
+            animation: fadeIn 0.3s ease-in-out;
         }
 
-        input[type="text"] {
-            flex: 1;
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .message.user {
+            text-align: right;
+        }
+
+        .message.assistant {
+            text-align: left;
+        }
+
+        .message-content {
+            display: inline-block;
             padding: 15px 20px;
-            font-size: 16px;
-            border: none;
-            border-radius: 25px;
-            background: rgba(255, 255, 255, 0.2);
+            border-radius: 20px;
+            max-width: 70%;
+            word-wrap: break-word;
+        }
+
+        .message.user .message-content {
+            background: #667eea;
             color: white;
-            backdrop-filter: blur(5px);
-            transition: all 0.3s ease;
+            border-bottom-right-radius: 5px;
         }
 
-        input[type="text"]:focus {
-            outline: none;
-            background: rgba(255, 255, 255, 0.3);
-            transform: scale(1.02);
+        .message.assistant .message-content {
+            background: white;
+            color: #333;
+            border-bottom-left-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
         }
 
-        input[type="text"]::placeholder {
-            color: rgba(255, 255, 255, 0.7);
-        }
-
-        button {
-            padding: 15px 30px;
-            font-size: 16px;
-            border: none;
-            border-radius: 25px;
-            background: linear-gradient(45deg, #ff6b6b, #ffd93d);
-            color: white;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            font-weight: bold;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-
-        button:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(255, 107, 107, 0.4);
-        }
-
-        button:active {
-            transform: translateY(0);
-        }
-
-        .response {
-            background: rgba(255, 255, 255, 0.15);
-            backdrop-filter: blur(10px);
-            border-radius: 15px;
-            padding: 25px;
-            margin-top: 20px;
-            border-left: 4px solid #ffd93d;
-            animation: fadeIn 0.5s ease-in;
-        }
-
-        .response h3 {
-            margin-bottom: 15px;
-            color: #ffd93d;
-            font-size: 1.3em;
-        }
-
-        .response p {
-            line-height: 1.6;
-            font-size: 16px;
-            white-space: pre-wrap;
-        }
-
-        .examples {
-            margin-top: 20px;
-            padding: 20px;
-            background: rgba(255, 255, 255, 0.1);
+        .cypher-query {
+            background: #2d3748;
+            color: #48bb78;
+            padding: 10px 15px;
             border-radius: 10px;
+            font-family: 'Monaco', 'Menlo', monospace;
+            font-size: 0.9em;
+            margin-top: 10px;
+            overflow-x: auto;
         }
 
-        .examples h4 {
-            margin-bottom: 15px;
-            color: #ffd93d;
+        .input-container {
+            padding: 20px;
+            background: white;
+            border-top: 1px solid #e2e8f0;
         }
 
-        .examples ul {
-            list-style: none;
-            padding: 0;
+        .input-form {
+            display: flex;
+            gap: 10px;
         }
 
-        .examples li {
-            padding: 8px 0;
-            color: rgba(255, 255, 255, 0.8);
+        .input-field {
+            flex: 1;
+            padding: 15px;
+            border: 2px solid #e2e8f0;
+            border-radius: 10px;
+            font-size: 16px;
+            transition: border-color 0.3s;
+        }
+
+        .input-field:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        .submit-button {
+            padding: 15px 30px;
+            background: #667eea;
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: 600;
             cursor: pointer;
-            transition: color 0.3s ease;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 5px;
         }
 
-        .examples li:hover {
-            color: #ffd93d;
+        .submit-button:hover {
+            background: #5a67d8;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
         }
 
-        .examples li:before {
-            content: "💬 ";
-            margin-right: 8px;
+        .submit-button:disabled {
+            background: #cbd5e0;
+            cursor: not-allowed;
+            transform: none;
         }
 
         .loading {
             display: none;
             text-align: center;
             padding: 20px;
-            color: #ffd93d;
         }
 
-        .loading.show {
+        .loading.active {
             display: block;
         }
 
-        .spinner {
-            display: inline-block;
-            width: 20px;
-            height: 20px;
-            border: 2px solid rgba(255, 217, 61, 0.3);
-            border-top: 2px solid #ffd93d;
+        .loading-spinner {
+            border: 3px solid #f3f3f3;
+            border-top: 3px solid #667eea;
             border-radius: 50%;
+            width: 40px;
+            height: 40px;
             animation: spin 1s linear infinite;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
+            margin: 0 auto;
         }
 
         @keyframes spin {
@@ -181,90 +191,279 @@
             100% { transform: rotate(360deg); }
         }
 
-        @media (max-width: 600px) {
-            .container {
-                padding: 20px;
-                margin: 10px;
-            }
+        .error-message {
+            background: #fed7d7;
+            color: #c53030;
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
 
-            .input-group {
+        .welcome-message {
+            text-align: center;
+            color: #718096;
+            padding: 40px;
+        }
+
+        .welcome-message h2 {
+            color: #4a5568;
+            margin-bottom: 20px;
+        }
+
+        .example-questions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            justify-content: center;
+            margin-top: 20px;
+        }
+
+        .example-question {
+            background: #e2e8f0;
+            padding: 10px 20px;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 14px;
+        }
+
+        .example-question:hover {
+            background: #cbd5e0;
+            transform: translateY(-2px);
+        }
+
+        .typing-indicator {
+            display: flex;
+            gap: 5px;
+            padding: 15px;
+        }
+
+        .typing-dot {
+            width: 8px;
+            height: 8px;
+            background: #718096;
+            border-radius: 50%;
+            animation: typing 1.4s infinite;
+        }
+
+        .typing-dot:nth-child(2) {
+            animation-delay: 0.2s;
+        }
+
+        .typing-dot:nth-child(3) {
+            animation-delay: 0.4s;
+        }
+
+        @keyframes typing {
+            0%, 60%, 100% {
+                transform: translateY(0);
+            }
+            30% {
+                transform: translateY(-10px);
+            }
+        }
+
+        @media (max-width: 600px) {
+            .header h1 {
+                font-size: 2em;
+            }
+            
+            .message-content {
+                max-width: 85%;
+            }
+            
+            .input-form {
                 flex-direction: column;
             }
-
-            h1 {
-                font-size: 2em;
+            
+            .submit-button {
+                width: 100%;
+                justify-content: center;
             }
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1>🎬 Neo4j Film Chatbot</h1>
+        <div class="header">
+            <h1>🎬 Film Veritabanı Asistanı</h1>
+            <p>Neo4j ve AI ile güçlendirilmiş akıllı film arama</p>
+        </div>
         
-        <div class="form-container">
-            <form method="POST" id="chatForm">
-                <div class="input-group">
-                    <input type="text" 
-                           name="question" 
-                           id="questionInput"
-                           placeholder="Filmlere dair sorunu sor... (ör: Matrix filminde kimler oynamıştır?)" 
-                           required 
-                           autocomplete="off">
-                    <button type="submit">🚀 Sor</button>
+        <div class="chat-container" id="chatContainer">
+            <div class="welcome-message" id="welcomeMessage">
+                <h2>Merhaba! Size nasıl yardımcı olabilirim? 👋</h2>
+                <p>Film veritabanımızda arama yapmak için aşağıdaki örnekleri deneyebilirsiniz:</p>
+                <div class="example-questions">
+                    <div class="example-question" onclick="askExample('Matrix filminde kim oynadı?')">
+                        Matrix filminde kim oynadı?
+                    </div>
+                    <div class="example-question" onclick="askExample('Tom Cruise hangi filmlerde oynadı?')">
+                        Tom Cruise hangi filmlerde oynadı?
+                    </div>
+                    <div class="example-question" onclick="askExample('2000 sonrası çıkan filmler')">
+                        2000 sonrası çıkan filmler
+                    </div>
+                    <div class="example-question" onclick="askExample('Keanu Reeves filmlerden ne kadar kazandı?')">
+                        Keanu Reeves filmlerden ne kadar kazandı?
+                    </div>
                 </div>
-            </form>
-            
-            <div class="loading" id="loading">
-                <div class="spinner"></div>
-                <p>Cevap hazırlanıyor...</p>
             </div>
         </div>
-
-        {% if answer %}
-        <div class="response">
-            <h3>🤖 Cevap:</h3>
-            <p>{{ answer }}</p>
-        </div>
-        {% endif %}
-
-        <div class="examples">
-            <h4>💡 Örnek Sorular:</h4>
-            <ul>
-                <li onclick="fillQuestion('Matrix filminde kimler oynamıştır?')">Matrix filminde kimler oynamıştır?</li>
-                <li onclick="fillQuestion('En yüksek puanlı filmler hangileri?')">En yüksek puanlı filmler hangileri?</li>
-                <li onclick="fillQuestion('Keanu Reeves hangi filmlerde oynadı?')">Keanu Reeves hangi filmlerde oynadı?</li>
-                <li onclick="fillQuestion('Aksiyon filmlerini listele')">Aksiyon filmlerini listele</li>
-                <li onclick="fillQuestion('2000 yılından sonra çıkan filmler')">2000 yılından sonra çıkan filmler</li>
-            </ul>
+        
+        <div class="input-container">
+            <form class="input-form" id="questionForm">
+                <input 
+                    type="text" 
+                    class="input-field" 
+                    id="questionInput"
+                    placeholder="Sorunuzu yazın..." 
+                    autocomplete="off"
+                    required
+                >
+                <button type="submit" class="submit-button" id="submitButton">
+                    <span>Gönder</span>
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M22 2L11 13M22 2L15 22L11 13L2 9L22 2Z"/>
+                    </svg>
+                </button>
+            </form>
         </div>
     </div>
 
     <script>
-        function fillQuestion(question) {
-            document.getElementById('questionInput').value = question;
-            document.getElementById('questionInput').focus();
+        const chatContainer = document.getElementById('chatContainer');
+        const questionForm = document.getElementById('questionForm');
+        const questionInput = document.getElementById('questionInput');
+        const submitButton = document.getElementById('submitButton');
+        const welcomeMessage = document.getElementById('welcomeMessage');
+
+        let isProcessing = false;
+
+        questionForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            if (isProcessing) return;
+            
+            const question = questionInput.value.trim();
+            if (!question) return;
+            
+            await askQuestion(question);
+        });
+
+        async function askQuestion(question) {
+            if (welcomeMessage) {
+                welcomeMessage.style.display = 'none';
+            }
+            
+            // Add user message
+            addMessage(question, 'user');
+            
+            // Clear input
+            questionInput.value = '';
+            
+            // Disable form
+            isProcessing = true;
+            submitButton.disabled = true;
+            
+            // Show typing indicator
+            const typingId = showTypingIndicator();
+            
+            try {
+                const response = await fetch('/api/ask', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ question }),
+                });
+                
+                const data = await response.json();
+                
+                // Remove typing indicator
+                removeTypingIndicator(typingId);
+                
+                if (response.ok) {
+                    // Add assistant message
+                    addMessage(data.answer, 'assistant', data.cypher);
+                } else {
+                    addMessage(data.error || 'Bir hata oluştu.', 'assistant');
+                }
+            } catch (error) {
+                removeTypingIndicator(typingId);
+                addMessage('Bağlantı hatası. Lütfen tekrar deneyin.', 'assistant');
+                console.error('Error:', error);
+            } finally {
+                isProcessing = false;
+                submitButton.disabled = false;
+                questionInput.focus();
+            }
         }
 
-        document.getElementById('chatForm').addEventListener('submit', function(e) {
-            const loading = document.getElementById('loading');
-            const button = document.querySelector('button[type="submit"]');
+        function addMessage(content, type, cypher = null) {
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `message ${type}`;
             
-            loading.classList.add('show');
-            button.disabled = true;
-            button.textContent = 'Düşünüyor...';
+            const contentDiv = document.createElement('div');
+            contentDiv.className = 'message-content';
+            contentDiv.textContent = content;
+            
+            messageDiv.appendChild(contentDiv);
+            
+            if (cypher && type === 'assistant') {
+                const cypherDiv = document.createElement('div');
+                cypherDiv.className = 'cypher-query';
+                cypherDiv.textContent = `Cypher: ${cypher}`;
+                contentDiv.appendChild(cypherDiv);
+            }
+            
+            chatContainer.appendChild(messageDiv);
+            chatContainer.scrollTop = chatContainer.scrollHeight;
+        }
+
+        function showTypingIndicator() {
+            const typingDiv = document.createElement('div');
+            typingDiv.className = 'message assistant';
+            typingDiv.id = `typing-${Date.now()}`;
+            
+            const indicatorDiv = document.createElement('div');
+            indicatorDiv.className = 'message-content typing-indicator';
+            
+            for (let i = 0; i < 3; i++) {
+                const dot = document.createElement('div');
+                dot.className = 'typing-dot';
+                indicatorDiv.appendChild(dot);
+            }
+            
+            typingDiv.appendChild(indicatorDiv);
+            chatContainer.appendChild(typingDiv);
+            chatContainer.scrollTop = chatContainer.scrollHeight;
+            
+            return typingDiv.id;
+        }
+
+        function removeTypingIndicator(id) {
+            const element = document.getElementById(id);
+            if (element) {
+                element.remove();
+            }
+        }
+
+        function askExample(question) {
+            questionInput.value = question;
+            questionForm.dispatchEvent(new Event('submit'));
+        }
+
+        // Focus on input when page loads
+        window.addEventListener('load', () => {
+            questionInput.focus();
         });
 
-        // Enter tuşu ile form gönderme
-        document.getElementById('questionInput').addEventListener('keypress', function(e) {
+        // Handle Enter key in input
+        questionInput.addEventListener('keydown', (e) => {
             if (e.key === 'Enter' && !e.shiftKey) {
                 e.preventDefault();
-                document.getElementById('chatForm').submit();
+                questionForm.dispatchEvent(new Event('submit'));
             }
-        });
-
-        // Sayfa yüklendiğinde input'a odaklan
-        window.addEventListener('load', function() {
-            document.getElementById('questionInput').focus();
         });
     </script>
 </body>

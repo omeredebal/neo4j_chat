@@ -1,79 +1,57 @@
 {
-  "b719a86c9860353c46d24f520c26dc7831536f6a3b758a3a8c5ef5a6d44ad46e": {
-    "data": {
-      "cypher": "MATCH (p:Person)-[:ACTED_IN]->(m:Movie) WHERE m.title = 'Matrix' RETURN p.name LIMIT 50",
-      "description": "Matrix filminde rol alan oyuncuların isimlerini bulur."
-    },
-    "timestamp": "2025-07-18T09:32:51.324064"
-  },
-  "7f16cf9acc1039bfccb407bbe1704cf28d5b9dd45d578f5606f46583e47583cd": {
-    "data": "\n\nAh, Matrix hakkında bilgi mi arıyorsunuz? 🤖 Maalesef şu anki veritabanımda Matrix filminde kimlerin oynadığına dair bir bilgiye ulaşamadım. 😔 \n\nAncak endişelenmeyin! Bu çok ünlü bir film, o yüzden oyuncu kadrosunu kolayca bulabilirsiniz. 😊\n\n**Matrix (1999) filminde başrollerde:**\n\n*   **Keanu Reeves** (Neo rolünde)\n*   **Laurence Fishburne** (Morpheus rolünde)\n*   **Carrie-Anne Moss** (Trinity rolünde)\n*   **Hugo Weaving** (Ajan Smith rolünde)\n\nve daha birçok yetenekli oyuncu yer alıyor. 🎬\n\nUmarım bu bilgi işinize yarar! Başka bir film hakkında bilgi almak isterseniz, lütfen çekinmeyin. 🌟",
-    "timestamp": "2025-07-18T09:33:02.400504"
-  },
-  "04792732058b010ee48788052a9f240f1c4bae899daf72e7a8892d5caf1e651f": {
-    "data": {
-      "cypher": "MATCH (p:Person)-[:ACTED_IN]->(m:Movie) WHERE m.title = 'The Matrix' RETURN p.name LIMIT 50",
-      "description": "The Matrix filminde oynayan oyuncuların isimlerini bul."
-    },
-    "timestamp": "2025-07-18T09:34:30.644554"
-  },
-  "ae2cca173869fb5b682538e8221e6aaab27f563c9f97118ae2ab53a94683a725": {
-    "data": "\n\nMerhaba! 😊 The Matrix filminde kimlerin oynadığına bakıyordunuz, değil mi? 🎬\n\nVeritabanıma göre, bu harika bilim kurgu filminde şu oyuncular yer alıyor:\n\n*   **Keanu Reeves**\n*   **Carrie-Anne Moss**\n*   **Laurence Fishburne**\n*   **Hugo Weaving**\n*   **Emil Eifrem**\n\nUmarım bu bilgiler işinize yarar! Başka bir film hakkında merak ettiğiniz bir şey olursa, lütfen bana sorun. 🌟",
-    "timestamp": "2025-07-18T09:34:36.495764"
-  },
-  "064f0402db4f226a41f4deceb6ce6d8c80900e56a17feab09d9716ae00653821": {
-    "data": {
-      "cypher": "MATCH (p:Person)-[:ACTED_IN]->(m:Movie) WHERE p.name = 'Tom Cruise' RETURN m.title LIMIT 50",
-      "description": "Tom Cruise'un oynadığı filmlerin başlıklarını getir."
-    },
-    "timestamp": "2025-07-18T09:37:51.104615"
-  },
-  "e4e2020c18ba654f19ceb9ad0dd30f38edfc659fb3858e123d90ac2e44bbe457": {
-    "data": "\n\nSelam! 👋 Tom Cruise'un filmlerini mi merak ediyorsun? 🎬\n\nVeritabanıma göre, Tom Cruise'un oynadığı bazı filmler şunlar:\n\n*   **A Few Good Men (Birkaç İyi Adam)**\n*   **Top Gun (As Fil Pilot)**\n*   **Jerry Maguire (Jerry Maguire)**\n\nBu filmlerden herhangi birini izledin mi? Belki sana bu filmler hakkında daha fazla bilgi verebilirim, ya da başka Tom Cruise filmleri arıyorsan yardımcı olabilirim. 😊 Başka bir isteğin olursa çekinme! 🌟",
-    "timestamp": "2025-07-18T09:37:57.122537"
-  },
-  "742bb8f083e0c25f350a1894eaee60219e958092ec43b51426a57b1699901de6": {
-    "data": {
-      "cypher": "MATCH (p:Person {name: 'Keanu Reeves'})-[:ACTED_IN]->(m:Movie) RETURN m.title AS FilmAdi, m.rating AS FilmPuanı LIMIT 50",
-      "description": "Keanu Reeves'in oynadığı filmlerin adlarını ve puanlarını listeler."
-    },
-    "timestamp": "2025-07-18T09:39:38.598846"
-  },
-  "01c7d2ba10c1f0b9d4aab0d0f053b7f6b5e5766dce5e9d3fd1446c299263c4f3": {
-    "data": "\n\nSelam! 👋 Keanu Reeves'in filmlerden kazandığı maaşları merak ediyorsun, anladım. 🎬\n\nVeritabanımda maalesef bu bilgilere ulaşamadım. 😔 Ancak Keanu Reeves'in oynadığı bazı filmleri ve o filmlerdeki rolünü listeleyebilirim:\n\n*   **The Matrix (Matrix)**\n*   **The Matrix Reloaded (Matrix Yüklenmiş)**\n*   **The Matrix Revolutions (Matrix Devrim)**\n*   **The Devil's Advocate (Şeytanın Avukatı)**\n*   **The Replacements (Yedekler)**\n*   **Johnny Mnemonic (Johnny Mnemonic)**\n*   **Something's Gotta Give (Aşk Her Yaşta)**\n\nBu filmlerden herhangi birini izledin mi? Belki bu filmler hakkında daha fazla bilgi istersin? 😊 Ya da farklı bir konuda yardımcı olabilirim! 🌟",
-    "timestamp": "2025-07-18T09:39:45.745350"
-  },
-  "755e6a14db23fc282928b055b1cdc6c422dfddebcca623c4964a3473a136153a": {
-    "data": {
-      "cypher": "MATCH (p:Person)-[:EARNINGS]->(m:Movie) WHERE p.name = 'Keanu Reeves' RETURN m.title, m.released, m.rating LIMIT 50",
-      "description": "Keanu Reeves'in oynadığı filmleri, yayın tarihlerini ve puanlarını listeler."
-    },
-    "timestamp": "2025-07-18T09:40:30.755346"
-  },
-  "6acf4a456d8f7f710d0b2feed8846baf3ca0add9af40f826033b03f1814a8f32": {
-    "data": "\n\nSelam! 👋 Keanu Reeves'in kazançlarını öğrenmek istemişsin, anladım. 🎬\n\nVeritabanımda \"earnings\" (kazançlar) olarak kayıtlı bilgilere ulaşamadım maalesef. 😔 Bu konuda kesin rakamlar bulmak oldukça zor olabiliyor.\n\nAncak, daha önce de dediğim gibi Keanu Reeves'in rol aldığı bazı filmleri seninle paylaşabilirim:\n\n*   **The Matrix (Matrix)**\n*   **The Matrix Reloaded (Matrix Yüklenmiş)**\n*   **The Matrix Revolutions (Matrix Devrim)**\n*   **The Devil's Advocate (Şeytanın Avukatı)**\n*   **The Replacements (Yedekler)**\n*   **Johnny Mnemonic (Johnny Mnemonic)**\n*   **Something's Gotta Give (Aşk Her Yaşta)**\n\nBelki bu filmlerden birini izlemek istersin? 🍿 Ya da başka bir oyuncu hakkında bilgi arıyorsan, yardımcı olmaktan mutluluk duyarım! 😊 Başka bir isteğin olursa çekinme! 🌟\n",
-    "timestamp": "2025-07-18T09:40:39.384660"
-  },
-  "5c9a91d06a4f78cb77157ebe506c1e2e77deb01d41fcb3dbd82b8f1ca0c79fe8": {
-    "data": {
-      "cypher": "MATCH (p:Person {name: \"Keanu Reeves\"})-[r:ACTED_IN]->(m:Movie) RETURN r.earnings AS maas LIMIT 50",
-      "description": "Keanu Reeves'in oynadığı filmlerdeki kazançlarını döndürür."
-    },
-    "timestamp": "2025-07-18T09:41:02.685581"
-  },
-  "f6d1f2c339c3b10bb257d4adb0e480ec95797cc9edeb5eeec645b77487258731": {
-    "data": "\n\nSelam! 👋 Keanu Reeves'in filmlerden kazandığı maaşları öğrenmek istemişsin, harika! 🎬\n\nVeritabanımdan bazı bilgilere ulaştım! 🎉 İşte Keanu Reeves'in bazı filmlerinden elde ettiği kazançlar:\n\n*   **40.985.512 TL**\n*   **14.280.931 TL**\n*   **1.774.495 TL**\n*   **3.502.878 TL**\n*   **28.385.023 TL**\n*   **47.532.309 TL**\n*   **1.270.490 TL**\n\nBu rakamlar, Keanu Reeves'in kariyeri boyunca ne kadar kazandığına dair bir fikir veriyor. 💰 Umarım bu bilgiler işine yarar! 😊 \n\nBaşka bir oyuncunun kazançlarını merak edersen veya farklı bir konuda yardıma ihtiyacın olursa, lütfen çekinme! 🌟",
-    "timestamp": "2025-07-18T09:41:09.544883"
-  },
-  "b7f5c3461bb83e49d64729a420464edaadfd1e547c502772835e2297a61f74f3": {
+  "98dc6e3cda735e15e17322e84d2b8ead94496d4e6d25a6cc52cc2a4bb9f8b5ea": {
     "data": {
       "cypher": "MATCH (m:Movie) WHERE m.released > 2000 RETURN m.title LIMIT 50",
-      "description": "2000 yılından sonra çıkan filmlerin başlıklarını bul."
+      "description": "2000 yılından sonra yayınlanan filmlerin başlıklarını bulur."
     },
-    "timestamp": "2025-07-18T09:41:54.617748"
+    "timestamp": "2025-07-21T09:16:11.957296"
   },
-  "aec0184e47234b928d12d1f666ae38603085ef57aacb6398da42018f53a29823": {
-    "data": "\n\nSelam! 👋 Keanu Reeves'in 2000 yılından sonraki filmlerini mi merak ediyorsun? 🎬 Harika! İşte veritabanımda bulabildiğim filmlerin listesi:\n\n*   **The Matrix Reloaded (Matrix Yüklenmiş)**\n*   **The Matrix Revolutions (Matrix Devrim)**\n*   **Rescue Dawn (Kurtuluş Şafağı)**\n*   **Cloud Atlas (Bulut Atlası)**\n*   **The Da Vinci Code (Da Vinci Şifresi)**\n*   **V for Vendetta (V for Vendetta)**\n*   **Speed Racer (Hızlı Şimşek)**\n*   **Ninja Assassin (Ninja Suikastçısı)**\n*   **Frost/Nixon (Frost/Nixon)**\n*   **Something's Gotta Give (Aşk Her Yaşta)**\n*   **Charlie Wilson's War (Charlie Wilson'ın Savaşı)**\n*   **The Polar Express (Kutup Ekspresi)**\n\nBu listeden hangisi sana daha çok hitap ediyor? 🤔 Belki bu filmlerden birini izlemek istersin! 🍿 Ya da Keanu Reeves hakkında başka bir şey öğrenmek istersen, çekinme sormaya! 😊 Başka bir konuda yardımcı olabilirim! 🌟",
-    "timestamp": "2025-07-18T09:42:02.763506"
+  "da0916c739eb9fd0d2d159954cdb9f2dcc7b8afb5407691724d9a5ca58a4e186": {
+    "data": "\n\nMerhaba! 😊 2000 yılından sonra çekilmiş bazı filmler şunlar: \"The Matrix Reloaded\", \"The Matrix Revolutions\", \"Rescue Dawn\", \"Cloud Atlas\", \"Da Vinci Şifresi\", \"V for Vendetta\", \"Speed Racer\", \"Ninja Assassin\", \"Frost/Nixon\", \"Something's Gotta Give\", \"Charlie Wilson's War\" ve \"The Polar Express\". \n\nUmarım bu liste hoşunuza gider! Başka bir film hakkında bilgi almak isterseniz, lütfen çekinmeyin sorun. 👍\n",
+    "timestamp": "2025-07-21T09:16:16.773033"
+  },
+  "63066153f1f5761f4b98a174c3ebd05e77eed5f44749443290a6f507c8cb0b33": {
+    "data": {
+      "cypher": "MATCH (p:Person)-[:ACTED_IN]->(m:Movie) WHERE m.title = 'Da Vinci Şifresi' RETURN p.name AS OyuncuAdi, p.birthdate AS DogumTarihi, relationships.ACTED_IN.earnings AS Maas LIMIT 50",
+      "description": "Da Vinci Şifresi filminde oynayan oyuncuların adlarını, doğum tarihlerini ve maaşlarını bulur."
+    },
+    "timestamp": "2025-07-21T09:17:12.593044"
+  },
+  "ed2e5ee664582f09ca8f0f4ef447f4f9eafb626c2c8c4aa65b668458084a699d": {
+    "data": "\n\nMerhaba! Maalesef, veritabanımda \"Da Vinci Şifresi\" filminde oynayan oyuncuların maaşlarına dair bir bilgi bulunmuyor. 😔\n\nAncak, filmde rol alan bazı başrol oyuncuları şu şekildeydi: Tom Hanks, Audrey Tautou, Ian McKellen ve Jean Reno. Bu oyuncuların performansları filmde oldukça dikkat çekiciydi.\n\nOyuncu maaşları genellikle gizli tutulduğu için bu bilgilere ulaşmak zor olabiliyor. Belki internet üzerinde farklı kaynaklarda bu konuda bilgi bulabilirsiniz. Ya da isterseniz, başka bir film veya oyuncu hakkında bilgi aramaya devam edebiliriz! 😊",
+    "timestamp": "2025-07-21T09:17:18.216490"
+  },
+  "a012e54f92fc029450684db67e421efd784f3629cc0574c98a2fb0b849b26cdc": {
+    "data": {
+      "cypher": "MATCH (p:Person)-[r:ACTED_IN]->(m:Movie) RETURN p.name AS OyuncuAdi, r.earnings AS Kazanc LIMIT 50",
+      "description": "Oyuncu adlarını ve kazançlarını (earnings) içeren bir sorgu örneği. İlişki değişkeni doğru şekilde kullanılmıştır (r:ACTED_IN). Bu, 'relationships' gibi hatalı bir sözdizimi kullanımını düzeltir."
+    },
+    "timestamp": "2025-07-21T09:21:12.388081"
+  },
+  "49df6bfcc980ab732856e8c57fffab571904749f9a2e2347a55648a2d03575f5": {
+    "data": "\n\nMerhaba! Görüyorum ki, veritabanındaki ilişki verilerinde bir hata olduğunu fark etmişsiniz. Haklısınız, sorgumda bir yanlışlık olmuş. \n\nVeritabanı sonuçlarına baktığımda, birçok oyuncu ve onlara karşılık gelen bazı sayılar görüyorum. Bu sayılar muhtemelen oyuncuların filmdeki önemini veya gişe hasılatına katkılarını gösteriyor olabilir, ancak tam olarak ne anlama geldiği net değil.\n\nÖrneğin, Keanu Reeves'in birden fazla değeri var, bu da farklı filmlerdeki rollerini temsil ediyor olabilir. Tom Cruise da listede birkaç kez yer alıyor.\n\nBu karışıklık için özür dilerim. İleriye dönük olarak daha doğru sonuçlar almak için veritabanı sorgularımı dikkatlice kontrol edeceğim. İsterseniz, listelerdeki belirli bir oyuncu veya film hakkında daha fazla bilgi arayabiliriz!",
+    "timestamp": "2025-07-21T09:21:20.043845"
+  },
+  "7721653d4a9ce126ce504efdbb8ce3fde2b21e12a305ea649bf6508ab07a1ac2": {
+    "data": {
+      "cypher": "MATCH (p:Person)-[acted:ACTED_IN]->(m:Movie) WHERE p.name = 'Tom Cruise' RETURN m.title AS film_adi, acted.earnings AS kazanc LIMIT 50",
+      "description": "Tom Cruise'un oynadığı filmler ve bu filmlerdeki kazançları listelenir."
+    },
+    "timestamp": "2025-07-21T09:22:11.481148"
+  },
+  "7e138dfe8dde2da01e2c9cf5bec3229805fa5d9f34dba45e8e4a9b1bb5e6ffa4": {
+    "data": "\n\nMerhaba! Tom Cruise'un bazı filmlerden elde ettiği kazançları listeledim:\n\n*   **A Few Good Men (Birkaç İyi Adam):** 1.558.255 $\n*   **Top Gun (As Filmi):** 5.103.879 $\n*   **Jerry Maguire (Jerry Maguire):** 22.466.802 $\n\nBu listede sadece bazı filmler yer alıyor. Tom Cruise'un kariyeri boyunca birçok başarılı filmde rol almıştır ve kazançları da oldukça yüksektir. Belki de daha kapsamlı bir liste arıyorsanız, internet üzerinde farklı kaynaklara göz atabilirsiniz. Başka bir film veya oyuncu hakkında bilgi isterseniz, lütfen çekinmeyin! 😊",
+    "timestamp": "2025-07-21T09:22:19.033138"
+  },
+  "9b484ccecf57b6be4b7e554b02af41d4ded2ee3b86fd548d059d54a0813fbd94": {
+    "data": {
+      "cypher": "MATCH (m:Movie)<-[acted:ACTED_IN]-(p:Person) RETURN count(m) AS movie_count, count(DISTINCT p) AS actor_count LIMIT 50",
+      "description": "Veritabanındaki toplam film sayısı ve benzersiz oyuncu sayısını döndürür."
+    },
+    "timestamp": "2025-07-21T09:40:54.166472"
+  },
+  "8e3a1c3b1e0026423ac70ad039bf5cf00f8553039866909e9072115c8f3300e5": {
+    "data": ":\n\nMerhaba! Veritabanıma göre, şu anda kayıtlı **172 adet film** ve bu filmlerde rol alan **102 adet oyuncu** bulunuyor. 🎬\n\nBu, oldukça geniş bir koleksiyon! İsterseniz, bu filmlerden veya oyunculardan herhangi biri hakkında daha detaylı bilgi arayabiliriz. Ya da belki de belirli bir türdeki filmleri merak ediyorsunuzdur? Ne isterseniz yardımcı olmaktan mutluluk duyarım! 😊\n",
+    "timestamp": "2025-07-21T09:40:59.478333"
   }
 }
