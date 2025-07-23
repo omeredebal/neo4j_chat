@@ -1041,3 +1041,216 @@ Failed to establish connection to ResolvedIPv4Address(('127.0.0.1', 7687)) (reas
 2025-07-23 15:35:50,434 - werkzeug - INFO - 127.0.0.1 - - [23/Jul/2025 15:35:50] "GET /api/health HTTP/1.1" 200 -
 2025-07-23 15:45:43,684 - werkzeug - INFO - 127.0.0.1 - - [23/Jul/2025 15:45:43] "GET /api/health HTTP/1.1" 200 -
 2025-07-23 15:46:14,448 - werkzeug - INFO - 127.0.0.1 - - [23/Jul/2025 15:46:14] "GET /api/health HTTP/1.1" 200 -
+2025-07-23 15:51:33,236 - __main__ - INFO - Successfully connected to Neo4j (attempt 1)
+2025-07-23 15:51:33,241 - __main__ - INFO - Starting Flask app on 0.0.0.0:5000 (debug=False)
+2025-07-23 15:51:33,242 - __main__ - INFO - Neo4j available: True
+2025-07-23 15:51:33,242 - __main__ - INFO - Using models: ['google/gemma-3-27b-it:free', 'meta-llama/llama-3.1-8b-instruct:free', 'microsoft/phi-3-mini-128k-instruct:free']
+2025-07-23 15:51:33,400 - werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://10.34.101.131:5000
+2025-07-23 15:51:33,401 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
+2025-07-23 15:51:35,402 - werkzeug - INFO - 127.0.0.1 - - [23/Jul/2025 15:51:35] "GET / HTTP/1.1" 200 -
+2025-07-23 15:51:35,492 - werkzeug - INFO - 127.0.0.1 - - [23/Jul/2025 15:51:35] "GET /api/health HTTP/1.1" 200 -
+2025-07-23 15:51:35,781 - werkzeug - INFO - 127.0.0.1 - - [23/Jul/2025 15:51:35] "GET /api/history HTTP/1.1" 200 -
+2025-07-23 15:51:35,812 - werkzeug - INFO - 127.0.0.1 - - [23/Jul/2025 15:51:35] "GET /api/health HTTP/1.1" 200 -
+2025-07-23 15:51:40,394 - __main__ - INFO - Received question: Hangi oyuncular en çok film çekti?
+2025-07-23 15:51:40,394 - __main__ - INFO - Generating Cypher for question: Hangi oyuncular en çok film çekti?
+2025-07-23 15:51:47,642 - __main__ - INFO - Successfully generated Cypher with google/gemma-3-27b-it:free: MATCH (p:Person)-[r:ACTED_IN]->(m:Movie) RETURN p.name AS oyuncu_adi, count(m) AS film_sayisi ORDER BY film_sayisi DESC LIMIT 50
+2025-07-23 15:51:47,646 - __main__ - INFO - Generated Cypher: MATCH (p:Person)-[r:ACTED_IN]->(m:Movie) RETURN p.name AS oyuncu_adi, count(m) AS film_sayisi ORDER BY film_sayisi DESC LIMIT 50
+2025-07-23 15:51:48,388 - __main__ - INFO - Query results: 50 rows
+2025-07-23 15:51:48,390 - __main__ - INFO - Generating answer for question: Hangi oyuncular en çok film çekti?
+2025-07-23 15:51:55,977 - __main__ - INFO - Successfully generated answer with google/gemma-3-27b-it:free
+2025-07-23 15:51:55,993 - werkzeug - INFO - 127.0.0.1 - - [23/Jul/2025 15:51:55] "POST /api/ask HTTP/1.1" 200 -
+2025-07-23 15:52:05,500 - werkzeug - INFO - 127.0.0.1 - - [23/Jul/2025 15:52:05] "GET /api/health HTTP/1.1" 200 -
+2025-07-23 15:52:10,026 - __main__ - INFO - Received question: kaç token hakkım kaldı api için
+2025-07-23 15:52:10,026 - __main__ - INFO - Generating Cypher for question: kaç token hakkım kaldı api için
+2025-07-23 15:52:15,653 - __main__ - INFO - Successfully generated Cypher with google/gemma-3-27b-it:free: MATCH (p:Person) RETURN p.name AS oyuncu_adi, p.born AS dogum_yili ORDER BY p.born DESC LIMIT 50
+2025-07-23 15:52:15,656 - __main__ - INFO - Generated Cypher: MATCH (p:Person) RETURN p.name AS oyuncu_adi, p.born AS dogum_yili ORDER BY p.born DESC LIMIT 50
+2025-07-23 15:52:16,009 - __main__ - INFO - Query results: 50 rows
+2025-07-23 15:52:16,009 - __main__ - INFO - Generating answer for question: kaç token hakkım kaldı api için
+2025-07-23 15:52:23,963 - __main__ - INFO - Successfully generated answer with google/gemma-3-27b-it:free
+2025-07-23 15:52:23,975 - werkzeug - INFO - 127.0.0.1 - - [23/Jul/2025 15:52:23] "POST /api/ask HTTP/1.1" 200 -
+2025-07-23 15:52:35,485 - werkzeug - INFO - 127.0.0.1 - - [23/Jul/2025 15:52:35] "GET /api/health HTTP/1.1" 200 -
+2025-07-23 15:53:03,582 - __main__ - INFO - Received question: 1980 doğumlu ve 200000 üzeri maaş alan oyuncuların listesini ver
+2025-07-23 15:53:03,583 - __main__ - INFO - Generating Cypher for question: 1980 doğumlu ve 200000 üzeri maaş alan oyuncuların listesini ver
+2025-07-23 15:53:05,508 - werkzeug - INFO - 127.0.0.1 - - [23/Jul/2025 15:53:05] "GET /api/health HTTP/1.1" 200 -
+2025-07-23 15:53:10,614 - __main__ - INFO - Successfully generated Cypher with google/gemma-3-27b-it:free: MATCH (p:Person)-[r:ACTED_IN]->(m:Movie) WHERE p.born = 1980 AND r.earnings >= 200000 RETURN p.name AS oyuncu_adi LIMIT 50
+2025-07-23 15:53:10,618 - __main__ - INFO - Generated Cypher: MATCH (p:Person)-[r:ACTED_IN]->(m:Movie) WHERE p.born = 1980 AND r.earnings >= 200000 RETURN p.name AS oyuncu_adi LIMIT 50
+2025-07-23 15:53:11,043 - __main__ - INFO - Query results: 1 rows
+2025-07-23 15:53:11,044 - __main__ - INFO - Generating answer for question: 1980 doğumlu ve 200000 üzeri maaş alan oyuncuların listesini ver
+2025-07-23 15:53:17,476 - __main__ - INFO - Successfully generated answer with google/gemma-3-27b-it:free
+2025-07-23 15:53:17,508 - werkzeug - INFO - 127.0.0.1 - - [23/Jul/2025 15:53:17] "POST /api/ask HTTP/1.1" 200 -
+2025-07-23 15:53:35,476 - werkzeug - INFO - 127.0.0.1 - - [23/Jul/2025 15:53:35] "GET /api/health HTTP/1.1" 200 -
+2025-07-23 15:53:53,919 - __main__ - INFO - Received question: Christina Ricci HAS_CONTACT ilişkilerini getir
+2025-07-23 15:53:53,920 - __main__ - INFO - Generating Cypher for question: Christina Ricci HAS_CONTACT ilişkilerini getir
+2025-07-23 15:54:00,591 - __main__ - INFO - Successfully generated Cypher with google/gemma-3-27b-it:free: MATCH (p1:Person {name: 'Christina Ricci'})-[r:HAS_CONTACT]->(p2:Person) RETURN p2.name AS contacted_person LIMIT 50
+2025-07-23 15:54:00,597 - __main__ - INFO - Generated Cypher: MATCH (p1:Person {name: 'Christina Ricci'})-[r:HAS_CONTACT]->(p2:Person) RETURN p2.name AS contacted_person LIMIT 50
+2025-07-23 15:54:00,829 - __main__ - INFO - Query results: 14 rows
+2025-07-23 15:54:00,830 - __main__ - INFO - Generating answer for question: Christina Ricci HAS_CONTACT ilişkilerini getir
+2025-07-23 15:54:05,502 - werkzeug - INFO - 127.0.0.1 - - [23/Jul/2025 15:54:05] "GET /api/health HTTP/1.1" 200 -
+2025-07-23 15:54:11,051 - __main__ - INFO - Successfully generated answer with google/gemma-3-27b-it:free
+2025-07-23 15:54:11,073 - werkzeug - INFO - 127.0.0.1 - - [23/Jul/2025 15:54:11] "POST /api/ask HTTP/1.1" 200 -
+2025-07-23 15:54:35,479 - werkzeug - INFO - 127.0.0.1 - - [23/Jul/2025 15:54:35] "GET /api/health HTTP/1.1" 200 -
+2025-07-23 15:55:06,381 - werkzeug - INFO - 127.0.0.1 - - [23/Jul/2025 15:55:06] "GET /api/health HTTP/1.1" 200 -
+2025-07-23 15:55:36,389 - werkzeug - INFO - 127.0.0.1 - - [23/Jul/2025 15:55:36] "GET /api/health HTTP/1.1" 200 -
+2025-07-23 15:55:47,484 - __main__ - INFO - Received question: FALLOWS
+2025-07-23 15:55:47,484 - __main__ - INFO - Generating Cypher for question: FALLOWS
+2025-07-23 15:55:53,189 - __main__ - INFO - Successfully generated Cypher with google/gemma-3-27b-it:free: MATCH (p1:Person)-[:HAS_CONTACT]->(p2:Person) RETURN p1.name AS Person1, p2.name AS Person2 LIMIT 50
+2025-07-23 15:55:53,191 - __main__ - INFO - Generated Cypher: MATCH (p1:Person)-[:HAS_CONTACT]->(p2:Person) RETURN p1.name AS Person1, p2.name AS Person2 LIMIT 50
+2025-07-23 15:55:53,380 - __main__ - INFO - Query results: 50 rows
+2025-07-23 15:55:53,380 - __main__ - INFO - Generating answer for question: FALLOWS
+2025-07-23 15:56:02,735 - __main__ - INFO - Successfully generated answer with google/gemma-3-27b-it:free
+2025-07-23 15:56:02,746 - werkzeug - INFO - 127.0.0.1 - - [23/Jul/2025 15:56:02] "POST /api/ask HTTP/1.1" 200 -
+2025-07-23 15:56:05,471 - werkzeug - INFO - 127.0.0.1 - - [23/Jul/2025 15:56:05] "GET /api/health HTTP/1.1" 200 -
+2025-07-23 15:56:16,980 - __main__ - INFO - Received question: DIRECTED ilişkisine sahip oyuncuları listele
+2025-07-23 15:56:16,981 - __main__ - INFO - Generating Cypher for question: DIRECTED ilişkisine sahip oyuncuları listele
+2025-07-23 15:56:23,069 - __main__ - INFO - Successfully generated Cypher with google/gemma-3-27b-it:free: MATCH (p:Person)-[r:ACTED_IN]->(m:Movie) RETURN p.name AS oyuncu, m.title AS film, r.roles AS roller LIMIT 50
+2025-07-23 15:56:23,072 - __main__ - INFO - Generated Cypher: MATCH (p:Person)-[r:ACTED_IN]->(m:Movie) RETURN p.name AS oyuncu, m.title AS film, r.roles AS roller LIMIT 50
+2025-07-23 15:56:23,204 - __main__ - INFO - Query results: 50 rows
+2025-07-23 15:56:23,205 - __main__ - INFO - Generating answer for question: DIRECTED ilişkisine sahip oyuncuları listele
+2025-07-23 15:56:34,502 - __main__ - INFO - Successfully generated answer with google/gemma-3-27b-it:free
+2025-07-23 15:56:34,519 - werkzeug - INFO - 127.0.0.1 - - [23/Jul/2025 15:56:34] "POST /api/ask HTTP/1.1" 200 -
+2025-07-23 15:56:35,497 - werkzeug - INFO - 127.0.0.1 - - [23/Jul/2025 15:56:35] "GET /api/health HTTP/1.1" 200 -
+2025-07-23 15:56:50,422 - __main__ - INFO - Received question: ama ACTED_IN yaptın ?
+2025-07-23 15:56:50,423 - __main__ - INFO - Generating Cypher for question: ama ACTED_IN yaptın ?
+2025-07-23 15:56:55,880 - __main__ - INFO - Successfully generated Cypher with google/gemma-3-27b-it:free: MATCH (p:Person)-[r:ACTED_IN]->(m:Movie) RETURN p.name AS oyuncu, m.title AS film, r.earnings AS kazanc, r.roles AS roller LIMIT 50
+2025-07-23 15:56:55,883 - __main__ - INFO - Generated Cypher: MATCH (p:Person)-[r:ACTED_IN]->(m:Movie) RETURN p.name AS oyuncu, m.title AS film, r.earnings AS kazanc, r.roles AS roller LIMIT 50
+2025-07-23 15:56:56,087 - __main__ - INFO - Query results: 50 rows
+2025-07-23 15:56:56,088 - __main__ - INFO - Generating answer for question: ama ACTED_IN yaptın ?
+2025-07-23 15:57:05,479 - werkzeug - INFO - 127.0.0.1 - - [23/Jul/2025 15:57:05] "GET /api/health HTTP/1.1" 200 -
+2025-07-23 15:57:12,982 - __main__ - INFO - Successfully generated answer with google/gemma-3-27b-it:free
+2025-07-23 15:57:12,995 - werkzeug - INFO - 127.0.0.1 - - [23/Jul/2025 15:57:12] "POST /api/ask HTTP/1.1" 200 -
+2025-07-23 15:57:19,905 - __main__ - INFO - Received question: Görebildiğin tüm ilişki şeması neler veritabanımdaki? Tüm gördüklerini eksiksiz yaz
+2025-07-23 15:57:19,906 - __main__ - INFO - Generating Cypher for question: Görebildiğin tüm ilişki şeması neler veritabanımdaki? Tüm gördüklerini eksiksiz yaz
+2025-07-23 15:57:32,210 - __main__ - INFO - Successfully generated Cypher with google/gemma-3-27b-it:free: MATCH (p:Person)-[r:ACTED_IN]->(m:Movie) RETURN p.name AS oyuncu_adi, m.title AS film_adi, r.earnings AS kazanilan_para, r.roles AS roller LIMIT 50
+2025-07-23 15:57:32,213 - __main__ - INFO - Generated Cypher: MATCH (p:Person)-[r:ACTED_IN]->(m:Movie) RETURN p.name AS oyuncu_adi, m.title AS film_adi, r.earnings AS kazanilan_para, r.roles AS roller LIMIT 50
+2025-07-23 15:57:32,332 - __main__ - INFO - Query results: 50 rows
+2025-07-23 15:57:32,333 - __main__ - INFO - Generating answer for question: Görebildiğin tüm ilişki şeması neler veritabanımdaki? Tüm gördüklerini eksiksiz yaz
+2025-07-23 15:57:35,474 - werkzeug - INFO - 127.0.0.1 - - [23/Jul/2025 15:57:35] "GET /api/health HTTP/1.1" 200 -
+2025-07-23 15:58:05,550 - __main__ - INFO - Successfully generated answer with google/gemma-3-27b-it:free
+2025-07-23 15:58:05,564 - werkzeug - INFO - 127.0.0.1 - - [23/Jul/2025 15:58:05] "POST /api/ask HTTP/1.1" 200 -
+2025-07-23 15:58:06,377 - werkzeug - INFO - 127.0.0.1 - - [23/Jul/2025 15:58:06] "GET /api/health HTTP/1.1" 200 -
+2025-07-23 15:58:35,477 - werkzeug - INFO - 127.0.0.1 - - [23/Jul/2025 15:58:35] "GET /api/health HTTP/1.1" 200 -
+2025-07-23 15:59:06,387 - werkzeug - INFO - 127.0.0.1 - - [23/Jul/2025 15:59:06] "GET /api/health HTTP/1.1" 200 -
+2025-07-23 15:59:36,392 - werkzeug - INFO - 127.0.0.1 - - [23/Jul/2025 15:59:36] "GET /api/health HTTP/1.1" 200 -
+2025-07-23 16:00:37,390 - werkzeug - INFO - 127.0.0.1 - - [23/Jul/2025 16:00:37] "GET /api/health HTTP/1.1" 200 -
+2025-07-23 16:01:38,380 - werkzeug - INFO - 127.0.0.1 - - [23/Jul/2025 16:01:38] "GET /api/health HTTP/1.1" 200 -
+2025-07-23 16:02:39,396 - werkzeug - INFO - 127.0.0.1 - - [23/Jul/2025 16:02:39] "GET /api/health HTTP/1.1" 200 -
+2025-07-23 16:03:40,372 - werkzeug - INFO - 127.0.0.1 - - [23/Jul/2025 16:03:40] "GET /api/health HTTP/1.1" 200 -
+2025-07-23 16:04:17,817 - __main__ - INFO - Successfully connected to Neo4j (attempt 1)
+2025-07-23 16:04:17,822 - __main__ - INFO - Starting Flask app on 0.0.0.0:5000 (debug=False)
+2025-07-23 16:04:17,822 - __main__ - INFO - Neo4j available: True
+2025-07-23 16:04:17,822 - __main__ - INFO - Using models: ['google/gemma-3-27b-it:free', 'meta-llama/llama-3.1-8b-instruct:free', 'microsoft/phi-3-mini-128k-instruct:free']
+2025-07-23 16:04:17,961 - werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://10.34.101.131:5000
+2025-07-23 16:04:17,962 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
+2025-07-23 16:04:41,372 - __main__ - INFO - Detecting live schema from Neo4j...
+2025-07-23 16:04:44,828 - __main__ - INFO - Schema detection completed: 2 node types, 7 relationship types
+2025-07-23 16:04:44,829 - werkzeug - INFO - 127.0.0.1 - - [23/Jul/2025 16:04:44] "GET /api/health HTTP/1.1" 200 -
+2025-07-23 16:05:14,459 - werkzeug - INFO - 127.0.0.1 - - [23/Jul/2025 16:05:14] "GET / HTTP/1.1" 200 -
+2025-07-23 16:05:14,666 - __main__ - INFO - Detecting live schema from Neo4j...
+2025-07-23 16:05:14,952 - werkzeug - INFO - 127.0.0.1 - - [23/Jul/2025 16:05:14] "GET /api/history HTTP/1.1" 200 -
+2025-07-23 16:05:14,982 - __main__ - INFO - Schema detection completed: 2 node types, 7 relationship types
+2025-07-23 16:05:14,984 - werkzeug - INFO - 127.0.0.1 - - [23/Jul/2025 16:05:14] "GET /api/health HTTP/1.1" 200 -
+2025-07-23 16:05:15,227 - __main__ - INFO - Detecting live schema from Neo4j...
+2025-07-23 16:05:15,427 - __main__ - INFO - Schema detection completed: 2 node types, 7 relationship types
+2025-07-23 16:05:15,429 - werkzeug - INFO - 127.0.0.1 - - [23/Jul/2025 16:05:15] "GET /api/health HTTP/1.1" 200 -
+2025-07-23 16:05:18,652 - __main__ - INFO - Received question: Hangi filmler en çok review aldı?
+2025-07-23 16:05:18,655 - __main__ - INFO - Generating Cypher for question: Hangi filmler en çok review aldı?
+2025-07-23 16:05:18,659 - __main__ - INFO - Detecting live schema from Neo4j...
+2025-07-23 16:05:18,797 - __main__ - INFO - Schema detection completed: 2 node types, 7 relationship types
+2025-07-23 16:05:26,349 - __main__ - INFO - Successfully generated Cypher with google/gemma-3-27b-it:free: MATCH (p:Person)-[r:REVIEWED]->(m:Movie) RETURN m.title AS film, count(r) AS review_count ORDER BY review_count DESC LIMIT 50
+2025-07-23 16:05:26,353 - __main__ - INFO - Generated Cypher: MATCH (p:Person)-[r:REVIEWED]->(m:Movie) RETURN m.title AS film, count(r) AS review_count ORDER BY review_count DESC LIMIT 50
+2025-07-23 16:05:26,687 - __main__ - INFO - Query results: 6 rows
+2025-07-23 16:05:26,688 - __main__ - INFO - Generating answer for question: Hangi filmler en çok review aldı?
+2025-07-23 16:05:39,792 - __main__ - INFO - Successfully generated answer with google/gemma-3-27b-it:free
+2025-07-23 16:05:39,807 - werkzeug - INFO - 127.0.0.1 - - [23/Jul/2025 16:05:39] "POST /api/ask HTTP/1.1" 200 -
+2025-07-23 16:05:42,388 - __main__ - INFO - Detecting live schema from Neo4j...
+2025-07-23 16:05:42,478 - __main__ - INFO - Schema detection completed: 2 node types, 7 relationship types
+2025-07-23 16:05:42,480 - werkzeug - INFO - 127.0.0.1 - - [23/Jul/2025 16:05:42] "GET /api/health HTTP/1.1" 200 -
+2025-07-23 16:05:44,672 - __main__ - INFO - Detecting live schema from Neo4j...
+2025-07-23 16:05:44,756 - __main__ - INFO - Schema detection completed: 2 node types, 7 relationship types
+2025-07-23 16:05:44,757 - werkzeug - INFO - 127.0.0.1 - - [23/Jul/2025 16:05:44] "GET /api/health HTTP/1.1" 200 -
+2025-07-23 16:06:15,362 - __main__ - INFO - Detecting live schema from Neo4j...
+2025-07-23 16:06:15,428 - __main__ - INFO - Schema detection completed: 2 node types, 7 relationship types
+2025-07-23 16:06:15,429 - werkzeug - INFO - 127.0.0.1 - - [23/Jul/2025 16:06:15] "GET /api/health HTTP/1.1" 200 -
+2025-07-23 16:06:35,706 - __main__ - INFO - Detecting live schema from Neo4j...
+2025-07-23 16:06:35,767 - __main__ - INFO - Schema detection completed: 2 node types, 7 relationship types
+2025-07-23 16:06:35,768 - werkzeug - INFO - 127.0.0.1 - - [23/Jul/2025 16:06:35] "GET /api/schema HTTP/1.1" 200 -
+2025-07-23 16:06:45,372 - __main__ - INFO - Detecting live schema from Neo4j...
+2025-07-23 16:06:45,434 - __main__ - INFO - Schema detection completed: 2 node types, 7 relationship types
+2025-07-23 16:06:45,435 - werkzeug - INFO - 127.0.0.1 - - [23/Jul/2025 16:06:45] "GET /api/health HTTP/1.1" 200 -
+2025-07-23 16:06:58,079 - __main__ - INFO - Detecting live schema from Neo4j...
+2025-07-23 16:06:58,141 - __main__ - INFO - Schema detection completed: 2 node types, 7 relationship types
+2025-07-23 16:06:58,142 - werkzeug - INFO - 127.0.0.1 - - [23/Jul/2025 16:06:58] "GET /api/health HTTP/1.1" 200 -
+2025-07-23 16:07:15,367 - __main__ - INFO - Detecting live schema from Neo4j...
+2025-07-23 16:07:15,960 - __main__ - INFO - Schema detection completed: 2 node types, 7 relationship types
+2025-07-23 16:07:15,961 - werkzeug - INFO - 127.0.0.1 - - [23/Jul/2025 16:07:15] "GET /api/health HTTP/1.1" 200 -
+2025-07-23 16:07:45,356 - __main__ - INFO - Detecting live schema from Neo4j...
+2025-07-23 16:07:45,433 - __main__ - INFO - Schema detection completed: 2 node types, 7 relationship types
+2025-07-23 16:07:45,434 - werkzeug - INFO - 127.0.0.1 - - [23/Jul/2025 16:07:45] "GET /api/health HTTP/1.1" 200 -
+2025-07-23 16:08:05,699 - __main__ - INFO - Received question: Hem yapımcı Hem oyuncu olan insanları listele
+2025-07-23 16:08:05,700 - __main__ - INFO - Generating Cypher for question: Hem yapımcı Hem oyuncu olan insanları listele
+2025-07-23 16:08:05,722 - __main__ - INFO - Detecting live schema from Neo4j...
+2025-07-23 16:08:05,831 - __main__ - INFO - Schema detection completed: 2 node types, 7 relationship types
+2025-07-23 16:08:13,008 - __main__ - INFO - Successfully generated Cypher with google/gemma-3-27b-it:free: MATCH (p:Person)-[r1:ACTED_IN]->(m:Movie), (p)-[r2:PRODUCED]->(m) RETURN p.name AS person, type(r1) AS role1, type(r2) AS role2, m.title AS movie LIMIT 50
+2025-07-23 16:08:13,014 - __main__ - INFO - Generated Cypher: MATCH (p:Person)-[r1:ACTED_IN]->(m:Movie), (p)-[r2:PRODUCED]->(m) RETURN p.name AS person, type(r1) AS role1, type(r2) AS role2, m.title AS movie LIMIT 50
+2025-07-23 16:08:13,365 - __main__ - INFO - Query results: 0 rows
+2025-07-23 16:08:13,366 - __main__ - INFO - Generating answer for question: Hem yapımcı Hem oyuncu olan insanları listele
+2025-07-23 16:08:14,698 - __main__ - INFO - Detecting live schema from Neo4j...
+2025-07-23 16:08:14,784 - __main__ - INFO - Schema detection completed: 2 node types, 7 relationship types
+2025-07-23 16:08:14,785 - werkzeug - INFO - 127.0.0.1 - - [23/Jul/2025 16:08:14] "GET /api/health HTTP/1.1" 200 -
+2025-07-23 16:08:28,739 - __main__ - INFO - Successfully generated answer with google/gemma-3-27b-it:free
+2025-07-23 16:08:28,793 - werkzeug - INFO - 127.0.0.1 - - [23/Jul/2025 16:08:28] "POST /api/ask HTTP/1.1" 200 -
+2025-07-23 16:08:44,660 - __main__ - INFO - Detecting live schema from Neo4j...
+2025-07-23 16:08:44,720 - __main__ - INFO - Schema detection completed: 2 node types, 7 relationship types
+2025-07-23 16:08:44,721 - werkzeug - INFO - 127.0.0.1 - - [23/Jul/2025 16:08:44] "GET /api/health HTTP/1.1" 200 -
+2025-07-23 16:09:14,654 - __main__ - INFO - Detecting live schema from Neo4j...
+2025-07-23 16:09:14,772 - __main__ - INFO - Schema detection completed: 2 node types, 7 relationship types
+2025-07-23 16:09:14,773 - werkzeug - INFO - 127.0.0.1 - - [23/Jul/2025 16:09:14] "GET /api/health HTTP/1.1" 200 -
+2025-07-23 16:09:27,515 - __main__ - INFO - Received question: Oyuncu ve yönetmen olan kişileri listele
+2025-07-23 16:09:27,516 - __main__ - INFO - Generating Cypher for question: Oyuncu ve yönetmen olan kişileri listele
+2025-07-23 16:09:27,519 - __main__ - INFO - Detecting live schema from Neo4j...
+2025-07-23 16:09:27,599 - __main__ - INFO - Schema detection completed: 2 node types, 7 relationship types
+2025-07-23 16:09:34,078 - __main__ - INFO - Successfully generated Cypher with google/gemma-3-27b-it:free: MATCH (p:Person)-[r1:ACTED_IN]->(m:Movie), (p)-[r2:DIRECTED]->(m) RETURN p.name AS person ORDER BY p.name LIMIT 50
+2025-07-23 16:09:34,081 - __main__ - INFO - Generated Cypher: MATCH (p:Person)-[r1:ACTED_IN]->(m:Movie), (p)-[r2:DIRECTED]->(m) RETURN p.name AS person ORDER BY p.name LIMIT 50
+2025-07-23 16:09:34,312 - __main__ - INFO - Query results: 3 rows
+2025-07-23 16:09:34,312 - __main__ - INFO - Generating answer for question: Oyuncu ve yönetmen olan kişileri listele
+2025-07-23 16:09:36,260 - __main__ - WARNING - Rate limit hit for answer generation with google/gemma-3-27b-it:free
+2025-07-23 16:09:36,260 - __main__ - INFO - Generating answer for question: Oyuncu ve yönetmen olan kişileri listele
+2025-07-23 16:09:37,706 - __main__ - ERROR - Request error in answer generation with meta-llama/llama-3.1-8b-instruct:free: 404 Client Error: Not Found for url: https://openrouter.ai/api/v1/chat/completions
+2025-07-23 16:09:37,707 - __main__ - INFO - Generating answer for question: Oyuncu ve yönetmen olan kişileri listele
+2025-07-23 16:09:39,017 - __main__ - ERROR - Request error in answer generation with microsoft/phi-3-mini-128k-instruct:free: 404 Client Error: Not Found for url: https://openrouter.ai/api/v1/chat/completions
+2025-07-23 16:09:39,018 - __main__ - INFO - Generating answer for question: Oyuncu ve yönetmen olan kişileri listele
+2025-07-23 16:09:39,026 - werkzeug - INFO - 127.0.0.1 - - [23/Jul/2025 16:09:39] "POST /api/ask HTTP/1.1" 200 -
+2025-07-23 16:09:44,652 - __main__ - INFO - Detecting live schema from Neo4j...
+2025-07-23 16:09:44,709 - __main__ - INFO - Schema detection completed: 2 node types, 7 relationship types
+2025-07-23 16:09:44,710 - werkzeug - INFO - 127.0.0.1 - - [23/Jul/2025 16:09:44] "GET /api/health HTTP/1.1" 200 -
+2025-07-23 16:10:15,360 - __main__ - INFO - Detecting live schema from Neo4j...
+2025-07-23 16:10:15,408 - __main__ - INFO - Schema detection completed: 2 node types, 7 relationship types
+2025-07-23 16:10:15,409 - werkzeug - INFO - 127.0.0.1 - - [23/Jul/2025 16:10:15] "GET /api/health HTTP/1.1" 200 -
+2025-07-23 16:10:44,657 - __main__ - INFO - Detecting live schema from Neo4j...
+2025-07-23 16:10:44,742 - __main__ - INFO - Schema detection completed: 2 node types, 7 relationship types
+2025-07-23 16:10:44,743 - werkzeug - INFO - 127.0.0.1 - - [23/Jul/2025 16:10:44] "GET /api/health HTTP/1.1" 200 -
+2025-07-23 16:11:02,307 - __main__ - INFO - Received question: Sadece 1 filmde oynayan oyuncuları getir
+2025-07-23 16:11:02,308 - __main__ - INFO - Generating Cypher for question: Sadece 1 filmde oynayan oyuncuları getir
+2025-07-23 16:11:02,311 - __main__ - INFO - Detecting live schema from Neo4j...
+2025-07-23 16:11:02,403 - __main__ - INFO - Schema detection completed: 2 node types, 7 relationship types
+2025-07-23 16:11:04,600 - __main__ - WARNING - Rate limit hit for model google/gemma-3-27b-it:free
+2025-07-23 16:11:04,601 - __main__ - INFO - Generating Cypher for question: Sadece 1 filmde oynayan oyuncuları getir
+2025-07-23 16:11:04,604 - __main__ - INFO - Detecting live schema from Neo4j...
+2025-07-23 16:11:04,675 - __main__ - INFO - Schema detection completed: 2 node types, 7 relationship types
+2025-07-23 16:11:06,020 - __main__ - ERROR - Request error with meta-llama/llama-3.1-8b-instruct:free: 404 Client Error: Not Found for url: https://openrouter.ai/api/v1/chat/completions
+2025-07-23 16:11:06,021 - __main__ - INFO - Generating Cypher for question: Sadece 1 filmde oynayan oyuncuları getir
+2025-07-23 16:11:06,024 - __main__ - INFO - Detecting live schema from Neo4j...
+2025-07-23 16:11:06,125 - __main__ - INFO - Schema detection completed: 2 node types, 7 relationship types
+2025-07-23 16:11:07,416 - __main__ - ERROR - Request error with microsoft/phi-3-mini-128k-instruct:free: 404 Client Error: Not Found for url: https://openrouter.ai/api/v1/chat/completions
+2025-07-23 16:11:07,417 - __main__ - INFO - Generating Cypher for question: Sadece 1 filmde oynayan oyuncuları getir
+2025-07-23 16:11:07,420 - __main__ - ERROR - All models failed
+2025-07-23 16:11:07,426 - werkzeug - INFO - 127.0.0.1 - - [23/Jul/2025 16:11:07] "POST /api/ask HTTP/1.1" 200 -
+2025-07-23 16:11:14,651 - __main__ - INFO - Detecting live schema from Neo4j...
+2025-07-23 16:11:14,718 - __main__ - INFO - Schema detection completed: 2 node types, 7 relationship types
+2025-07-23 16:11:14,719 - werkzeug - INFO - 127.0.0.1 - - [23/Jul/2025 16:11:14] "GET /api/health HTTP/1.1" 200 -

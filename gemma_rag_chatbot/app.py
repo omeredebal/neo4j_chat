@@ -2,6 +2,7 @@ import os
 import logging
 import sys
 import re
+from datetime import datetime
 from flask import Flask, render_template, request, jsonify
 from neo4j import GraphDatabase
 from neo4j.exceptions import Neo4jError
@@ -117,6 +118,193 @@ def query_neo4j(cypher_query):
         logger.error(f"Error: {str(e)}")
         return None
 
+def detect_live_schema():
+    """Neo4j'den canlı schema bilgilerini çeker"""
+    if not neo4j_available:
+        return None
+    
+    try:
+        logger.info("Detecting live schema from Neo4j...")
+        
+        # Node türlerini ve sayılarını al
+        simple_node_query = """
+        MATCH (n) 
+        RETURN labels(n)[0] as label, count(n) as count 
+        ORDER BY label
+        """
+        
+        # Relationship türlerini ve sayılarını al
+        simple_rel_query = """
+        MATCH ()-[r]->() 
+        RETURN type(r) as relationshipType, count(r) as count 
+        ORDER BY relationshipType
+        """
+        
+        nodes = query_neo4j(simple_node_query) or []
+        relationships = query_neo4j(simple_rel_query) or []
+        
+        # Schema örnek sorguları - her relationship için properties
+        sample_queries = {}
+        for rel_info in relationships:
+            rel_type = rel_info[0]
+            sample_query = f"""
+            MATCH ()-[r:{rel_type}]->() 
+            WITH r
+            LIMIT 1
+            RETURN keys(r) as properties
+            """
+            try:
+                props_result = query_neo4j(sample_query)
+                if props_result and props_result[0][0]:
+                    sample_queries[rel_type] = props_result[0][0]
+                else:
+                    sample_queries[rel_type] = []
+            except:
+                sample_queries[rel_type] = []
+        
+        total_nodes = sum(info[1] for info in nodes) if nodes else 0
+        total_rels = sum(info[1] for info in relationships) if relationships else 0
+        
+        logger.info(f"Schema detection completed: {len(nodes)} node types, {len(relationships)} relationship types")
+        
+        return {
+            "nodes": nodes,
+            "relationships": relationships, 
+            "relationship_properties": sample_queries,
+            "total_nodes": total_nodes,
+            "total_relationships": total_rels,
+            "timestamp": datetime.now().isoformat()
+        }
+        
+    except Exception as e:
+        logger.error(f"Schema detection failed: {str(e)}")
+        return None
+
+def generate_dynamic_schema():
+    """Canlı schema bilgilerinden prompt oluştur"""
+    schema_info = detect_live_schema()
+    
+    if not schema_info:
+        # Fallback to static schema
+        return """
+FALLBACK STATIC SCHEMA:
+
+Nodes:
+- (p:Person) Properties: name (string), born (integer, optional)
+- (m:Movie) Properties: title (string), released (integer), tagline (string, optional)
+
+Relationships:
+- (p:Person)-[r:ACTED_IN]->(m:Movie) Properties: r.earnings (integer), r.roles (array)
+- (p1:Person)-[:HAS_CONTACT]-(p2:Person) Properties: none
+
+CRITICAL SYNTAX RULES:
+1. ALWAYS use relationship variables: MATCH (p)-[r:ACTED_IN]->(m)
+2. Access relationship properties as: r.earnings, r.roles
+3. NEVER use: relationships.ACTED_IN.earnings
+4. Person birth year: p.born, Movie release year: m.released
+"""
+    
+    nodes_text = "\n".join([
+        f"- {info[0]} ({info[1]} nodes)" 
+        for info in schema_info["nodes"]
+    ])
+    
+    relationships_text = ""
+    for rel_info in schema_info["relationships"]:
+        rel_type = rel_info[0]
+        rel_count = rel_info[1]
+        props = schema_info["relationship_properties"].get(rel_type, [])
+        props_text = f"Properties: {', '.join(props)}" if props else "Properties: none detected"
+        relationships_text += f"- {rel_type} ({rel_count} relationships) - {props_text}\n"
+    
+    dynamic_schema = f"""
+LIVE DATABASE SCHEMA (Auto-detected from Neo4j):
+Total Nodes: {schema_info['total_nodes']} | Total Relationships: {schema_info['total_relationships']}
+
+Node Types:
+{nodes_text}
+
+Relationship Types:
+{relationships_text}
+
+CRITICAL SYNTAX RULES:
+1. ALWAYS use relationship variables: MATCH (p)-[r:RELATIONSHIP_TYPE]->(m)
+2. Access relationship properties as: r.property_name
+3. NEVER use: relationships.RELATIONSHIP_TYPE.property (THIS IS WRONG!)
+4. Person birth year: p.born (not p.birthdate)
+5. Movie release year: m.released (not m.year)
+6. Use type(r) to get relationship type in queries
+7. For unknown properties, explore with keys(r)
+8. For social relationships: HAS_CONTACT (bidirectional), FOLLOWS (directional)
+
+SAMPLE QUERIES FOR DETECTED RELATIONSHIPS:
+"""
+    
+    # Her relationship için örnek sorgu ekle
+    for rel_info in schema_info["relationships"]:
+        rel_type = rel_info[0]
+        if rel_type == "ACTED_IN":
+            dynamic_schema += f"""
+-- {rel_type} (Actor queries)
+MATCH (p:Person)-[r:{rel_type}]->(m:Movie) WHERE p.name = 'Keanu Reeves'
+RETURN p.name, m.title, r.earnings, r.roles LIMIT 10
+"""
+        elif rel_type == "DIRECTED":
+            dynamic_schema += f"""
+-- {rel_type} (Director queries)  
+MATCH (p:Person)-[r:{rel_type}]->(m:Movie)
+RETURN p.name AS director, m.title AS film, m.released AS year ORDER BY m.released DESC LIMIT 10
+"""
+        elif rel_type == "PRODUCED":
+            dynamic_schema += f"""
+-- {rel_type} (Producer queries)
+MATCH (p:Person)-[r:{rel_type}]->(m:Movie)
+RETURN p.name AS producer, m.title AS film LIMIT 10
+"""
+        elif rel_type == "WROTE":
+            dynamic_schema += f"""
+-- {rel_type} (Writer queries)
+MATCH (p:Person)-[r:{rel_type}]->(m:Movie)
+RETURN p.name AS writer, m.title AS film LIMIT 10
+"""
+        elif rel_type == "REVIEWED":
+            dynamic_schema += f"""
+-- {rel_type} (Review queries)
+MATCH (p:Person)-[r:{rel_type}]->(m:Movie)
+RETURN p.name AS reviewer, m.title AS film, r.rating AS rating LIMIT 10
+"""
+        elif rel_type == "HAS_CONTACT":
+            dynamic_schema += f"""
+-- {rel_type} (Social network)
+MATCH (p1:Person)-[:{rel_type}]-(p2:Person) WHERE p1.name = 'Keanu Reeves'
+RETURN p2.name AS contact LIMIT 10
+"""
+        elif rel_type == "FOLLOWS":
+            dynamic_schema += f"""
+-- {rel_type} (Follow relationships)
+MATCH (p1:Person)-[:{rel_type}]->(p2:Person)
+RETURN p1.name AS follower, p2.name AS followed LIMIT 10
+"""
+        else:
+            dynamic_schema += f"""
+-- {rel_type} (Generic relationship)
+MATCH (p:Person)-[r:{rel_type}]->(m:Movie)
+RETURN p.name, m.title, type(r) as relationship_type LIMIT 10
+"""
+    
+    # Multi-role queries
+    dynamic_schema += """
+-- Multi-role queries (person with multiple roles in film industry)
+MATCH (p:Person)-[r]->(m:Movie) WHERE p.name = 'Steven Spielberg'
+RETURN p.name, type(r) AS role, m.title ORDER BY m.released LIMIT 20
+
+-- Film crew (all people involved in a specific movie)
+MATCH (m:Movie)<-[r]-(p:Person) WHERE m.title = 'The Matrix'
+RETURN p.name, type(r) AS role ORDER BY role LIMIT 30
+"""
+    
+    return dynamic_schema
+
 def validate_cypher_query(query):
     """Enhanced validation to prevent Cypher injection"""
     if not query or not isinstance(query, str):
@@ -157,6 +345,9 @@ def fix_advanced_cypher_syntax(cypher_query):
         (r'relationships\.ACTED_IN\.earnings', 'r.earnings'),
         (r'relationships\.ACTED_IN\.roles', 'r.roles'),
         (r'relationships\.DIRECTED\.', 'r.'),
+        (r'relationships\.PRODUCED\.', 'r.'),
+        (r'relationships\.WROTE\.', 'r.'),
+        (r'relationships\.REVIEWED\.', 'r.'),
         (r'relationships\.(\w+)\.(\w+)', r'r.\2'),
         
         # Property name fixes
@@ -164,23 +355,31 @@ def fix_advanced_cypher_syntax(cypher_query):
         (r'\.year\b', '.released'),
         (r'\.salary\b', '.earnings'),
         
-        # Ensure relationship variables exist
+        # Ensure relationship variables exist for all relationship types
         (r'-\[:ACTED_IN\]->', '-[r:ACTED_IN]->'),
-        (r'-\[:HAS_CONTACT\]-', '-[:HAS_CONTACT]-'),
+        (r'-\[:DIRECTED\]->', '-[r:DIRECTED]->'),
+        (r'-\[:PRODUCED\]->', '-[r:PRODUCED]->'),
+        (r'-\[:WROTE\]->', '-[r:WROTE]->'),
+        (r'-\[:REVIEWED\]->', '-[r:REVIEWED]->'),
+        (r'-\[:HAS_CONTACT\]-', '-[:HAS_CONTACT]-'),  # Bidirectional, no properties
+        (r'-\[:FOLLOWS\]->', '-[:FOLLOWS]->'),  # Directional, no properties
     ]
     
     for pattern, replacement in fixes:
         cypher_query = re.sub(pattern, replacement, cypher_query, flags=re.IGNORECASE)
     
     # Ensure relationship variable is defined when accessing properties
-    if 'r.earnings' in cypher_query or 'r.roles' in cypher_query:
-        if '-[:ACTED_IN]->' in cypher_query and '-[r:ACTED_IN]->' not in cypher_query:
-            cypher_query = cypher_query.replace('-[:ACTED_IN]->', '-[r:ACTED_IN]->')
+    property_access_patterns = ['r.earnings', 'r.roles', 'r.rating', 'r.review']
+    for prop_pattern in property_access_patterns:
+        if prop_pattern in cypher_query:
+            # Make sure we have relationship variable defined
+            if '-[:' in cypher_query and '-[r:' not in cypher_query:
+                cypher_query = re.sub(r'-\[:(\w+)\]->', r'-[r:\1]->', cypher_query)
     
     return cypher_query
 
 def ask_cypher_json(question, model_index=0):
-    """Generate Cypher query from natural language question - UPDATED FOR REAL SCHEMA"""
+    """Generate Cypher query from natural language question - DYNAMIC SCHEMA"""
     logger.info(f"Generating Cypher for question: {question}")
     
     # Check cache first
@@ -201,38 +400,8 @@ def ask_cypher_json(question, model_index=0):
         "Content-Type": "application/json"
     }
 
-    # GERÇEK SCHEMA'YA GÖRE GÜNCELLENDİ
-    schema = """
-ACTUAL DATABASE SCHEMA (based on JSON analysis):
-
-Nodes:
-- (p:Person) 
-  Properties: name (string), born (integer, optional)
-  
-- (m:Movie) 
-  Properties: title (string), released (integer), tagline (string, optional)
-
-Relationships:
-- (p:Person)-[r:ACTED_IN]->(m:Movie)
-  Properties: r.earnings (integer), r.roles (array of strings)
-  
-- (p1:Person)-[:HAS_CONTACT]-(p2:Person)
-  Properties: none (social network connections)
-
-CRITICAL SYNTAX RULES:
-1. ALWAYS use relationship variables: MATCH (p)-[r:ACTED_IN]->(m)
-2. Access relationship properties as: r.earnings, r.roles
-3. NEVER use: relationships.ACTED_IN.earnings (THIS IS WRONG!)
-4. Person birth year: p.born (not p.birthdate)
-5. Movie release year: m.released (not m.year)
-6. Actor roles: r.roles (array)
-7. Actor earnings/salary: r.earnings
-
-SAMPLE CORRECT QUERIES:
-- MATCH (p:Person)-[r:ACTED_IN]->(m:Movie) WHERE p.name = 'Keanu Reeves' RETURN p.name, m.title, r.earnings, r.roles
-- MATCH (p:Person)-[r:ACTED_IN]->(m:Movie) WHERE m.title CONTAINS 'Matrix' RETURN p.name, r.earnings ORDER BY r.earnings DESC
-- MATCH (p:Person) WHERE p.born > 1960 RETURN p.name, p.born ORDER BY p.born
-"""
+    # DİNAMİK SCHEMA KULLAN
+    dynamic_schema = generate_dynamic_schema()
 
     prompt = f"""
 Generate a JSON response for the user's question using the EXACT schema provided above.
@@ -244,38 +413,44 @@ MANDATORY FORMAT:
 }}
 
 SCHEMA ENFORCEMENT RULES:
-1. Person properties: name, born (not birthdate!)
-2. Movie properties: title, released (not year!), tagline  
-3. ACTED_IN relationship: earnings, roles (array)
-4. Use relationship variables: [r:ACTED_IN], [acted:ACTED_IN], [role:ACTED_IN]
-5. NEVER use: relationships.ACTED_IN.earnings
-6. ALWAYS use: r.earnings, r.roles
+1. Use ONLY the relationships detected in the live schema
+2. Person properties: name, born (not birthdate!)
+3. Movie properties: title, released (not year!), tagline  
+4. Use relationship variables: [r:RELATIONSHIP_TYPE]
+5. NEVER use: relationships.RELATIONSHIP_TYPE.property
+6. ALWAYS use: r.property_name
 7. Add LIMIT (max 50)
 8. Only READ operations
-
-COMMON MOVIE TITLES IN DATABASE:
-"The Matrix", "The Matrix Reloaded", "The Matrix Revolutions", "The Devil's Advocate", 
-"The Replacements", "Johnny Mnemonic", "Something's Gotta Give", "Cloud Atlas"
-
-COMMON ACTORS:
-"Keanu Reeves", "Carrie-Anne Moss", "Laurence Fishburne", "Hugo Weaving"
+9. Use type(r) for relationship type queries
+10. For multi-role queries: MATCH (p)-[r]->(m) WHERE... RETURN type(r)
 
 User question: "{question}"
 
-CORRECT EXAMPLES:
+ADVANCED EXAMPLES FOR ALL RELATIONSHIP TYPES:
+
 {{
-  "cypher": "MATCH (p:Person)-[r:ACTED_IN]->(m:Movie) WHERE p.name = 'Keanu Reeves' RETURN m.title AS film, r.earnings AS maas, r.roles AS roller ORDER BY r.earnings DESC LIMIT 10",
-  "description": "Keanu Reeves'un oynadığı filmler, maaşları ve rolleri (yüksekten düşüğe)"
+  "cypher": "MATCH (p:Person)-[r:DIRECTED]->(m:Movie) RETURN p.name AS director, m.title AS film, m.released AS year ORDER BY m.released DESC LIMIT 20",
+  "description": "Yönetmenleri ve filmlerini kronolojik sırayla listeler"
 }}
 
 {{
-  "cypher": "MATCH (p:Person)-[r:ACTED_IN]->(m:Movie) WHERE m.title CONTAINS 'Matrix' RETURN p.name AS oyuncu, r.earnings AS maas, r.roles AS rol ORDER BY r.earnings DESC LIMIT 20",
-  "description": "Matrix filmlerindeki oyuncular ve kazançları"
+  "cypher": "MATCH (p:Person)-[r]->(m:Movie) WHERE m.title = 'The Matrix' RETURN p.name AS person, type(r) AS role ORDER BY role LIMIT 30",
+  "description": "Matrix filmindeki tüm rolleri (oyuncu, yönetmen, yapımcı vs.) listeler"
 }}
 
 {{
-  "cypher": "MATCH (p:Person)-[r:ACTED_IN]->(m:Movie) WHERE m.released > 2000 RETURN m.title AS film, m.released AS yil, count(p) AS oyuncu_sayisi ORDER BY m.released DESC LIMIT 15",
-  "description": "2000 sonrası filmler ve oyuncu sayıları"
+  "cypher": "MATCH (p1:Person)-[:FOLLOWS]->(p2:Person) RETURN p1.name AS follower, p2.name AS followed LIMIT 25",
+  "description": "Sosyal ağdaki takip ilişkilerini gösterir"
+}}
+
+{{
+  "cypher": "MATCH (p:Person)-[r:PRODUCED]->(m:Movie) RETURN p.name AS producer, m.title AS film, m.released AS year ORDER BY year DESC LIMIT 15",
+  "description": "Yapımcıları ve ürettikleri filmleri listeler"
+}}
+
+{{
+  "cypher": "MATCH (p:Person)-[r:REVIEWED]->(m:Movie) RETURN p.name AS reviewer, m.title AS film, r.rating AS rating ORDER BY r.rating DESC LIMIT 20",
+  "description": "Film eleştirilerini puanlarıyla birlikte listeler"
 }}
 """
 
@@ -284,7 +459,7 @@ CORRECT EXAMPLES:
         "messages": [
             {
                 "role": "system",
-                "content": f"You are a Neo4j Cypher expert. Use ONLY the provided schema. NEVER use relationships.ACTED_IN.earnings syntax. ALWAYS use relationship variables like r.earnings. Return only valid JSON.\n\nSchema:\n{schema}"
+                "content": f"You are a Neo4j Cypher expert. Use ONLY the provided live schema. NEVER use relationships.RELATIONSHIP_TYPE.property syntax. ALWAYS use relationship variables like r.property. Return only valid JSON.\n\nSchema:\n{dynamic_schema}"
             },
             {
                 "role": "user",
@@ -432,7 +607,8 @@ Lütfen Türkçe olarak samimi, yardımsever ve bilgilendirici bir cevap verin:
 - Sayıları güzel formatlayın (örn: 1.558.255 → 1,558,255)
 - Emoji çok az kullanın
 - Eğer veri yoksa alternatif öneriler sunun
-- Film adlarını hem İngilizce hem Türkçe belirtin"""
+- Film adlarını hem İngilizce hem Türkçe belirtin
+- Farklı roller varsa (oyuncu, yönetmen, yapımcı) belirtin"""
 
     data = {
         "model": current_model,
@@ -443,7 +619,8 @@ Lütfen Türkçe olarak samimi, yardımsever ve bilgilendirici bir cevap verin:
 - Kısa ve anlaşılır ol
 - Sayıları güzel formatla
 - Emoji az kullan
-- Veri yoksa alternatif öner"""
+- Veri yoksa alternatif öner
+- Farklı rolleri (oyuncu, yönetmen, yapımcı) açıkla"""
             },
             {"role": "user", "content": prompt}
         ],
@@ -610,13 +787,34 @@ def api_clear_cache():
         logger.error(f"Error clearing cache: {str(e)}")
         return jsonify({"error": "Cache temizlenemedi"}), 500
 
+@app.route("/api/schema", methods=["GET"])
+def api_schema():
+    """Get current database schema information"""
+    try:
+        schema_info = detect_live_schema()
+        if schema_info:
+            return jsonify({
+                "status": "success",
+                "schema": schema_info,
+                "message": f"Schema detected: {schema_info['total_nodes']} nodes, {schema_info['total_relationships']} relationships"
+            })
+        else:
+            return jsonify({
+                "status": "error", 
+                "message": "Schema detection failed - Neo4j may not be available"
+            }), 503
+    except Exception as e:
+        logger.error(f"Error getting schema: {str(e)}")
+        return jsonify({"error": "Schema bilgisi alınamadı"}), 500
+
 @app.route("/api/health", methods=["GET"])
 def api_health():
-    """Health check endpoint"""
+    """Health check endpoint with enhanced information"""
     health_status = {
         "status": "healthy",
         "neo4j": neo4j_available,
-        "timestamp": os.getenv('TIMESTAMP', 'unknown')
+        "timestamp": os.getenv('TIMESTAMP', 'unknown'),
+        "models": FALLBACK_MODELS
     }
     
     if neo4j_available:
@@ -625,6 +823,16 @@ def api_health():
             test_result = query_neo4j("MATCH (n) RETURN count(n) AS total LIMIT 1")
             health_status["neo4j_test"] = "success"
             health_status["total_nodes"] = test_result[0][0] if test_result else 0
+            
+            # Get schema info
+            schema_info = detect_live_schema()
+            if schema_info:
+                health_status["schema"] = {
+                    "node_types": len(schema_info["nodes"]),
+                    "relationship_types": len(schema_info["relationships"]),
+                    "total_nodes": schema_info["total_nodes"],
+                    "total_relationships": schema_info["total_relationships"]
+                }
         except Exception as e:
             health_status["neo4j_test"] = f"failed: {str(e)}"
     

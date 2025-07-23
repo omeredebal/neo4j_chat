@@ -53,5 +53,122 @@
   "759a637536fa81a4ff33cf73de2152dfa8d4d9840b082bda665cfae4339946a0": {
     "data": "Merhaba! Haklısınız, özür dilerim. **HAS_CONTACT** ilişkisini gözden kaçırmışım. \n\nVeritabanımda toplam **50** sonuç bulunuyor. İlk 10 tanesi aşağıdaki gibidir:\n\n1.  Laurence Fishburne - Keanu Reeves\n2.  Al Pacino - Keanu Reeves\n3.  Kelly McGillis - Keanu Reeves\n4.  Tony Scott - Keanu Reeves\n5.  Corey Feldman - Keanu Reeves\n6.  Scott Hicks - Keanu Reeves\n7.  Tom Hanks - Keanu Reeves\n8.  Billy Crystal - Keanu Reeves\n9.  Robert Longo - Keanu Reeves\n10. Nancy Meyers - Keanu Reeves\n\nBu ilişki, oyuncuların ve yönetmenlerin hangi projelerde birlikte çalıştığını gösteriyor. Eğer belirli bir kişiyle olan bağlantıları arıyorsanız, lütfen belirtin, size yardımcı olabilirim.",
     "timestamp": "2025-07-23T14:35:41.450569"
+  },
+  "bfed16f7d5bf05b167316c576f90b34e4a719ba28a1659ef4a2b45e8ebb1ef62": {
+    "data": {
+      "cypher": "MATCH (p:Person)-[r:ACTED_IN]->(m:Movie) RETURN p.name AS oyuncu_adi, count(m) AS film_sayisi ORDER BY film_sayisi DESC LIMIT 50",
+      "description": "Hangi oyuncuların kaç filmde rol aldığı, film sayısına göre azalan sırada (en çok film çekenler ilk sırada)."
+    },
+    "timestamp": "2025-07-23T15:51:47.633606"
+  },
+  "1e40146e8680035291a9f3a0ccd06a2a72df542930f26bd8aadaa67004560ae4": {
+    "data": "Merhaba! Elbette, yardımcı olabilirim.\n\nVeritabanıma göre en çok filmde rol alan oyuncular şunlar:\n\n1.  Tom Hanks – 12 film\n2.  Keanu Reeves – 7 film\n3.  Jack Nicholson – 5 film\n4.  Meg Ryan – 5 film\n5.  Hugo Weaving – 5 film\n6.  Cuba Gooding Jr. – 4 film\n7.  Bill Paxton – 3 film\n8.  Gene Hackman – 3 film\n9.  Kevin Bacon – 3 film\n10. Robin Williams – 3 film\n\nUmarım bu bilgi işinize yarar! Başka bir konuda yardımcı olabilir miyim?",
+    "timestamp": "2025-07-23T15:51:55.967054"
+  },
+  "2091d182b6f4c514e4c171d000d4dad0dc7f4c537eede50a95c3d58ac2e93261": {
+    "data": {
+      "cypher": "MATCH (p:Person) RETURN p.name AS oyuncu_adi, p.born AS dogum_yili ORDER BY p.born DESC LIMIT 50",
+      "description": "Oyuncuların adları ve doğum yılları (en yüksekten en düşüğe doğru sıralanmış)."
+    },
+    "timestamp": "2025-07-23T15:52:15.647275"
+  },
+  "32df49dfc475eb4cd4e30af7058102d4e4d2c6e12578a95da7335c32164a7463": {
+    "data": "Merhaba!\n\nAPI için toplam **50** token hakkınız bulunmaktadır. Şu anki kullanımınızla ilgili detaylı bilgiye sahip değilim, ancak yukarıdaki listede ilk 10 sonuç gösteriliyor. Bu liste, oyuncu isimleri ve doğum yılları gibi bilgileri içeriyor. \n\nToken hakkınızı daha verimli kullanmak için, sorularınızı daha spesifik hale getirebilirsiniz. Örneğin, \"1980 doğumlu oyuncuların listesini ver\" gibi.",
+    "timestamp": "2025-07-23T15:52:23.956017"
+  },
+  "1533f039cef004270d54cd3b1c8b9ce4ce68399514dfbe53ec28a34cde2948ef": {
+    "data": {
+      "cypher": "MATCH (p:Person)-[r:ACTED_IN]->(m:Movie) WHERE p.born = 1980 AND r.earnings >= 200000 RETURN p.name AS oyuncu_adi LIMIT 50",
+      "description": "1980 doğumlu ve 200000 veya daha fazla maaş alan oyuncuların listesi."
+    },
+    "timestamp": "2025-07-23T15:53:10.608767"
+  },
+  "d617bc25ba00b881cd6ab34adb3b5eff5be521ae8d33999f0981398578eefaf2": {
+    "data": "Merhaba!\n\nVeritabanımda 1980 doğumlu ve 200.000 TL üzeri maaş alan tek oyuncu **Christina Ricci** olarak görünüyor.\n\nEğer farklı kriterlerle arama yapmak isterseniz, örneğin doğum tarih aralığını genişletebilir veya maaş aralığını değiştirebiliriz. Belki de farklı bir oyuncu arıyorsunuzdur, o zaman ismini belirtirseniz size yardımcı olabilirim.",
+    "timestamp": "2025-07-23T15:53:17.462396"
+  },
+  "331031e71c7e309e150f874807f67ab43acbcbeb5559c80461bf524ac74284ea": {
+    "data": {
+      "cypher": "MATCH (p1:Person {name: 'Christina Ricci'})-[r:HAS_CONTACT]->(p2:Person) RETURN p2.name AS contacted_person LIMIT 50",
+      "description": "Christina Ricci'nin HAS_CONTACT ilişkisi olan kişileri getirir."
+    },
+    "timestamp": "2025-07-23T15:54:00.580494"
+  },
+  "099b9891ff6ca42f46f33a433da841f042d282a860bf55c909d173f9d1000f72": {
+    "data": "Merhaba!\n\nChristina Ricci ile \"HAS_CONTACT\" ilişkisi olan **14** kişi bulunuyor. İşte ilk 10 tanesi:\n\n1. Taylor Hackford\n2. Jack Nicholson\n3. Noah Wyle\n4. Tom Skerritt\n5. Tony Scott\n6. Regina King\n7. Marshall Bell\n8. Bruno Kirby\n9. Ian McKellen\n10. Gary Sinise\n\nBu kişilerle birlikte çalıştığı filmleri merak ediyorsanız, isimlerini kullanarak arama yapabilirsiniz. Örneğin, \"Taylor Hackford filmleri\" veya \"Christina Ricci ve Jack Nicholson filmleri\" gibi.",
+    "timestamp": "2025-07-23T15:54:11.039819"
+  },
+  "7b794a1bd29b0563b3b4afbeb48e6b953c34936c4e37c5b3c93448e62dd7bd80": {
+    "data": {
+      "cypher": "MATCH (p1:Person)-[:HAS_CONTACT]->(p2:Person) RETURN p1.name AS Person1, p2.name AS Person2 LIMIT 50",
+      "description": "Kişiler arasındaki sosyal bağlantıları listeler. (En fazla 50 sonuç)"
+    },
+    "timestamp": "2025-07-23T15:55:53.183218"
+  },
+  "5af5647b989a3373fdbc6ad8196c87327b140eca19ade3a33f235ab4786f4824": {
+    "data": "Merhaba!\n\n\"FALLOWS\" ilişkisine sahip toplam **50** sonuç bulundu. İşte ilk 10 tanesi:\n\n1. Laurence Fishburne - Keanu Reeves\n2. Al Pacino - Keanu Reeves\n3. Kelly McGillis - Keanu Reeves\n4. Tony Scott - Keanu Reeves\n5. Corey Feldman - Keanu Reeves\n6. Scott Hicks - Keanu Reeves\n7. Tom Hanks - Keanu Reeves\n8. Billy Crystal - Keanu Reeves\n9. Robert Longo - Keanu Reeves\n10. Nancy Meyers - Keanu Reeves\n\nBu listedeki kişilerin Keanu Reeves'i takip ettiği anlaşılıyor. İsterseniz tüm 50 sonuç listelenebilir veya Keanu Reeves hakkında başka bilgiler arayabiliriz. Örneğin, Keanu Reeves'in filmografisine göz atmak ister misiniz? (Matrix / Matriks, John Wick / John Wick gibi)",
+    "timestamp": "2025-07-23T15:56:02.728433"
+  },
+  "e5e659f0ec35260f67f6670e768ef8483b0b570664663a76b9ad6caa9f4955c5": {
+    "data": {
+      "cypher": "MATCH (p:Person)-[r:ACTED_IN]->(m:Movie) RETURN p.name AS oyuncu, m.title AS film, r.roles AS roller LIMIT 50",
+      "description": "Oyuncuların oynadığı filmlerin ve rollerinin listesi."
+    },
+    "timestamp": "2025-07-23T15:56:23.062428"
+  },
+  "ea07c388452c6eb677560db97517c52b2e10ae067869023df90a2a5f86623234": {
+    "data": "Merhaba!\n\n\"YÖNETMİŞTİR (DIRECTED)\" ilişkisine sahip toplam **50** oyuncu bulundu. İşte ilk 10 tanesi:\n\n1. Keanu Reeves - The Matrix (Matriks), [Neo]\n2. Carrie-Anne Moss - The Matrix (Matriks), [Trinity]\n3. Laurence Fishburne - The Matrix (Matriks), [Morpheus]\n4. Hugo Weaving - The Matrix (Matriks), [Agent Smith]\n5. Emil Eifrem - The Matrix (Matriks), [Emil]\n6. Keanu Reeves - The Matrix Reloaded (Matriks Yükleniyor), [Neo]\n7. Carrie-Anne Moss - The Matrix Reloaded (Matriks Yükleniyor), [Trinity]\n8. Laurence Fishburne - The Matrix Reloaded (Matriks Yükleniyor), [Morpheus]\n9. Hugo Weaving - The Matrix Reloaded (Matriks Yükleniyor), [Agent Smith]\n10. Keanu Reeves - The Matrix Revolutions (Matriks Devrimi), [Neo]\n\nUmarım yardımcı olmuştur! Daha fazla bilgi isterseniz lütfen çekinmeyin.",
+    "timestamp": "2025-07-23T15:56:34.493810"
+  },
+  "dc3d103e050f99245589a8dc8aa3282930d93a2a239c32eb9e6d4a9577e324ae": {
+    "data": {
+      "cypher": "MATCH (p:Person)-[r:ACTED_IN]->(m:Movie) RETURN p.name AS oyuncu, m.title AS film, r.earnings AS kazanc, r.roles AS roller LIMIT 50",
+      "description": "Oyuncuların oynadığı filmler, kazançları ve rolleri listelenmiştir."
+    },
+    "timestamp": "2025-07-23T15:56:55.872329"
+  },
+  "248981d7ab1d84a36b0c364a3b7e95c2b93f51b50dedbdf868e9cc40fc8815a3": {
+    "data": "Evet, haklısınız, \"ACTED_IN\" (Oynadığı Filmler) ilişkisi için sonuçları listeledim. Toplam **50** sonuç var ve ilk 10 tanesi şu şekilde:\n\n1. Keanu Reeves - The Matrix (Matris), 40,985,512, ['Neo']\n2. Carrie-Anne Moss - The Matrix (Matris), 11,013,692, ['Trinity']\n3. Laurence Fishburne - The Matrix (Matris), 6,627,028, ['Morpheus']\n4. Hugo Weaving - The Matrix (Matris), 53,301,987, ['Agent Smith']\n5. Emil Eifrem - The Matrix (Matris), 1,376,799, ['Emil']\n6. Keanu Reeves - The Matrix Reloaded (Matris Yükleniyor), 14,280,931, ['Neo']\n7. Carrie-Anne Moss - The Matrix Reloaded (Matris Yükleniyor), 45,893,844, ['Trinity']\n8. Laurence Fishburne - The Matrix Reloaded (Matris Yükleniyor), 29,171,704, ['Morpheus']\n9. Hugo Weaving - The Matrix Reloaded (Matris Yükleniyor), 38,578,122, ['Agent Smith']\n10. Keanu Reeves - The Matrix Revolutions (Matris Devrimi), 1,774,495, ['Neo']\n\nUmarım bu liste yardımcı olur! Başka bir isteğiniz olursa lütfen çekinmeyin.",
+    "timestamp": "2025-07-23T15:57:12.974432"
+  },
+  "81789f5a4717bbfe02ff86921d4344f8c4a85ffa7d201644fc710f689b4b5ab7": {
+    "data": {
+      "cypher": "MATCH (p:Person)-[r:ACTED_IN]->(m:Movie) RETURN p.name AS oyuncu_adi, m.title AS film_adi, r.earnings AS kazanilan_para, r.roles AS roller LIMIT 50",
+      "description": "Veritabanındaki tüm oyuncu-film ilişkilerini, oyuncu adını, film adını, kazanılan parayı ve rolleri listeleyen bir sorgu."
+    },
+    "timestamp": "2025-07-23T15:57:32.203974"
+  },
+  "6a75a540f3e62b661f8cd84b8da4f8c5f4ac55a5ba053f5f616c572bf44d29e3": {
+    "data": "Merhaba!\n\nVeritabanımda tespit edebildiğim ilişki şemaları şunlar:\n\n1.  **YÖNETMİŞTİR (DIRECTED)**: Yönetmenlerin filmleri.\n2.  **OYNADIGI_FILMLER (ACTED_IN)**: Oyuncuların oynadığı filmler.\n\nElimdeki ilk 10 sonuç örneği de bu iki ilişki türünü gösteriyor. Örneğin:\n\n*   Keanu Reeves, \"The Matrix\" (Matriks) filminde \"Neo\" karakterini oynamıştır.\n*   \"The Matrix\" (Matriks) filmi, yönetmenler tarafından yönetilmiştir (bu bilgi mevcut sonuçlarda direkt olarak yer almıyor).\n\nVeritabanımda şimdilik bu iki ilişki türü bulunuyor. Daha fazla ilişki türü eklemek isterseniz (örneğin, \"SENARYOSUNU_YAZDI\", \"BESTELENDI\" gibi), lütfen belirtin. Bu sayede veritabanını daha kapsamlı hale getirebiliriz.",
+    "timestamp": "2025-07-23T15:58:05.544655"
+  },
+  "e80566634183c5414ceb643375d298034431a031a5210073c427dc70beb58b2e": {
+    "data": {
+      "cypher": "MATCH (p:Person)-[r:REVIEWED]->(m:Movie) RETURN m.title AS film, count(r) AS review_count ORDER BY review_count DESC LIMIT 50",
+      "description": "En çok yorum alan filmleri listeler."
+    },
+    "timestamp": "2025-07-23T16:05:26.341843"
+  },
+  "9a69519db8c01674d98a2b10c3a97fc114824250215529358681f7700cc82f63": {
+    "data": "Merhaba!\n\nVeritabanıma göre en çok yorum alan filmler şunlar:\n\n1.  **The Replacements** (Yedek Takım) – **3** yorum\n2.  **The Da Vinci Code** (Da Vinci Şifresi) – **2** yorum\n3.  **Jerry Maguire** (Jerry Maguire) – **1** yorum\n4.  **The Birdcage** (Kafes) – **1** yorum\n5.  **Unforgiven** (Affedilmeyen) – **1** yorum\n6.  **Cloud Atlas** (Bulut Atlası) – **1** yorum\n\n**Bilgi:** Bu listede filmler, aldıkları yorum sayısına göre sıralanmıştır.\n\n**Roller Hakkında:**\n\n*   **Oyuncu:** Filmde rol alan kişi.\n*   **Yönetmen:** Filmin çekimlerini yöneten kişi.\n*   **Yapımcı:** Filmin yapım sürecini finanse eden ve organize eden kişi.\n\nUmarım bu bilgi işinize yarar! Başka bir konuda yardımcı olabilir miyim?",
+    "timestamp": "2025-07-23T16:05:39.784863"
+  },
+  "4f9fe33085bf0ce9f0d283e90c7464b1e42cd48fc224f4400b2adebabbbe4d74": {
+    "data": {
+      "cypher": "MATCH (p:Person)-[r1:ACTED_IN]->(m:Movie), (p)-[r2:PRODUCED]->(m) RETURN p.name AS person, type(r1) AS role1, type(r2) AS role2, m.title AS movie LIMIT 50",
+      "description": "Hem oyuncu hem de yapımcı olan kişileri ve filmlerini listeler."
+    },
+    "timestamp": "2025-07-23T16:08:12.999240"
+  },
+  "9aca8aba5701cd8268a3f5dab4480289265b1e45171d4a492078d0d7fdf32391": {
+    "data": "Merhaba!\n\nVeritabanımda hem yapımcı hem oyuncu olan kişilere dair bir bilgi bulunamadı. Bu oldukça nadir bir durum, çünkü genellikle bu iki rolü aynı anda üstlenen kişiler azdır.\n\n**Alternatif olarak şunları önerebilirim:**\n\n*   **Oyuncu ve yönetmen olan kişileri listeleyebilirim.** Bu daha yaygın bir durumdur.\n*   **Belirli bir filmdeki yapımcı ve oyuncu kadrosunu listeleyebilirim.** Böylece o filmde aynı kişinin her iki rolde olup olmadığını görebiliriz.\n*   **Veritabanıma yeni veri ekleyebilirim.** Eğer aklınızda belirli bir kişi varsa, bana bildirebilirsiniz ve ben de onu araştırmaya çalışabilirim.\n\n**Roller hakkında kısa bir açıklama:**\n\n*   **Oyuncu:** Bir filmde karakteri canlandıran kişidir.\n*   **Yapımcı:** Filmin finansmanı, organizasyonu ve çekim sürecinden sorumlu kişidir.\n*   **Yönetmen:** Filmin sanatsal vizyonunu belirleyen ve çekim sürecini yöneten kişidir.\n\nUmarım bu bilgiler yardımcı olur. Başka bir konuda yardıma ihtiyacınız olursa lütfen çekinmeyin!",
+    "timestamp": "2025-07-23T16:08:28.731228"
+  },
+  "ac090fe753b50b8e5924e9cf158d175c8beb2fcedb0222574a6f909daf64b8f8": {
+    "data": {
+      "cypher": "MATCH (p:Person)-[r1:ACTED_IN]->(m:Movie), (p)-[r2:DIRECTED]->(m) RETURN p.name AS person ORDER BY p.name LIMIT 50",
+      "description": "Hem oyuncu hem de yönetmen olan kişileri listeler."
+    },
+    "timestamp": "2025-07-23T16:09:34.071181"
   }
 }
