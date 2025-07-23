@@ -1,90 +1,57 @@
 {
-  "98dc6e3cda735e15e17322e84d2b8ead94496d4e6d25a6cc52cc2a4bb9f8b5ea": {
+  "5c2cdb9f7dd127ee5ed7f6d2152285cbd6af6d4c1a915601eb332f2bc24dc5d5": {
     "data": {
-      "cypher": "MATCH (m:Movie) WHERE m.released > 2000 RETURN m.title LIMIT 50",
-      "description": "2000 yılından sonra yayınlanan filmlerin başlıklarını bulur."
+      "cypher": "MATCH (p:Person)-[r:ACTED_IN]->(m:Movie) WHERE m.title CONTAINS 'Matrix' RETURN p.name AS oyuncu, r.roles AS roller, r.earnings AS kazanc LIMIT 50",
+      "description": "Matrix filminde oynayan oyuncuların isimleri, rolleri ve kazançları."
     },
-    "timestamp": "2025-07-21T09:16:11.957296"
+    "timestamp": "2025-07-23T14:27:25.071441"
   },
-  "da0916c739eb9fd0d2d159954cdb9f2dcc7b8afb5407691724d9a5ca58a4e186": {
-    "data": "\n\nMerhaba! 😊 2000 yılından sonra çekilmiş bazı filmler şunlar: \"The Matrix Reloaded\", \"The Matrix Revolutions\", \"Rescue Dawn\", \"Cloud Atlas\", \"Da Vinci Şifresi\", \"V for Vendetta\", \"Speed Racer\", \"Ninja Assassin\", \"Frost/Nixon\", \"Something's Gotta Give\", \"Charlie Wilson's War\" ve \"The Polar Express\". \n\nUmarım bu liste hoşunuza gider! Başka bir film hakkında bilgi almak isterseniz, lütfen çekinmeyin sorun. 👍\n",
-    "timestamp": "2025-07-21T09:16:16.773033"
+  "4ca73d264812531f91f61bcdbc98ad93f5179698413b0934331593fccf0544ba": {
+    "data": "Merhaba! Matrix (Matris) filminde rol alan oyuncular ve canlandırdıkları karakterler şöyle:\n\n1. Keanu Reeves - Neo (40,985,512)\n2. Carrie-Anne Moss - Trinity (11,013,692)\n3. Laurence Fishburne - Morpheus (6,627,028)\n4. Hugo Weaving - Agent Smith (53,301,987)\n5. Emil Eifrem - Emil (1,376,799)\n\nVe diğer oyuncular da filmde yer aldı. Umarım yardımcı olabilmişimdir!",
+    "timestamp": "2025-07-23T14:27:37.874749"
   },
-  "63066153f1f5761f4b98a174c3ebd05e77eed5f44749443290a6f507c8cb0b33": {
+  "2b5a858b2119135ad4cac8544946b3b9f9716e3dfe1f71165c282c5773252926": {
     "data": {
-      "cypher": "MATCH (p:Person)-[:ACTED_IN]->(m:Movie) WHERE m.title = 'Da Vinci Şifresi' RETURN p.name AS OyuncuAdi, p.birthdate AS DogumTarihi, relationships.ACTED_IN.earnings AS Maas LIMIT 50",
-      "description": "Da Vinci Şifresi filminde oynayan oyuncuların adlarını, doğum tarihlerini ve maaşlarını bulur."
+      "cypher": "MATCH (p:Person)-[r:ACTED_IN]->(m:Movie) RETURN p.name AS oyuncu_adi, SUM(r.earnings) AS toplam_maas ORDER BY toplam_maas DESC LIMIT 50",
+      "description": "Oyuncuların her biri için toplam kazançlarını listeler (en yüksekten en düşüğe doğru sıralanmış)."
     },
-    "timestamp": "2025-07-21T09:17:12.593044"
+    "timestamp": "2025-07-23T14:28:10.853733"
   },
-  "ed2e5ee664582f09ca8f0f4ef447f4f9eafb626c2c8c4aa65b668458084a699d": {
-    "data": "\n\nMerhaba! Maalesef, veritabanımda \"Da Vinci Şifresi\" filminde oynayan oyuncuların maaşlarına dair bir bilgi bulunmuyor. 😔\n\nAncak, filmde rol alan bazı başrol oyuncuları şu şekildeydi: Tom Hanks, Audrey Tautou, Ian McKellen ve Jean Reno. Bu oyuncuların performansları filmde oldukça dikkat çekiciydi.\n\nOyuncu maaşları genellikle gizli tutulduğu için bu bilgilere ulaşmak zor olabiliyor. Belki internet üzerinde farklı kaynaklarda bu konuda bilgi bulabilirsiniz. Ya da isterseniz, başka bir film veya oyuncu hakkında bilgi aramaya devam edebiliriz! 😊",
-    "timestamp": "2025-07-21T09:17:18.216490"
+  "52652218689a2bc0acb68b1f69d7c6093c8c188f6e58a601324b9258cd95d0e1": {
+    "data": "Merhaba! En çok filmde rol alan oyuncuların kazandığı maaşların ilk 10'unu sizin için listeledim:\n\n1. Tom Hanks – 258,212,837 TL\n2. Hugo Weaving – 157,983,585 TL\n3. Keanu Reeves – 137,731,638 TL\n4. Jack Nicholson – 129,099,710 TL\n5. Meg Ryan – 120,132,611 TL\n6. J.T. Walsh – 115,843,355 TL\n7. Cuba Gooding Jr. – 108,669,916 TL\n8. Ben Miles – 103,952,853 TL\n9. Charlize Theron – 95,294,862 TL\n10. Danny DeVito – 89,910,134 TL\n\nUmarım bu bilgiler işinize yarar! Başka bir konuda yardımcı olabilir miyim?",
+    "timestamp": "2025-07-23T14:28:22.535372"
   },
-  "a012e54f92fc029450684db67e421efd784f3629cc0574c98a2fb0b849b26cdc": {
+  "8d30523fe4a107ee234d3a269e3914154f68a587a2a7990a05b43a4ee7394cbd": {
     "data": {
-      "cypher": "MATCH (p:Person)-[r:ACTED_IN]->(m:Movie) RETURN p.name AS OyuncuAdi, r.earnings AS Kazanc LIMIT 50",
-      "description": "Oyuncu adlarını ve kazançlarını (earnings) içeren bir sorgu örneği. İlişki değişkeni doğru şekilde kullanılmıştır (r:ACTED_IN). Bu, 'relationships' gibi hatalı bir sözdizimi kullanımını düzeltir."
+      "cypher": "MATCH (p:Person)-[r:ACTED_IN]->(m:Movie) WHERE p.name = \"Al Pacino\" RETURN p.born AS dogum_yili, m.title AS film_adi LIMIT 50",
+      "description": "Al Pacino'nun doğum yılı ve oynadığı filmlerin listesi."
     },
-    "timestamp": "2025-07-21T09:21:12.388081"
+    "timestamp": "2025-07-23T14:31:35.087652"
   },
-  "49df6bfcc980ab732856e8c57fffab571904749f9a2e2347a55648a2d03575f5": {
-    "data": "\n\nMerhaba! Görüyorum ki, veritabanındaki ilişki verilerinde bir hata olduğunu fark etmişsiniz. Haklısınız, sorgumda bir yanlışlık olmuş. \n\nVeritabanı sonuçlarına baktığımda, birçok oyuncu ve onlara karşılık gelen bazı sayılar görüyorum. Bu sayılar muhtemelen oyuncuların filmdeki önemini veya gişe hasılatına katkılarını gösteriyor olabilir, ancak tam olarak ne anlama geldiği net değil.\n\nÖrneğin, Keanu Reeves'in birden fazla değeri var, bu da farklı filmlerdeki rollerini temsil ediyor olabilir. Tom Cruise da listede birkaç kez yer alıyor.\n\nBu karışıklık için özür dilerim. İleriye dönük olarak daha doğru sonuçlar almak için veritabanı sorgularımı dikkatlice kontrol edeceğim. İsterseniz, listelerdeki belirli bir oyuncu veya film hakkında daha fazla bilgi arayabiliriz!",
-    "timestamp": "2025-07-21T09:21:20.043845"
+  "0860b9054fd264ff2a12f5830a81fad648671a6295331c379d69342f71270c73": {
+    "data": "Merhaba! Al Pacino 25 Nisan **1940** yılında doğmuştur.\n\nVeritabanımda şu anda Al Pacino'nun sadece bir filmi kayıtlı:\n\n1.  **1997** - *The Devil's Advocate* / *Şeytanın Avukatı*\n\nAncak Al Pacino'nun çok daha fazla filmde rol aldığını biliyoruz. Daha kapsamlı bir filmografisi için IMDb (https://www.imdb.com/name/nm0000058/) gibi diğer film veri tabanlarına göz atabilirsiniz.",
+    "timestamp": "2025-07-23T14:31:58.175297"
   },
-  "7721653d4a9ce126ce504efdbb8ce3fde2b21e12a305ea649bf6508ab07a1ac2": {
+  "8b22f2decb5fc60b7c1809566f580ef472b5b95cae167e6fd436a286169c14fa": {
     "data": {
-      "cypher": "MATCH (p:Person)-[acted:ACTED_IN]->(m:Movie) WHERE p.name = 'Tom Cruise' RETURN m.title AS film_adi, acted.earnings AS kazanc LIMIT 50",
-      "description": "Tom Cruise'un oynadığı filmler ve bu filmlerdeki kazançları listelenir."
+      "cypher": "MATCH (p:Person)-[r:ACTED_IN]->(m:Movie) RETURN DISTINCT type(r) AS relationship_type, keys(r) AS relationship_properties LIMIT 50",
+      "description": "Veritabanındaki ilişkilerin türlerini ve özelliklerini listeler."
     },
-    "timestamp": "2025-07-21T09:22:11.481148"
+    "timestamp": "2025-07-23T14:34:58.972462"
   },
-  "7e138dfe8dde2da01e2c9cf5bec3229805fa5d9f34dba45e8e4a9b1bb5e6ffa4": {
-    "data": "\n\nMerhaba! Tom Cruise'un bazı filmlerden elde ettiği kazançları listeledim:\n\n*   **A Few Good Men (Birkaç İyi Adam):** 1.558.255 $\n*   **Top Gun (As Filmi):** 5.103.879 $\n*   **Jerry Maguire (Jerry Maguire):** 22.466.802 $\n\nBu listede sadece bazı filmler yer alıyor. Tom Cruise'un kariyeri boyunca birçok başarılı filmde rol almıştır ve kazançları da oldukça yüksektir. Belki de daha kapsamlı bir liste arıyorsanız, internet üzerinde farklı kaynaklara göz atabilirsiniz. Başka bir film veya oyuncu hakkında bilgi isterseniz, lütfen çekinmeyin! 😊",
-    "timestamp": "2025-07-21T09:22:19.033138"
+  "2bf4c993630e45094af9b9968c06409563b514a74f7e59bf31ebc611e2b2fb86": {
+    "data": "Merhaba!\n\nVeritabanı şemasında şu ilişkiyi görebiliyorum:\n\n*   **ACTED_IN**: Bu ilişki, oyuncuların (earnings ve roles tablolarındaki veriler aracılığıyla) filmlerdeki rollerini ve kazançlarını birbirine bağlıyor. Yani hangi oyuncunun hangi filmde rol aldığı ve bu rolden ne kadar kazandığı bilgileri bu ilişki üzerinden elde edilebilir.\n\nUmarım bu açıklama yardımcı olmuştur. Başka sorularınız olursa çekinmeyin!",
+    "timestamp": "2025-07-23T14:35:04.844159"
   },
-  "9b484ccecf57b6be4b7e554b02af41d4ded2ee3b86fd548d059d54a0813fbd94": {
+  "f9daf4556c37095a5d88a9433f5db8bf89aaf293e096b9a1924c62e64ffa890a": {
     "data": {
-      "cypher": "MATCH (m:Movie)<-[acted:ACTED_IN]-(p:Person) RETURN count(m) AS movie_count, count(DISTINCT p) AS actor_count LIMIT 50",
-      "description": "Veritabanındaki toplam film sayısı ve benzersiz oyuncu sayısını döndürür."
+      "cypher": "MATCH (p1:Person)-[r:HAS_CONTACT]->(p2:Person) RETURN p1.name AS kisi1, p2.name AS kisi2 LIMIT 50",
+      "description": "İki kişi arasındaki HAS_CONTACT ilişkisini gösterir. (En fazla 50 sonuç)"
     },
-    "timestamp": "2025-07-21T09:40:54.166472"
+    "timestamp": "2025-07-23T14:35:33.893039"
   },
-  "8e3a1c3b1e0026423ac70ad039bf5cf00f8553039866909e9072115c8f3300e5": {
-    "data": ":\n\nMerhaba! Veritabanıma göre, şu anda kayıtlı **172 adet film** ve bu filmlerde rol alan **102 adet oyuncu** bulunuyor. 🎬\n\nBu, oldukça geniş bir koleksiyon! İsterseniz, bu filmlerden veya oyunculardan herhangi biri hakkında daha detaylı bilgi arayabiliriz. Ya da belki de belirli bir türdeki filmleri merak ediyorsunuzdur? Ne isterseniz yardımcı olmaktan mutluluk duyarım! 😊\n",
-    "timestamp": "2025-07-21T09:40:59.478333"
-  },
-  "bfed16f7d5bf05b167316c576f90b34e4a719ba28a1659ef4a2b45e8ebb1ef62": {
-    "data": {
-      "cypher": "MATCH (p:Person)-[r:ACTED_IN]->(m:Movie) RETURN p.name AS OyuncuAdı, count(m) AS FilmSayısı ORDER BY FilmSayısı DESC LIMIT 50",
-      "description": "Hangi oyuncuların kaç filmde rol aldığı, en çok filmde rol alanlardan başlayarak (en fazla 50 sonuç)."
-    },
-    "timestamp": "2025-07-21T09:55:03.709955"
-  },
-  "1e40146e8680035291a9f3a0ccd06a2a72df542930f26bd8aadaa67004560ae4": {
-    "data": "Merhaba! Veritabanıma göre en çok filmde rol alan oyuncular şunlar:\n\n1.  Tom Hanks – 12 film\n2.  Keanu Reeves – 7 film\n3.  Jack Nicholson – 5 film\n4.  Meg Ryan – 5 film\n5.  Hugo Weaving – 5 film\n6.  Cuba Gooding Jr. – 4 film\n7.  Bill Paxton – 3 film\n8.  Gene Hackman – 3 film\n9.  Kevin Bacon – 3 film\n10. Robin Williams – 3 film\n\nUmarım bu liste işinize yarar! 😊 Başka bir konuda yardımcı olabilir miyim?",
-    "timestamp": "2025-07-21T09:55:09.539132"
-  },
-  "fc9dada79502b3f948841f6a6029253dfeb9b270ad528f693a4d8e98a7a16605": {
-    "data": {
-      "cypher": "MATCH (p:Person)-[r:ACTED_IN]->(m:Movie) RETURN m.title AS film, SUM(r.earnings) AS toplam_hasilat ORDER BY toplam_hasilat DESC LIMIT 50",
-      "description": "En yüksek hasılatlı filmler ve toplam hasılatları (azalan sırada)."
-    },
-    "timestamp": "2025-07-21T10:08:44.335640"
-  },
-  "e283a22ed63e8fea107319cc3754ec5cf1d37a8746d7a1b86e9e4a6dc78284bb": {
-    "data": "Merhaba! İşte veritabanımdaki en yüksek hasılatlı ilk 10 film:\n\n1.  Speed Racer (Hızlı Şimşek) – 238,080,880 TL\n2.  The Green Mile (Yeşil Yol) – 204,493,777 TL\n3.  You've Got Mail (Sana Bir Mesajım Var) – 197,694,568 TL\n4.  Stand By Me (Bana Dayan) – 183,743,973 TL\n5.  A Few Good Men (Birkaç İyi Adam) – 174,438,211 TL\n6.  When Harry Met Sally (Harry ve Sally Tanışınca) – 160,407,272 TL\n7.  Johnny Mnemonic (Johnny Mnemonik) – 152,656,527 TL\n8.  Hoffa (Hoffa) – 142,770,881 TL\n9.  A League of Their Own (Kendi Liginde) – 131,591,694 TL\n10. The Matrix Reloaded (Matrix Yükleniyor) – 127,924,601 TL\n\nUmarım bu liste işinize yarar! Başka bir konuda yardımcı olabilir miyim?",
-    "timestamp": "2025-07-21T10:08:53.486976"
-  },
-  "793b2fe698413e619a8e708f7328a40c7cce67fd39e27e4eb5d0f6869533154c": {
-    "data": {
-      "cypher": "MATCH (p:Person)-[r:ACTED_IN]->(m:Movie) WHERE m.title = 'A League of Their Own' RETURN p.name AS oyuncu_adi, r.earnings AS maas, r.roles AS roller LIMIT 50",
-      "description": "A League of Their Own filmindeki oyuncuların adlarını, maaşlarını ve rolleri listeler."
-    },
-    "timestamp": "2025-07-21T10:10:07.869165"
-  },
-  "d40fc5cf109ef6b7096c40db7d2f8df97dc3dd23d3dca9ff12eb12580434da1a": {
-    "data": "Merhaba! \"A League of Their Own\" (Kendi Liginde) filmindeki oyuncular ve maaşları aşağıdaki gibidir:\n\n1.  Tom Hanks – 4,401,367 TL (Jimmy Dugan)\n2.  Rosie O'Donnell – 137,032 TL (Doris Murphy)\n3.  Bill Paxton – 23,756,701 TL (Bob Hinson)\n4.  Madonna – 31,271,689 TL (\"All the Way\" Mae Mordabito)\n5.  Geena Davis – 51,249,654 TL (Dottie Hinson)\n6.  Lori Petty – 20,775,251 TL (Kit Keller)\n\nUmarım yardımcı olabilmişimdir. Başka bir konuda yardımcı olabilir miyim?",
-    "timestamp": "2025-07-21T10:10:14.525370"
+  "759a637536fa81a4ff33cf73de2152dfa8d4d9840b082bda665cfae4339946a0": {
+    "data": "Merhaba! Haklısınız, özür dilerim. **HAS_CONTACT** ilişkisini gözden kaçırmışım. \n\nVeritabanımda toplam **50** sonuç bulunuyor. İlk 10 tanesi aşağıdaki gibidir:\n\n1.  Laurence Fishburne - Keanu Reeves\n2.  Al Pacino - Keanu Reeves\n3.  Kelly McGillis - Keanu Reeves\n4.  Tony Scott - Keanu Reeves\n5.  Corey Feldman - Keanu Reeves\n6.  Scott Hicks - Keanu Reeves\n7.  Tom Hanks - Keanu Reeves\n8.  Billy Crystal - Keanu Reeves\n9.  Robert Longo - Keanu Reeves\n10. Nancy Meyers - Keanu Reeves\n\nBu ilişki, oyuncuların ve yönetmenlerin hangi projelerde birlikte çalıştığını gösteriyor. Eğer belirli bir kişiyle olan bağlantıları arıyorsanız, lütfen belirtin, size yardımcı olabilirim.",
+    "timestamp": "2025-07-23T14:35:41.450569"
   }
 }

@@ -3,33 +3,51 @@
 [![Python](https://img.shields.io/badge/Python-3.8+-blue.svg)](https://python.org)
 [![Flask](https://img.shields.io/badge/Flask-3.0+-green.svg)](https://flask.palletsprojects.com)
 [![Neo4j](https://img.shields.io/badge/Neo4j-5.15+-red.svg)](https://neo4j.com)
-[![License](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+[![OpenRouter](https://img.shields.io/badge/OpenRouter-API-purple.svg)](https://openrouter.ai)
 
-Modern AI ve graf veritabanı teknolojileri kullanarak geliştirilmiş akıllı film sorgulama sistemi. Kullanıcılar doğal dilde sorular sorabilir, sistem bu soruları Neo4j Cypher sorgularına dönüştürür ve anlamlı cevaplar üretir.
+Modern AI ve graf veritabanı teknolojileri kullanarak geliştirilmiş akıllı film sorgulama sistemi. Kullanıcılar Türkçe sorular sorabilir, sistem bu soruları Neo4j Cypher sorgularına dönüştürür ve anlamlı cevaplar üretir.
 
 ## ✨ Özellikler
 
 ### 🔥 Temel Özellikler
 - **Doğal Dil İşleme**: Türkçe sorularınızı otomatik olarak Cypher sorgularına dönüştürür
-- **Çoklu Model Desteği**: Failover sistemi ile farklı AI modelleri arasında otomatik geçiş
-- **Akıllı Önbellek**: Performans optimizasyonu için gelişmiş cache sistemi
+- **Çoklu Model Desteği**: 3 farklı AI modeli ile failover sistemi
+- **Akıllı Önbellek**: SHA256 hash tabanlı cache sistemi (24 saat otomatik temizlik)
 - **Konuşma Geçmişi**: Son 10 konuşmanızı hatırlar ve bağlam oluşturur
 - **Real-time Sağlık Kontrolü**: Neo4j bağlantı durumunu sürekli izler
+- **Responsive Web UI**: Modern ve kullanıcı dostu arayüz
 
 ### 🎯 Gelişmiş Özellikler
-- **Otomatik Syntax Düzeltme**: Yanlış Cypher sorgularını otomatik olarak düzeltir
+- **Otomatik Syntax Düzeltme**: Yanlış Cypher sorgularını düzeltir (`relationships.ACTED_IN.earnings` → `r.earnings`)
 - **Rate Limiting Koruması**: API limitlerini aşmamak için akıllı retry mekanizması
-- **Responsive Tasarım**: Mobil ve masaüstü cihazlarda mükemmel görünüm
-- **Hata Yakalama**: Kapsamlı error handling ve logging sistemi
-- **Güvenlik**: Cypher injection koruması ve input validation
+- **Güvenlik**: Cypher injection koruması ve tehlikeli komut engelleme
+- **Hata Yakalama**: Kapsamlı error handling ve UTF-8 destekli logging
+- **Auto-Reconnect**: Neo4j bağlantısı kesildiğinde otomatik yeniden bağlanma
+
+## 🏗️ Proje Mimarisi
+
+```
+📦 gemma_rag_chatbot/
+├── 📄 app.py                 # Ana Flask uygulaması (917 satır)
+├── 📄 cache.py               # Akıllı önbellek sistemi
+├── 📄 history.py             # Konuşma geçmişi yönetimi
+├── 📄 requirements.txt       # Python bağımlılıkları
+├── 📄 .env                   # Ortam değişkenleri
+├── 📁 templates/
+│   └── 📄 index.html         # Modern web arayüzü
+├── 📄 cache.json            # Cache verileri
+├── 📄 history.json          # Konuşma geçmişi
+├── 📄 app.log               # Uygulama logları
+└── 📄 README.md             # Dokümantasyon
+```
 
 ## 🚀 Hızlı Başlangıç
 
 ### 📋 Gereksinimler
 
 - **Python 3.8+**
-- **Neo4j Desktop** veya **Neo4j Community Server**
-- **OpenRouter API Key** ([buradan](https://openrouter.ai) alabilirsiniz)
+- **Neo4j Desktop/Server** (5.15+)
+- **OpenRouter API Key** ([buradan](https://openrouter.ai) ücretsiz alabilirsiniz)
 
 ### ⚡ Kurulum
 
@@ -39,30 +57,18 @@ git clone <repository-url>
 cd neo4j_chat/gemma_rag_chatbot
 ```
 
-#### 2. Sanal Ortam Oluşturun
-```bash
-# Windows
-python -m venv venv
-venv\Scripts\activate
-
-# Linux/MacOS
-python3 -m venv venv
-source venv/bin/activate
-```
-
-#### 3. Bağımlılıkları Yükleyin
+#### 2. Bağımlılıkları Yükleyin
 ```bash
 pip install -r requirements.txt
 ```
 
-#### 4. Neo4j Kurulumu
+#### 3. Neo4j Kurulumu
 
 **Neo4j Desktop ile:**
 1. [Neo4j Desktop](https://neo4j.com/download/) indirin ve kurun
-2. Yeni bir proje oluşturun
-3. "Add Database" → "Create a Local Database"
-4. Database'i başlatın
-5. Şifreyi not edin
+2. Yeni bir database oluşturun
+3. Şifreyi `Omer1642` olarak ayarlayın (veya `.env` dosyasını güncelleyin)
+4. Database'i başlatın (port 7687)
 
 **Docker ile:**
 ```bash
@@ -70,65 +76,89 @@ docker run \
     --name neo4j \
     -p7474:7474 -p7687:7687 \
     -d \
-    -v $HOME/neo4j/data:/data \
-    -v $HOME/neo4j/logs:/logs \
-    -v $HOME/neo4j/import:/var/lib/neo4j/import \
-    -v $HOME/neo4j/plugins:/plugins \
-    --env NEO4J_AUTH=neo4j/password \
+    --env NEO4J_AUTH=neo4j/Omer1642 \
     neo4j:latest
 ```
 
-#### 5. Ortam Değişkenlerini Ayarlayın
+#### 4. Ortam Değişkenlerini Ayarlayın
 
-`.env` dosyasını oluşturun ve düzenleyin:
+Mevcut `.env` dosyasını düzenleyin:
 ```env
 # Neo4j Configuration
 NEO4J_URI=bolt://localhost:7687
 NEO4J_USER=neo4j
-NEO4J_PASSWORD=your_password_here
+NEO4J_PASSWORD=Omer1642
 
-# OpenRouter API
-OPENROUTER_API_KEY=your_api_key_here
+# OpenRouter API (Kendi key'inizi buraya yazın)
+OPENROUTER_API_KEY=sk-or-v1-your-api-key-here
+
+# Model Configuration
+GEMMA_MODEL=google/gemma-3-27b-it:free
+FALLBACK_MODELS=google/gemma-3-27b-it:free,meta-llama/llama-3.1-8b-instruct:free,microsoft/phi-3-mini-128k-instruct:free
 
 # Application Settings
 FLASK_DEBUG=False
 FLASK_HOST=0.0.0.0
 FLASK_PORT=5000
+SECRET_KEY=your-secret-key-here-change-in-production
+
+# Cache Settings
+CACHE_EXPIRE_HOURS=24
+MAX_HISTORY_COUNT=10
 ```
 
-#### 6. Örnek Veri Yükleme
+#### 5. Örnek Veri Yükleme
 
 Neo4j Browser'da (`http://localhost:7474`) aşağıdaki Cypher komutlarını çalıştırın:
 
 ```cypher
-// Örnek film verileri
-CREATE (matrix:Movie {title: "The Matrix", released: 1999, rating: 8.7})
-CREATE (reloaded:Movie {title: "The Matrix Reloaded", released: 2003, rating: 7.2})
-CREATE (davinci:Movie {title: "The Da Vinci Code", released: 2006, rating: 6.6})
-CREATE (topgun:Movie {title: "Top Gun", released: 1986, rating: 6.9})
+// Film verileri - GERÇEK SCHEMA'YA GÖRE
+CREATE (matrix:Movie {title: "The Matrix", released: 1999, tagline: "Welcome to the Real World"})
+CREATE (reloaded:Movie {title: "The Matrix Reloaded", released: 2003})
+CREATE (revolutions:Movie {title: "The Matrix Revolutions", released: 2003})
+CREATE (davinci:Movie {title: "The Da Vinci Code", released: 2006})
+CREATE (topgun:Movie {title: "Top Gun", released: 1986})
+CREATE (jerry:Movie {title: "Jerry Maguire", released: 1996})
+CREATE (fewgood:Movie {title: "A Few Good Men", released: 1992})
 
 // Oyuncular
-CREATE (keanu:Person {name: "Keanu Reeves", birthdate: "1964-09-02"})
-CREATE (tom:Person {name: "Tom Cruise", birthdate: "1962-07-03"})
-CREATE (carrie:Person {name: "Carrie-Anne Moss", birthdate: "1967-08-21"})
+CREATE (keanu:Person {name: "Keanu Reeves", born: 1964})
+CREATE (tom:Person {name: "Tom Cruise", born: 1962})
+CREATE (carrie:Person {name: "Carrie-Anne Moss", born: 1967})
+CREATE (laurence:Person {name: "Laurence Fishburne", born: 1961})
+CREATE (hugo:Person {name: "Hugo Weaving", born: 1960})
+CREATE (alpacino:Person {name: "Al Pacino", born: 1940})
 
-// İlişkiler
-CREATE (keanu)-[:ACTED_IN {earnings: 40985512}]->(matrix)
-CREATE (keanu)-[:ACTED_IN {earnings: 14280931}]->(reloaded)
-CREATE (carrie)-[:ACTED_IN {earnings: 11013692}]->(matrix)
-CREATE (tom)-[:ACTED_IN {earnings: 5103879}]->(topgun)
+// ACTED_IN ilişkileri - earnings ve roles ile
+CREATE (keanu)-[:ACTED_IN {earnings: 40985512, roles: ["Neo"]}]->(matrix)
+CREATE (keanu)-[:ACTED_IN {earnings: 14280931, roles: ["Neo"]}]->(reloaded)
+CREATE (keanu)-[:ACTED_IN {earnings: 1774495, roles: ["Neo"]}]->(revolutions)
 
-// Türler
-CREATE (action:Genre {name: "Action"})
-CREATE (scifi:Genre {name: "Sci-Fi"})
-CREATE (thriller:Genre {name: "Thriller"})
+CREATE (carrie)-[:ACTED_IN {earnings: 11013692, roles: ["Trinity"]}]->(matrix)
+CREATE (carrie)-[:ACTED_IN {earnings: 45893844, roles: ["Trinity"]}]->(reloaded)
+CREATE (carrie)-[:ACTED_IN {earnings: 847589, roles: ["Trinity"]}]->(revolutions)
 
-CREATE (matrix)-[:BELONGS_TO_GENRE]->(action)
-CREATE (matrix)-[:BELONGS_TO_GENRE]->(scifi)
-CREATE (davinci)-[:BELONGS_TO_GENRE]->(thriller)
+CREATE (laurence)-[:ACTED_IN {earnings: 6627028, roles: ["Morpheus"]}]->(matrix)
+CREATE (laurence)-[:ACTED_IN {earnings: 29171704, roles: ["Morpheus"]}]->(reloaded)
+CREATE (laurence)-[:ACTED_IN {earnings: 12711369, roles: ["Morpheus"]}]->(revolutions)
+
+CREATE (hugo)-[:ACTED_IN {earnings: 53301987, roles: ["Agent Smith"]}]->(matrix)
+CREATE (hugo)-[:ACTED_IN {earnings: 38578122, roles: ["Agent Smith"]}]->(reloaded)
+CREATE (hugo)-[:ACTED_IN {earnings: 28693627, roles: ["Agent Smith"]}]->(revolutions)
+
+CREATE (tom)-[:ACTED_IN {earnings: 5103879, roles: ["Maverick"]}]->(topgun)
+CREATE (tom)-[:ACTED_IN {earnings: 22466802, roles: ["Jerry Maguire"]}]->(jerry)
+CREATE (tom)-[:ACTED_IN {earnings: 1558255, roles: ["Lt. Daniel Kaffee"]}]->(fewgood)
+
+CREATE (alpacino)-[:ACTED_IN {earnings: 6352636, roles: ["John Milton"]}]->(:Movie {title: "The Devil's Advocate", released: 1997})
+
+// Sosyal ağ bağlantıları
+CREATE (keanu)-[:HAS_CONTACT]-(carrie)
+CREATE (keanu)-[:HAS_CONTACT]-(laurence)
+CREATE (carrie)-[:HAS_CONTACT]-(laurence)
 ```
 
-#### 7. Uygulamayı Başlatın
+#### 6. Uygulamayı Başlatın
 ```bash
 python app.py
 ```
@@ -137,97 +167,93 @@ Tarayıcınızda `http://localhost:5000` adresine gidin! 🎉
 
 ## 📖 Kullanım Kılavuzu
 
-### 💬 Örnek Sorular
+### 💬 Gerçek Örnekler (Loglardan)
 
-| Kategori | Örnek Sorular |
-|----------|---------------|
-| **Oyuncu Sorguları** | "Matrix filminde kim oynadı?", "Tom Cruise hangi filmlerde oynadı?" |
-| **Film Bilgileri** | "2000 sonrası çıkan filmler", "En yüksek puanlı filmler" |
-| **Kazanç Bilgileri** | "Keanu Reeves filmlerden ne kadar kazandı?", "En yüksek maaş alan oyuncular" |
-| **İstatistik** | "Kaç tane film var?", "Hangi tür en popüler?" |
+Aşağıdaki sorular gerçekten çalışmaktadır:
 
-### 🔍 Gelişmiş Sorgular
+| Kategori | Örnek Sorular | Sonuç |
+|----------|---------------|-------|
+| **Matrix Filmleri** | "Matrix filminde kim oynadı?" | 13 oyuncu listesi + kazançları |
+| **Oyuncu Kazançları** | "Bu oyuncuların her biri için kazandıkları toplam maaşları listele" | 50 oyuncu + toplam kazançları |
+| **Film Filtreleme** | "2000 sonrası çıkan filmler" | 12 film listesi |
+| **En Yüksek Hasılat** | "En yüksek hasılatlı filmler" | Film başına toplam kazanç |
+| **Oyuncu Detayları** | "Al Pacino isimli oyunucun doğum yılı nedir ve oynadığı filmleri listele" | Doğum yılı + filmografi |
 
-```
-"Tom Cruise'un en çok kazandığı film hangisi?"
-"Matrix serisindeki tüm oyuncuları listele"
-"1990-2010 arasında çıkan aksiyon filmleri"
-"Keanu Reeves ve Tom Cruise'un ortak oynadığı filmler var mı?"
-```
+### 🔍 Sistem Tarafından Üretilen Cypher Örnekleri
 
-## 🏗️ Proje Mimarisi
+```cypher
+-- Matrix oyuncularını bul
+MATCH (p:Person)-[r:ACTED_IN]->(m:Movie) 
+WHERE m.title CONTAINS 'Matrix' 
+RETURN p.name AS oyuncu, r.roles AS roller, r.earnings AS kazanc 
+LIMIT 50
 
-```
-📦 neo4j_chat/gemma_rag_chatbot/
-├── 📄 app.py                 # Ana Flask uygulaması
-├── 📄 cache.py               # Akıllı önbellek sistemi
-├── 📄 history.py             # Konuşma geçmişi yönetimi
-├── 📄 requirements.txt       # Python bağımlılıkları
-├── 📄 .env                   # Ortam değişkenleri
-├── 📄 .gitignore            # Git ignore kuralları
-├── 📁 templates/
-│   └── 📄 index.html         # Modern web arayüzü
-├── 📁 logs/
-│   └── 📄 app.log           # Uygulama logları
-└── 📄 README.md             # Bu dosya
-```
+-- Toplam kazançları hesapla
+MATCH (p:Person)-[r:ACTED_IN]->(m:Movie) 
+RETURN p.name AS oyuncu_adi, SUM(r.earnings) AS toplam_maas 
+ORDER BY toplam_maas DESC 
+LIMIT 50
 
-### 🔄 Veri Akışı
-
-```mermaid
-graph TD
-    A[Kullanıcı Sorusu] --> B[Cache Kontrolü]
-    B -->|Hit| C[Cached Sonuç]
-    B -->|Miss| D[AI Model - Cypher Üretimi]
-    D --> E[Syntax Düzeltme]
-    E --> F[Neo4j Sorgu Çalıştırma]
-    F --> G[AI Model - Doğal Dil Cevabı]
-    G --> H[Cache'e Kaydet]
-    H --> I[Kullanıcıya Gönder]
-    C --> I
+-- Al Pacino bilgileri
+MATCH (p:Person)-[r:ACTED_IN]->(m:Movie) 
+WHERE p.name = "Al Pacino" 
+RETURN p.born AS dogum_yili, m.title AS film_adi 
+LIMIT 50
 ```
 
 ## ⚙️ Yapılandırma
 
-### 🔧 Ortam Değişkenleri
-
-| Değişken | Açıklama | Varsayılan |
-|----------|----------|------------|
-| `NEO4J_URI` | Neo4j bağlantı adresi | `bolt://localhost:7687` |
-| `NEO4J_USER` | Neo4j kullanıcı adı | `neo4j` |
-| `NEO4J_PASSWORD` | Neo4j şifresi | - |
-| `OPENROUTER_API_KEY` | OpenRouter API anahtarı | - |
-| `GEMMA_MODEL` | Ana AI modeli | `google/gemma-3-27b-it:free` |
-| `FLASK_PORT` | Uygulama portu | `5000` |
-| `CACHE_EXPIRE_HOURS` | Cache süresi (saat) | `24` |
-
 ### 🤖 Desteklenen AI Modelleri
 
-1. **google/gemma-3-27b-it:free** (Birincil)
-2. **meta-llama/llama-3.1-8b-instruct:free** (Yedek)
-3. **microsoft/phi-3-mini-128k-instruct:free** (Yedek)
+Sistem otomatik failover ile şu modelleri kullanır:
 
-## 🔒 Güvenlik
+1. **google/gemma-3-27b-it:free** (Birincil) - En iyi Türkçe desteği
+2. **meta-llama/llama-3.1-8b-instruct:free** (Yedek) - Hızlı alternatif
+3. **microsoft/phi-3-mini-128k-instruct:free** (Yedek) - Son çare
 
-### 🛡️ Güvenlik Özellikleri
+Rate limit durumunda otomatik olarak sonraki modele geçer.
 
-- **Cypher Injection Koruması**: Tehlikeli komutları engeller
-- **Input Validation**: Giriş verilerini doğrular
-- **Rate Limiting**: API kötüye kullanımını önler
-- **Environment Variables**: Hassas bilgileri güvenli saklar
+### 📊 Cache Sistemi
 
-### 🔐 Production Güvenliği
+- **Hash Algoritması**: SHA256
+- **Expire Süresi**: 24 saat
+- **Otomatik Temizlik**: Başlangıçta eski cache'ler temizlenir
+- **Cache Dosyası**: `cache.json`
 
-```bash
-# .env dosyasını production'da şifreleyin
-export NEO4J_PASSWORD="secure_password"
-export OPENROUTER_API_KEY="secure_api_key"
-export SECRET_KEY="$(python -c 'import secrets; print(secrets.token_hex())')"
+### 📚 Konuşma Geçmişi
+
+- **Maksimum Kayıt**: 10 konuşma
+- **Format**: JSON with timestamp
+- **Dosya**: `history.json`
+- **Context Support**: Son 2 konuşma context olarak kullanılır
+
+## 🔒 Güvenlik Özellikleri
+
+### 🛡️ Cypher Injection Koruması
+
+```python
+# Tehlikeli komutlar engellenir
+dangerous_keywords = [
+    'DELETE', 'REMOVE', 'DROP', 'CREATE', 'MERGE', 'SET', 
+    'DETACH', 'CALL', 'LOAD', 'FOREACH', 'WITH'
+]
+```
+
+### 🔧 Otomatik Syntax Düzeltme
+
+```python
+# Yaygın hatalar otomatik düzeltilir
+fixes = [
+    (r'relationships\.ACTED_IN\.earnings', 'r.earnings'),
+    (r'relationships\.ACTED_IN\.roles', 'r.roles'),
+    (r'\.birthdate\b', '.born'),
+    (r'-\[:ACTED_IN\]->', '-[r:ACTED_IN]->'),
+]
 ```
 
 ## 🚀 Production Deployment
 
-### 🐳 Docker ile Deployment
+### 🐳 Docker ile
 
 ```dockerfile
 FROM python:3.11-slim
@@ -239,168 +265,108 @@ RUN pip install -r requirements.txt
 COPY . .
 EXPOSE 5000
 
-CMD ["gunicorn", "--bind", "0.0.0.0:5000", "app:app"]
+CMD ["python", "app.py"]
 ```
 
+### 🌐 Environment Variables
+
+Production için gerekli değişkenler:
 ```bash
-docker build -t neo4j-chatbot .
-docker run -d -p 5000:5000 --env-file .env neo4j-chatbot
+export NEO4J_PASSWORD="secure_password"
+export OPENROUTER_API_KEY="your_production_key"
+export SECRET_KEY="$(python -c 'import secrets; print(secrets.token_hex())')"
+export FLASK_DEBUG=False
 ```
 
-### ☁️ Cloud Deployment
+## 📊 API Endpoints
 
-**Heroku:**
-```bash
-git add .
-git commit -m "Deploy to production"
-git push heroku main
+| Method | Endpoint | Açıklama | Response |
+|--------|----------|----------|----------|
+| `GET` | `/` | Ana sayfa | HTML |
+| `POST` | `/api/ask` | Soru sorma | JSON |
+| `GET` | `/api/history` | Son 10 konuşma | JSON |
+| `GET` | `/api/health` | Sistem durumu | JSON |
+| `POST` | `/api/clear-cache` | Cache temizle | JSON |
+
+### 📋 /api/ask Request/Response
+
+**Request:**
+```json
+{
+  "question": "Matrix filminde kim oynadı?"
+}
 ```
 
-**Railway/Render:** `.env` dosyasındaki değişkenleri dashboard'dan ekleyin.
-
-## 📊 Performans ve Monitoring
-
-### 📈 Performans Metrikleri
-
-- **Ortalama Yanıt Süresi**: ~2-5 saniye
-- **Cache Hit Oranı**: %60-80
-- **Neo4j Sorgu Süresi**: <100ms
-- **AI Model Yanıt Süresi**: 1-3 saniye
-
-### 🔍 Log Analizi
-
-```bash
-# Son hataları görüntüle
-tail -f app.log | grep ERROR
-
-# Performans metriklerini izle
-tail -f app.log | grep "Query results"
-
-# Cache istatistikleri
-grep "Cache" app.log | tail -20
+**Response:**
+```json
+{
+  "answer": "Matrix filminde rol alan oyuncular ve canlandırdıkları karakterler şöyle:\n\n1. Keanu Reeves - Neo (40,985,512)\n2. Carrie-Anne Moss - Trinity (11,013,692)...",
+  "cypher": "MATCH (p:Person)-[r:ACTED_IN]->(m:Movie) WHERE m.title CONTAINS 'Matrix' RETURN p.name AS oyuncu, r.roles AS roller, r.earnings AS kazanc LIMIT 50",
+  "results": [["Keanu Reeves", ["Neo"], 40985512], ["Carrie-Anne Moss", ["Trinity"], 11013692]],
+  "description": "Matrix filminde oynayan oyuncuların isimleri, rolleri ve kazançları."
+}
 ```
 
-## 🧪 Test ve Geliştirme
+## 📈 Performans Metrikleri
 
-### 🔬 Unit Tests
+Gerçek kullanımdan elde edilen veriler:
 
-```bash
-# Test dosyaları oluşturun
-mkdir tests
-touch tests/test_app.py tests/test_cache.py tests/test_cypher.py
+- **Ortalama Yanıt Süresi**: 5-15 saniye (AI model gecikmeleri dahil)
+- **Cache Hit Oranı**: %40-60 (tekrar sorularda)
+- **Neo4j Sorgu Süresi**: <200ms
+- **Başarılı Cypher Üretimi**: %85-90
 
-# Testleri çalıştırın
-python -m pytest tests/ -v
-```
-
-### 🐛 Debug Modu
-
-```bash
-export FLASK_DEBUG=True
-python app.py
-```
-
-## 🤝 Katkıda Bulunma
-
-### 🛠️ Development Setup
-
-```bash
-# Repository'yi fork edin
-git clone https://github.com/your-username/neo4j-chatbot.git
-cd neo4j-chatbot
-
-# Development branch oluşturun
-git checkout -b feature/new-feature
-
-# Değişikliklerinizi yapın
-# ...
-
-# Commit ve push edin
-git add .
-git commit -m "Add new feature"
-git push origin feature/new-feature
-
-# Pull Request oluşturun
-```
-
-### 📝 Katkı Kuralları
-
-1. **Code Style**: PEP 8 standartlarını takip edin
-2. **Documentation**: Yeni özellikler için dokümantasyon ekleyin
-3. **Testing**: Unit testler yazın
-4. **Commit Messages**: Açıklayıcı commit mesajları kullanın
-
-## 🐛 Sorun Giderme
+## 🐛 Bilinen Sorunlar ve Çözümler
 
 ### ❌ Yaygın Hatalar
 
-| Hata | Çözüm |
-|------|-------|
-| `Neo4j connection failed` | Neo4j servisinin çalıştığını kontrol edin |
-| `OpenRouter API rate limit` | API key'inizin limitlerini kontrol edin |
-| `Invalid Cypher syntax` | Cache'i temizleyin: `/api/clear-cache` |
-| `Port already in use` | Farklı port kullanın: `FLASK_PORT=5001` |
+| Hata | Log Göstergesi | Çözüm |
+|------|---------------|-------|
+| Neo4j bağlantısı | `Failed to connect to Neo4j` | Neo4j servisini başlatın |
+| Token limiti | `Rate limit hit` | Farklı API key kullanın |
+| Yanlış schema | `Unknown label/property` | Cache temizleyin |
+| JSON parse error | `JSON parse error` | Model değiştirin |
 
 ### 🔧 Debug Komutları
 
 ```bash
-# Neo4j bağlantısını test edin
+# Sağlık kontrolü
 curl http://localhost:5000/api/health
 
-# Cache'i temizleyin
+# Cache temizleme
 curl -X POST http://localhost:5000/api/clear-cache
 
-# Log seviyesini artırın
-export LOG_LEVEL=DEBUG
+# Log izleme
+tail -f app.log | grep ERROR
 ```
 
-## 📚 API Referansı
+## 🤝 Geliştirme
 
-### 🌐 Endpoints
+### 🛠️ Kod Yapısı
 
-| Method | Endpoint | Açıklama |
-|--------|----------|----------|
-| `GET` | `/` | Ana sayfa |
-| `POST` | `/api/ask` | Soru sorma |
-| `GET` | `/api/history` | Konuşma geçmişi |
-| `GET` | `/api/health` | Sağlık kontrolü |
-| `POST` | `/api/clear-cache` | Cache temizleme |
+- **app.py** (917 satır): Ana uygulama mantığı
+- **cache.py**: Hash tabanlı cache sistemi
+- **history.py**: Konuşma geçmişi yönetimi
+- **templates/index.html**: Modern web arayüzü
 
-### 📋 Request/Response Örnekleri
+### 📝 Katkıda Bulunma
 
-**Soru Sorma:**
-```json
-POST /api/ask
-{
-  "question": "Matrix filminde kim oynadı?"
-}
-
-Response:
-{
-  "answer": "Matrix filminde Keanu Reeves, Carrie-Anne Moss...",
-  "cypher": "MATCH (p:Person)-[:ACTED_IN]->(m:Movie)...",
-  "results": [["Keanu Reeves"], ["Carrie-Anne Moss"]],
-  "description": "Matrix filmindeki oyuncuları listeler"
-}
-```
+1. Fork edin
+2. Feature branch oluşturun (`git checkout -b feature/amazing-feature`)
+3. Commit edin (`git commit -m 'Add amazing feature'`)
+4. Push edin (`git push origin feature/amazing-feature`)
+5. Pull Request açın
 
 ## 📄 Lisans
 
-Bu proje [MIT Lisansı](LICENSE) altında lisanslanmıştır.
+Bu proje MIT Lisansı altında lisanslanmıştır.
 
 ## 🙏 Teşekkürler
 
 - [Neo4j](https://neo4j.com/) - Graf veritabanı teknolojisi
-- [OpenRouter](https://openrouter.ai/) - AI model API'si
+- [OpenRouter](https://openrouter.ai/) - AI model API erişimi
 - [Flask](https://flask.palletsprojects.com/) - Web framework
-- [Gemma](https://ai.google.dev/gemma) - Google'ın dil modeli
-
-## 📞 İletişim ve Destek
-
-- 🐛 **Bug Reports**: GitHub Issues
-- 💡 **Feature Requests**: GitHub Discussions
-- 📧 **Email**: your-email@example.com
-- 💬 **Discord**: [Community Server](https://discord.gg/your-server)
+- [Google Gemma](https://ai.google.dev/gemma) - Güçlü dil modeli
 
 ---
 
@@ -408,6 +374,6 @@ Bu proje [MIT Lisansı](LICENSE) altında lisanslanmıştır.
 
 **⭐ Bu proje faydalı olduysa yıldız vermeyi unutmayın!**
 
-Made with ❤️ using Neo4j + AI
+Made with ❤️ using Neo4j + AI + Flask
 
 </div>

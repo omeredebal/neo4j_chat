@@ -192,7 +192,7 @@ def ask_cypher_json(question, model_index=0):
 
     if model_index >= len(FALLBACK_MODELS):
         logger.error("All models failed")
-        return None
+        return {"error": "token_exhausted", "message": "Tüm AI modelleri token limitine ulaştı. Lütfen daha sonra tekrar deneyin."}
     
     current_model = FALLBACK_MODELS[model_index]
     
@@ -305,12 +305,27 @@ CORRECT EXAMPLES:
             timeout=30
         )
         
+        # Token limit kontrolü
         if response.status_code == 429:
-            logger.warning(f"Rate limit hit for model {current_model}, trying next model")
+            logger.warning(f"Rate limit hit for model {current_model}")
+            return ask_cypher_json(question, model_index + 1)
+            
+        # Quota exceeded kontrolü
+        if response.status_code == 402:
+            logger.error(f"Token quota exceeded for model {current_model}")
             return ask_cypher_json(question, model_index + 1)
         
         response.raise_for_status()
         result = response.json()
+        
+        # API yanıtında token limit kontrolü
+        if "error" in result:
+            error_type = result["error"].get("type", "")
+            error_code = result["error"].get("code", "")
+            
+            if "quota" in error_type.lower() or "limit" in error_type.lower():
+                logger.error(f"Token quota error from {current_model}: {result['error']}")
+                return ask_cypher_json(question, model_index + 1)
         
         if "choices" not in result or not result["choices"]:
             logger.error(f"Invalid response from {current_model}")
@@ -358,6 +373,10 @@ CORRECT EXAMPLES:
 
     except requests.RequestException as e:
         logger.error(f"Request error with {current_model}: {str(e)}")
+        # HTTP 429 veya 402 hatalarını kontrol et
+        if hasattr(e, 'response') and e.response is not None:
+            if e.response.status_code in [429, 402]:
+                return ask_cypher_json(question, model_index + 1)
         return ask_cypher_json(question, model_index + 1)
     except Exception as e:
         logger.error(f"Unexpected error with {current_model}: {str(e)}")
@@ -375,7 +394,7 @@ def ask_gemma(question, cypher_results, model_index=0):
         return cached
 
     if model_index >= len(FALLBACK_MODELS):
-        return "Üzgünüm, cevap üretilemedi. Lütfen daha sonra tekrar deneyin."
+        return "Token limitine ulaşıldı. Lütfen daha sonra tekrar deneyin veya farklı bir soru sorun."
     
     current_model = FALLBACK_MODELS[model_index]
 
@@ -440,12 +459,25 @@ Lütfen Türkçe olarak samimi, yardımsever ve bilgilendirici bir cevap verin:
             timeout=30
         )
         
+        # Token limit kontrolü
         if response.status_code == 429:
             logger.warning(f"Rate limit hit for answer generation with {current_model}")
+            return ask_gemma(question, cypher_results, model_index + 1)
+            
+        # Quota exceeded kontrolü  
+        if response.status_code == 402:
+            logger.error(f"Token quota exceeded for answer generation with {current_model}")
             return ask_gemma(question, cypher_results, model_index + 1)
         
         response.raise_for_status()
         result = response.json()
+        
+        # API yanıtında token limit kontrolü
+        if "error" in result:
+            error_type = result["error"].get("type", "")
+            if "quota" in error_type.lower() or "limit" in error_type.lower():
+                logger.error(f"Token quota error in answer generation: {result['error']}")
+                return ask_gemma(question, cypher_results, model_index + 1)
         
         if "choices" not in result or not result["choices"]:
             logger.error(f"Invalid response from {current_model}")
@@ -463,6 +495,9 @@ Lütfen Türkçe olarak samimi, yardımsever ve bilgilendirici bir cevap verin:
 
     except requests.RequestException as e:
         logger.error(f"Request error in answer generation with {current_model}: {str(e)}")
+        if hasattr(e, 'response') and e.response is not None:
+            if e.response.status_code in [429, 402]:
+                return ask_gemma(question, cypher_results, model_index + 1)
         return ask_gemma(question, cypher_results, model_index + 1)
     except Exception as e:
         logger.error(f"Unexpected error in answer generation with {current_model}: {str(e)}")
@@ -505,6 +540,16 @@ def api_ask():
 
         # Generate Cypher query
         json_data = ask_cypher_json(question)
+        
+        # Token limit kontrolü
+        if isinstance(json_data, dict) and json_data.get("error") == "token_exhausted":
+            return jsonify({
+                "answer": json_data["message"], 
+                "cypher": None, 
+                "error": "token_limit",
+                "results": None
+            })
+            
         if not json_data or "cypher" not in json_data:
             answer = "Üzgünüm, sorunuzu anlayamadım. Lütfen farklı bir şekilde sormayı deneyin veya daha spesifik olun."
             add_to_history(question, answer)
@@ -519,6 +564,16 @@ def api_ask():
 
         # Generate natural language answer
         answer = ask_gemma(question, results)
+        
+        # Token limit kontrolü cevap için
+        if "Token limitine ulaşıldı" in answer:
+            return jsonify({
+                "answer": answer,
+                "cypher": cypher_query,
+                "results": results,
+                "error": "token_limit",
+                "description": json_data.get("description", "")
+            })
         
         # Add to history
         add_to_history(question, answer)
