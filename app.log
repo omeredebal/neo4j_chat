@@ -1136,3 +1136,608 @@ TypeError: Object of type Node is not JSON serializable
 2025-07-31 17:36:49,614 - __main__ - ERROR - Error: {code: Neo.ClientError.Statement.TypeError} {message: Invalid input for function 'toString()': Expected a String, Float, Integer, Boolean, Temporal or Duration, got: StringArray[HDMI, DisplayPort]}
 2025-07-31 17:36:49,615 - __main__ - INFO - COMPREHENSIVE schema detection completed: 3 node types, 2 relationship types, 2 connection patterns
 2025-07-31 17:36:49,616 - werkzeug - INFO - 127.0.0.1 - - [31/Jul/2025 17:36:49] "GET /api/health HTTP/1.1" 200 -
+2025-07-31 17:44:40,324 - __main__ - INFO - Gemini API configured with model: gemini-1.5-flash
+2025-07-31 17:44:40,324 - embeddings - INFO - Embedding manager initialized successfully
+2025-07-31 17:44:40,325 - __main__ - INFO - GraphRAG embedding manager initialized
+2025-07-31 17:44:42,426 - __main__ - INFO - Successfully connected to Neo4j (attempt 1)
+2025-07-31 17:44:42,426 - __main__ - INFO - GraphRAG pipeline initialized successfully
+2025-07-31 17:44:42,431 - embeddings - INFO - Semantic vector index created
+2025-07-31 17:44:42,432 - neo4j.notifications - INFO - Received notification from DBMS server: {severity: INFORMATION} {code: Neo.ClientNotification.Schema.IndexOrConstraintAlreadyExists} {category: SCHEMA} {title: `CREATE VECTOR INDEX semantic_nodes IF NOT EXISTS FOR (e:Node) ON (e.embedding) OPTIONS {indexConfig: {`vector.dimensions`: 768, `vector.similarity_function`: "cosine"}}` has no effect.} {description: `VECTOR INDEX semantic_nodes FOR (e:Node) ON (e.embedding)` already exists.} {position: None} for query: "\n        CREATE VECTOR INDEX semantic_nodes IF NOT EXISTS\n        FOR (n:Node) ON (n.embedding)\n        OPTIONS {\n            indexConfig: {\n                `vector.dimensions`: 768,\n                `vector.similarity_function`: 'cosine'\n            }\n        }\n        "
+2025-07-31 17:44:42,436 - __main__ - INFO - Starting Flask app on 0.0.0.0:5000 (debug=False)
+2025-07-31 17:44:42,436 - __main__ - INFO - Neo4j available: True
+2025-07-31 17:44:42,436 - __main__ - INFO - Gemini API available: True
+2025-07-31 17:44:42,437 - __main__ - INFO - Gemini model: gemini-1.5-flash
+2025-07-31 17:44:42,493 - werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://10.34.101.131:5000
+2025-07-31 17:44:42,494 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
+2025-07-31 17:44:44,675 - werkzeug - INFO - 127.0.0.1 - - [31/Jul/2025 17:44:44] "GET / HTTP/1.1" 200 -
+2025-07-31 17:44:44,729 - __main__ - INFO - Detecting COMPREHENSIVE live schema from Neo4j...
+2025-07-31 17:44:44,766 - __main__ - ERROR - Neo4j query error: {code: Neo.ClientError.Statement.TypeError} {message: Invalid input for function 'toString()': Expected a String, Float, Integer, Boolean, Temporal or Duration, got: StringArray[HDMI, DisplayPort]}
+2025-07-31 17:44:44,766 - __main__ - ERROR - Failed to execute query: MATCH (n) 
+        WITH labels(n)[0] AS node_type, keys(n) AS props, n
+        UNWIND props AS prop_name
+        WITH node_type, prop_name, n[prop_name] AS prop_value
+        WHERE prop_value IS NOT NULL
+        WITH node_type, prop_name, collect(DISTINCT toString(prop_value))[0..3] AS sample_values, count(*) AS total_count
+        RETURN node_type, prop_name, sample_values, total_count
+        ORDER BY node_type, prop_name
+2025-07-31 17:44:44,767 - __main__ - ERROR - Error: {code: Neo.ClientError.Statement.TypeError} {message: Invalid input for function 'toString()': Expected a String, Float, Integer, Boolean, Temporal or Duration, got: StringArray[HDMI, DisplayPort]}
+2025-07-31 17:44:44,768 - __main__ - INFO - COMPREHENSIVE schema detection completed: 3 node types, 2 relationship types, 2 connection patterns
+2025-07-31 17:44:44,769 - werkzeug - INFO - 127.0.0.1 - - [31/Jul/2025 17:44:44] "GET /api/health HTTP/1.1" 200 -
+2025-07-31 17:44:44,934 - werkzeug - INFO - 127.0.0.1 - - [31/Jul/2025 17:44:44] "GET /api/history HTTP/1.1" 200 -
+2025-07-31 17:44:44,970 - __main__ - INFO - Detecting COMPREHENSIVE live schema from Neo4j...
+2025-07-31 17:44:45,007 - __main__ - ERROR - Neo4j query error: {code: Neo.ClientError.Statement.TypeError} {message: Invalid input for function 'toString()': Expected a String, Float, Integer, Boolean, Temporal or Duration, got: StringArray[HDMI, DisplayPort]}
+2025-07-31 17:44:45,008 - __main__ - ERROR - Failed to execute query: MATCH (n) 
+        WITH labels(n)[0] AS node_type, keys(n) AS props, n
+        UNWIND props AS prop_name
+        WITH node_type, prop_name, n[prop_name] AS prop_value
+        WHERE prop_value IS NOT NULL
+        WITH node_type, prop_name, collect(DISTINCT toString(prop_value))[0..3] AS sample_values, count(*) AS total_count
+        RETURN node_type, prop_name, sample_values, total_count
+        ORDER BY node_type, prop_name
+2025-07-31 17:44:45,015 - __main__ - ERROR - Error: {code: Neo.ClientError.Statement.TypeError} {message: Invalid input for function 'toString()': Expected a String, Float, Integer, Boolean, Temporal or Duration, got: StringArray[HDMI, DisplayPort]}
+2025-07-31 17:44:45,017 - __main__ - INFO - COMPREHENSIVE schema detection completed: 3 node types, 2 relationship types, 2 connection patterns
+2025-07-31 17:44:45,018 - werkzeug - INFO - 127.0.0.1 - - [31/Jul/2025 17:44:45] "GET /api/health HTTP/1.1" 200 -
+2025-07-31 17:44:51,746 - __main__ - INFO - Received question: Veritabanı şemasını göster
+2025-07-31 17:44:51,746 - __main__ - INFO - Generating Cypher for question: Veritabanı şemasını göster
+2025-07-31 17:44:51,759 - __main__ - INFO - Detecting COMPREHENSIVE live schema from Neo4j...
+2025-07-31 17:44:51,783 - __main__ - ERROR - Neo4j query error: {code: Neo.ClientError.Statement.TypeError} {message: Invalid input for function 'toString()': Expected a String, Float, Integer, Boolean, Temporal or Duration, got: StringArray[HDMI, DisplayPort]}
+2025-07-31 17:44:51,784 - __main__ - ERROR - Failed to execute query: MATCH (n) 
+        WITH labels(n)[0] AS node_type, keys(n) AS props, n
+        UNWIND props AS prop_name
+        WITH node_type, prop_name, n[prop_name] AS prop_value
+        WHERE prop_value IS NOT NULL
+        WITH node_type, prop_name, collect(DISTINCT toString(prop_value))[0..3] AS sample_values, count(*) AS total_count
+        RETURN node_type, prop_name, sample_values, total_count
+        ORDER BY node_type, prop_name
+2025-07-31 17:44:51,785 - __main__ - ERROR - Error: {code: Neo.ClientError.Statement.TypeError} {message: Invalid input for function 'toString()': Expected a String, Float, Integer, Boolean, Temporal or Duration, got: StringArray[HDMI, DisplayPort]}
+2025-07-31 17:44:51,785 - __main__ - INFO - COMPREHENSIVE schema detection completed: 3 node types, 2 relationship types, 2 connection patterns
+2025-07-31 17:44:51,786 - graphrag_pipeline - INFO - Starting GraphRAG pipeline for: Veritabanı şemasını göster
+2025-07-31 17:44:51,797 - graphrag_pipeline - INFO - Extracted entities: ['Veritabanı']
+2025-07-31 17:44:52,429 - embeddings - ERROR - Semantic search failed: {code: Neo.ClientError.Statement.SyntaxError} {message: Unknown function 'gds.similarity.cosine' (line 4, column 17 (offset: 73))
+"        WITH n, gds.similarity.cosine(n.embedding, $query_embedding) AS similarity"
+                 ^}
+2025-07-31 17:44:52,440 - context_manager - ERROR - Dynamic entity context extraction failed: {code: Neo.ClientError.Statement.SyntaxError} {message: Aggregation column contains implicit grouping expressions. For example, in 'RETURN n.a, n.a + n.b + count(*)' the aggregation expression 'n.a + n.b + count(*)' includes the implicit grouping key 'n.b'. It may be possible to rewrite the query by extracting these grouping/aggregation expressions into a preceding WITH clause. Illegal expression(s): context_nodes, similar_entities (line 84, column 34 (offset: 3710))
+"                    total + size(context_nodes) + size(similar_entities)"
+                                  ^}
+2025-07-31 17:44:52,481 - graphrag_pipeline - INFO - GraphRAG pipeline completed with score: 0.00
+2025-07-31 17:44:52,482 - __main__ - INFO - Using GraphRAG enhanced prompt. Context score: 0.00
+2025-07-31 17:44:54,634 - __main__ - INFO - Gemini API call successful
+2025-07-31 17:44:54,670 - __main__ - INFO - Generated Cypher with GraphRAG: MATCH (n) RETURN labels(n) AS node_label, count(*) AS node_count UNION ALL MATCH ()-[r]->() RETURN type(r) AS relationship_type, count(*) AS relationship_count
+2025-07-31 17:44:54,671 - __main__ - INFO - Generated Cypher: MATCH (n) RETURN labels(n) AS node_label, count(*) AS node_count UNION ALL MATCH ()-[r]->() RETURN type(r) AS relationship_type, count(*) AS relationship_count
+2025-07-31 17:44:54,682 - __main__ - ERROR - Neo4j query error: {code: Neo.ClientError.Statement.SyntaxError} {message: All sub queries in an UNION must have the same return column names (line 1, column 66 (offset: 65))
+"MATCH (n) RETURN labels(n) AS node_label, count(*) AS node_count UNION ALL MATCH ()-[r]->() RETURN type(r) AS relationship_type, count(*) AS relationship_count"
+                                                                  ^}
+2025-07-31 17:44:54,683 - __main__ - ERROR - Failed to execute query: MATCH (n) RETURN labels(n) AS node_label, count(*) AS node_count UNION ALL MATCH ()-[r]->() RETURN type(r) AS relationship_type, count(*) AS relationship_count
+2025-07-31 17:44:54,684 - __main__ - ERROR - Error: {code: Neo.ClientError.Statement.SyntaxError} {message: All sub queries in an UNION must have the same return column names (line 1, column 66 (offset: 65))
+"MATCH (n) RETURN labels(n) AS node_label, count(*) AS node_count UNION ALL MATCH ()-[r]->() RETURN type(r) AS relationship_type, count(*) AS relationship_count"
+                                                                  ^}
+2025-07-31 17:44:54,684 - __main__ - INFO - Query results: 0 rows
+2025-07-31 17:44:54,684 - __main__ - INFO - Generating answer for question: Veritabanı şemasını göster
+2025-07-31 17:44:59,825 - __main__ - INFO - Gemini API call successful
+2025-07-31 17:44:59,869 - __main__ - INFO - Successfully generated answer with Gemini
+2025-07-31 17:44:59,879 - werkzeug - INFO - 127.0.0.1 - - [31/Jul/2025 17:44:59] "POST /api/ask HTTP/1.1" 200 -
+2025-07-31 17:45:14,732 - __main__ - INFO - Detecting COMPREHENSIVE live schema from Neo4j...
+2025-07-31 17:45:14,754 - __main__ - ERROR - Neo4j query error: {code: Neo.ClientError.Statement.TypeError} {message: Invalid input for function 'toString()': Expected a String, Float, Integer, Boolean, Temporal or Duration, got: StringArray[HDMI, DisplayPort]}
+2025-07-31 17:45:14,754 - __main__ - ERROR - Failed to execute query: MATCH (n) 
+        WITH labels(n)[0] AS node_type, keys(n) AS props, n
+        UNWIND props AS prop_name
+        WITH node_type, prop_name, n[prop_name] AS prop_value
+        WHERE prop_value IS NOT NULL
+        WITH node_type, prop_name, collect(DISTINCT toString(prop_value))[0..3] AS sample_values, count(*) AS total_count
+        RETURN node_type, prop_name, sample_values, total_count
+        ORDER BY node_type, prop_name
+2025-07-31 17:45:14,756 - __main__ - ERROR - Error: {code: Neo.ClientError.Statement.TypeError} {message: Invalid input for function 'toString()': Expected a String, Float, Integer, Boolean, Temporal or Duration, got: StringArray[HDMI, DisplayPort]}
+2025-07-31 17:45:14,756 - __main__ - INFO - COMPREHENSIVE schema detection completed: 3 node types, 2 relationship types, 2 connection patterns
+2025-07-31 17:45:14,757 - werkzeug - INFO - 127.0.0.1 - - [31/Jul/2025 17:45:14] "GET /api/health HTTP/1.1" 200 -
+2025-07-31 17:45:15,835 - werkzeug - INFO - 127.0.0.1 - - [31/Jul/2025 17:45:15] "GET / HTTP/1.1" 200 -
+2025-07-31 17:45:15,860 - __main__ - INFO - Detecting COMPREHENSIVE live schema from Neo4j...
+2025-07-31 17:45:15,869 - werkzeug - INFO - 127.0.0.1 - - [31/Jul/2025 17:45:15] "GET /api/history HTTP/1.1" 200 -
+2025-07-31 17:45:15,913 - __main__ - ERROR - Neo4j query error: {code: Neo.ClientError.Statement.TypeError} {message: Invalid input for function 'toString()': Expected a String, Float, Integer, Boolean, Temporal or Duration, got: StringArray[HDMI, DisplayPort]}
+2025-07-31 17:45:15,914 - __main__ - ERROR - Failed to execute query: MATCH (n) 
+        WITH labels(n)[0] AS node_type, keys(n) AS props, n
+        UNWIND props AS prop_name
+        WITH node_type, prop_name, n[prop_name] AS prop_value
+        WHERE prop_value IS NOT NULL
+        WITH node_type, prop_name, collect(DISTINCT toString(prop_value))[0..3] AS sample_values, count(*) AS total_count
+        RETURN node_type, prop_name, sample_values, total_count
+        ORDER BY node_type, prop_name
+2025-07-31 17:45:15,917 - __main__ - ERROR - Error: {code: Neo.ClientError.Statement.TypeError} {message: Invalid input for function 'toString()': Expected a String, Float, Integer, Boolean, Temporal or Duration, got: StringArray[HDMI, DisplayPort]}
+2025-07-31 17:45:15,918 - __main__ - INFO - COMPREHENSIVE schema detection completed: 3 node types, 2 relationship types, 2 connection patterns
+2025-07-31 17:45:15,919 - werkzeug - INFO - 127.0.0.1 - - [31/Jul/2025 17:45:15] "GET /api/health HTTP/1.1" 200 -
+2025-07-31 17:45:15,935 - __main__ - INFO - Detecting COMPREHENSIVE live schema from Neo4j...
+2025-07-31 17:45:15,962 - __main__ - ERROR - Neo4j query error: {code: Neo.ClientError.Statement.TypeError} {message: Invalid input for function 'toString()': Expected a String, Float, Integer, Boolean, Temporal or Duration, got: StringArray[HDMI, DisplayPort]}
+2025-07-31 17:45:15,963 - __main__ - ERROR - Failed to execute query: MATCH (n) 
+        WITH labels(n)[0] AS node_type, keys(n) AS props, n
+        UNWIND props AS prop_name
+        WITH node_type, prop_name, n[prop_name] AS prop_value
+        WHERE prop_value IS NOT NULL
+        WITH node_type, prop_name, collect(DISTINCT toString(prop_value))[0..3] AS sample_values, count(*) AS total_count
+        RETURN node_type, prop_name, sample_values, total_count
+        ORDER BY node_type, prop_name
+2025-07-31 17:45:15,963 - __main__ - ERROR - Error: {code: Neo.ClientError.Statement.TypeError} {message: Invalid input for function 'toString()': Expected a String, Float, Integer, Boolean, Temporal or Duration, got: StringArray[HDMI, DisplayPort]}
+2025-07-31 17:45:15,964 - __main__ - INFO - COMPREHENSIVE schema detection completed: 3 node types, 2 relationship types, 2 connection patterns
+2025-07-31 17:45:15,966 - werkzeug - INFO - 127.0.0.1 - - [31/Jul/2025 17:45:15] "GET /api/health HTTP/1.1" 200 -
+2025-07-31 17:45:17,223 - __main__ - INFO - Received question: Veritabanındaki tüm node türleri nelerdir?
+2025-07-31 17:45:17,224 - __main__ - INFO - Generating Cypher for question: Veritabanındaki tüm node türleri nelerdir?
+2025-07-31 17:45:17,232 - __main__ - INFO - Using cached Cypher query
+2025-07-31 17:45:17,233 - __main__ - INFO - Generated Cypher: MATCH (n) RETURN DISTINCT labels(n)
+2025-07-31 17:45:17,238 - __main__ - INFO - Query results: 3 rows
+2025-07-31 17:45:17,239 - __main__ - INFO - Generating answer for question: Veritabanındaki tüm node türleri nelerdir?
+2025-07-31 17:45:17,252 - __main__ - INFO - Using cached answer
+2025-07-31 17:45:17,263 - werkzeug - INFO - 127.0.0.1 - - [31/Jul/2025 17:45:17] "POST /api/ask HTTP/1.1" 200 -
+2025-07-31 17:45:18,822 - werkzeug - INFO - 127.0.0.1 - - [31/Jul/2025 17:45:18] "GET / HTTP/1.1" 200 -
+2025-07-31 17:45:18,852 - __main__ - INFO - Detecting COMPREHENSIVE live schema from Neo4j...
+2025-07-31 17:45:18,860 - werkzeug - INFO - 127.0.0.1 - - [31/Jul/2025 17:45:18] "GET /api/history HTTP/1.1" 200 -
+2025-07-31 17:45:18,897 - __main__ - ERROR - Neo4j query error: {code: Neo.ClientError.Statement.TypeError} {message: Invalid input for function 'toString()': Expected a String, Float, Integer, Boolean, Temporal or Duration, got: StringArray[HDMI, DisplayPort]}
+2025-07-31 17:45:18,902 - __main__ - ERROR - Failed to execute query: MATCH (n) 
+        WITH labels(n)[0] AS node_type, keys(n) AS props, n
+        UNWIND props AS prop_name
+        WITH node_type, prop_name, n[prop_name] AS prop_value
+        WHERE prop_value IS NOT NULL
+        WITH node_type, prop_name, collect(DISTINCT toString(prop_value))[0..3] AS sample_values, count(*) AS total_count
+        RETURN node_type, prop_name, sample_values, total_count
+        ORDER BY node_type, prop_name
+2025-07-31 17:45:18,907 - __main__ - ERROR - Error: {code: Neo.ClientError.Statement.TypeError} {message: Invalid input for function 'toString()': Expected a String, Float, Integer, Boolean, Temporal or Duration, got: StringArray[HDMI, DisplayPort]}
+2025-07-31 17:45:18,908 - __main__ - INFO - COMPREHENSIVE schema detection completed: 3 node types, 2 relationship types, 2 connection patterns
+2025-07-31 17:45:18,909 - werkzeug - INFO - 127.0.0.1 - - [31/Jul/2025 17:45:18] "GET /api/health HTTP/1.1" 200 -
+2025-07-31 17:45:18,925 - __main__ - INFO - Detecting COMPREHENSIVE live schema from Neo4j...
+2025-07-31 17:45:18,957 - __main__ - ERROR - Neo4j query error: {code: Neo.ClientError.Statement.TypeError} {message: Invalid input for function 'toString()': Expected a String, Float, Integer, Boolean, Temporal or Duration, got: StringArray[HDMI, DisplayPort]}
+2025-07-31 17:45:18,957 - __main__ - ERROR - Failed to execute query: MATCH (n) 
+        WITH labels(n)[0] AS node_type, keys(n) AS props, n
+        UNWIND props AS prop_name
+        WITH node_type, prop_name, n[prop_name] AS prop_value
+        WHERE prop_value IS NOT NULL
+        WITH node_type, prop_name, collect(DISTINCT toString(prop_value))[0..3] AS sample_values, count(*) AS total_count
+        RETURN node_type, prop_name, sample_values, total_count
+        ORDER BY node_type, prop_name
+2025-07-31 17:45:18,958 - __main__ - ERROR - Error: {code: Neo.ClientError.Statement.TypeError} {message: Invalid input for function 'toString()': Expected a String, Float, Integer, Boolean, Temporal or Duration, got: StringArray[HDMI, DisplayPort]}
+2025-07-31 17:45:18,959 - __main__ - INFO - COMPREHENSIVE schema detection completed: 3 node types, 2 relationship types, 2 connection patterns
+2025-07-31 17:45:18,959 - werkzeug - INFO - 127.0.0.1 - - [31/Jul/2025 17:45:18] "GET /api/health HTTP/1.1" 200 -
+2025-07-31 17:45:24,853 - __main__ - INFO - Received question: ürünleri listele
+2025-07-31 17:45:24,853 - __main__ - INFO - Generating Cypher for question: ürünleri listele
+2025-07-31 17:45:24,864 - __main__ - INFO - Detecting COMPREHENSIVE live schema from Neo4j...
+2025-07-31 17:45:24,889 - __main__ - ERROR - Neo4j query error: {code: Neo.ClientError.Statement.TypeError} {message: Invalid input for function 'toString()': Expected a String, Float, Integer, Boolean, Temporal or Duration, got: StringArray[HDMI, DisplayPort]}
+2025-07-31 17:45:24,889 - __main__ - ERROR - Failed to execute query: MATCH (n) 
+        WITH labels(n)[0] AS node_type, keys(n) AS props, n
+        UNWIND props AS prop_name
+        WITH node_type, prop_name, n[prop_name] AS prop_value
+        WHERE prop_value IS NOT NULL
+        WITH node_type, prop_name, collect(DISTINCT toString(prop_value))[0..3] AS sample_values, count(*) AS total_count
+        RETURN node_type, prop_name, sample_values, total_count
+        ORDER BY node_type, prop_name
+2025-07-31 17:45:24,890 - __main__ - ERROR - Error: {code: Neo.ClientError.Statement.TypeError} {message: Invalid input for function 'toString()': Expected a String, Float, Integer, Boolean, Temporal or Duration, got: StringArray[HDMI, DisplayPort]}
+2025-07-31 17:45:24,890 - __main__ - INFO - COMPREHENSIVE schema detection completed: 3 node types, 2 relationship types, 2 connection patterns
+2025-07-31 17:45:24,891 - graphrag_pipeline - INFO - Starting GraphRAG pipeline for: ürünleri listele
+2025-07-31 17:45:24,902 - graphrag_pipeline - INFO - Extracted entities: []
+2025-07-31 17:45:25,275 - embeddings - ERROR - Semantic search failed: {code: Neo.ClientError.Statement.SyntaxError} {message: Unknown function 'gds.similarity.cosine' (line 4, column 17 (offset: 73))
+"        WITH n, gds.similarity.cosine(n.embedding, $query_embedding) AS similarity"
+                 ^}
+2025-07-31 17:45:25,318 - graphrag_pipeline - INFO - GraphRAG pipeline completed with score: 0.00
+2025-07-31 17:45:25,318 - __main__ - INFO - Using GraphRAG enhanced prompt. Context score: 0.00
+2025-07-31 17:45:26,798 - __main__ - INFO - Gemini API call successful
+2025-07-31 17:45:26,878 - __main__ - INFO - Generated Cypher with GraphRAG: MATCH (p:Product) RETURN p
+2025-07-31 17:45:26,879 - __main__ - INFO - Generated Cypher: MATCH (p:Product) RETURN p
+2025-07-31 17:45:26,916 - __main__ - INFO - Query results: 20 rows
+2025-07-31 17:45:26,916 - __main__ - INFO - Generating answer for question: ürünleri listele
+2025-07-31 17:45:49,635 - __main__ - INFO - Detecting COMPREHENSIVE live schema from Neo4j...
+2025-07-31 17:45:49,653 - __main__ - ERROR - Neo4j query error: {code: Neo.ClientError.Statement.TypeError} {message: Invalid input for function 'toString()': Expected a String, Float, Integer, Boolean, Temporal or Duration, got: StringArray[HDMI, DisplayPort]}
+2025-07-31 17:45:49,653 - __main__ - ERROR - Failed to execute query: MATCH (n) 
+        WITH labels(n)[0] AS node_type, keys(n) AS props, n
+        UNWIND props AS prop_name
+        WITH node_type, prop_name, n[prop_name] AS prop_value
+        WHERE prop_value IS NOT NULL
+        WITH node_type, prop_name, collect(DISTINCT toString(prop_value))[0..3] AS sample_values, count(*) AS total_count
+        RETURN node_type, prop_name, sample_values, total_count
+        ORDER BY node_type, prop_name
+2025-07-31 17:45:49,654 - __main__ - ERROR - Error: {code: Neo.ClientError.Statement.TypeError} {message: Invalid input for function 'toString()': Expected a String, Float, Integer, Boolean, Temporal or Duration, got: StringArray[HDMI, DisplayPort]}
+2025-07-31 17:45:49,654 - __main__ - INFO - COMPREHENSIVE schema detection completed: 3 node types, 2 relationship types, 2 connection patterns
+2025-07-31 17:45:49,655 - werkzeug - INFO - 127.0.0.1 - - [31/Jul/2025 17:45:49] "GET /api/health HTTP/1.1" 200 -
+2025-07-31 17:46:18,861 - __main__ - INFO - Detecting COMPREHENSIVE live schema from Neo4j...
+2025-07-31 17:46:18,897 - __main__ - ERROR - Neo4j query error: {code: Neo.ClientError.Statement.TypeError} {message: Invalid input for function 'toString()': Expected a String, Float, Integer, Boolean, Temporal or Duration, got: StringArray[HDMI, DisplayPort]}
+2025-07-31 17:46:18,898 - __main__ - ERROR - Failed to execute query: MATCH (n) 
+        WITH labels(n)[0] AS node_type, keys(n) AS props, n
+        UNWIND props AS prop_name
+        WITH node_type, prop_name, n[prop_name] AS prop_value
+        WHERE prop_value IS NOT NULL
+        WITH node_type, prop_name, collect(DISTINCT toString(prop_value))[0..3] AS sample_values, count(*) AS total_count
+        RETURN node_type, prop_name, sample_values, total_count
+        ORDER BY node_type, prop_name
+2025-07-31 17:46:18,899 - __main__ - ERROR - Error: {code: Neo.ClientError.Statement.TypeError} {message: Invalid input for function 'toString()': Expected a String, Float, Integer, Boolean, Temporal or Duration, got: StringArray[HDMI, DisplayPort]}
+2025-07-31 17:46:18,899 - __main__ - INFO - COMPREHENSIVE schema detection completed: 3 node types, 2 relationship types, 2 connection patterns
+2025-07-31 17:46:18,900 - werkzeug - INFO - 127.0.0.1 - - [31/Jul/2025 17:46:18] "GET /api/health HTTP/1.1" 200 -
+2025-07-31 17:46:24,738 - __main__ - INFO - Gemini API call successful
+2025-07-31 17:46:24,805 - __main__ - INFO - Successfully generated answer with Gemini
+2025-07-31 17:46:24,814 - werkzeug - INFO - 127.0.0.1 - - [31/Jul/2025 17:46:24] "POST /api/ask HTTP/1.1" 200 -
+2025-07-31 17:46:49,605 - __main__ - INFO - Detecting COMPREHENSIVE live schema from Neo4j...
+2025-07-31 17:46:49,630 - __main__ - ERROR - Neo4j query error: {code: Neo.ClientError.Statement.TypeError} {message: Invalid input for function 'toString()': Expected a String, Float, Integer, Boolean, Temporal or Duration, got: StringArray[HDMI, DisplayPort]}
+2025-07-31 17:46:49,631 - __main__ - ERROR - Failed to execute query: MATCH (n) 
+        WITH labels(n)[0] AS node_type, keys(n) AS props, n
+        UNWIND props AS prop_name
+        WITH node_type, prop_name, n[prop_name] AS prop_value
+        WHERE prop_value IS NOT NULL
+        WITH node_type, prop_name, collect(DISTINCT toString(prop_value))[0..3] AS sample_values, count(*) AS total_count
+        RETURN node_type, prop_name, sample_values, total_count
+        ORDER BY node_type, prop_name
+2025-07-31 17:46:49,632 - __main__ - ERROR - Error: {code: Neo.ClientError.Statement.TypeError} {message: Invalid input for function 'toString()': Expected a String, Float, Integer, Boolean, Temporal or Duration, got: StringArray[HDMI, DisplayPort]}
+2025-07-31 17:46:49,633 - __main__ - INFO - COMPREHENSIVE schema detection completed: 3 node types, 2 relationship types, 2 connection patterns
+2025-07-31 17:46:49,634 - werkzeug - INFO - 127.0.0.1 - - [31/Jul/2025 17:46:49] "GET /api/health HTTP/1.1" 200 -
+2025-07-31 17:47:19,609 - __main__ - INFO - Detecting COMPREHENSIVE live schema from Neo4j...
+2025-07-31 17:47:19,626 - __main__ - ERROR - Neo4j query error: {code: Neo.ClientError.Statement.TypeError} {message: Invalid input for function 'toString()': Expected a String, Float, Integer, Boolean, Temporal or Duration, got: StringArray[HDMI, DisplayPort]}
+2025-07-31 17:47:19,626 - __main__ - ERROR - Failed to execute query: MATCH (n) 
+        WITH labels(n)[0] AS node_type, keys(n) AS props, n
+        UNWIND props AS prop_name
+        WITH node_type, prop_name, n[prop_name] AS prop_value
+        WHERE prop_value IS NOT NULL
+        WITH node_type, prop_name, collect(DISTINCT toString(prop_value))[0..3] AS sample_values, count(*) AS total_count
+        RETURN node_type, prop_name, sample_values, total_count
+        ORDER BY node_type, prop_name
+2025-07-31 17:47:19,627 - __main__ - ERROR - Error: {code: Neo.ClientError.Statement.TypeError} {message: Invalid input for function 'toString()': Expected a String, Float, Integer, Boolean, Temporal or Duration, got: StringArray[HDMI, DisplayPort]}
+2025-07-31 17:47:19,627 - __main__ - INFO - COMPREHENSIVE schema detection completed: 3 node types, 2 relationship types, 2 connection patterns
+2025-07-31 17:47:19,628 - werkzeug - INFO - 127.0.0.1 - - [31/Jul/2025 17:47:19] "GET /api/health HTTP/1.1" 200 -
+2025-07-31 17:47:49,601 - __main__ - INFO - Detecting COMPREHENSIVE live schema from Neo4j...
+2025-07-31 17:47:49,618 - __main__ - ERROR - Neo4j query error: {code: Neo.ClientError.Statement.TypeError} {message: Invalid input for function 'toString()': Expected a String, Float, Integer, Boolean, Temporal or Duration, got: StringArray[HDMI, DisplayPort]}
+2025-07-31 17:47:49,619 - __main__ - ERROR - Failed to execute query: MATCH (n) 
+        WITH labels(n)[0] AS node_type, keys(n) AS props, n
+        UNWIND props AS prop_name
+        WITH node_type, prop_name, n[prop_name] AS prop_value
+        WHERE prop_value IS NOT NULL
+        WITH node_type, prop_name, collect(DISTINCT toString(prop_value))[0..3] AS sample_values, count(*) AS total_count
+        RETURN node_type, prop_name, sample_values, total_count
+        ORDER BY node_type, prop_name
+2025-07-31 17:47:49,619 - __main__ - ERROR - Error: {code: Neo.ClientError.Statement.TypeError} {message: Invalid input for function 'toString()': Expected a String, Float, Integer, Boolean, Temporal or Duration, got: StringArray[HDMI, DisplayPort]}
+2025-07-31 17:47:49,620 - __main__ - INFO - COMPREHENSIVE schema detection completed: 3 node types, 2 relationship types, 2 connection patterns
+2025-07-31 17:47:49,620 - werkzeug - INFO - 127.0.0.1 - - [31/Jul/2025 17:47:49] "GET /api/health HTTP/1.1" 200 -
+2025-07-31 17:48:19,605 - __main__ - INFO - Detecting COMPREHENSIVE live schema from Neo4j...
+2025-07-31 17:48:19,622 - __main__ - ERROR - Neo4j query error: {code: Neo.ClientError.Statement.TypeError} {message: Invalid input for function 'toString()': Expected a String, Float, Integer, Boolean, Temporal or Duration, got: StringArray[HDMI, DisplayPort]}
+2025-07-31 17:48:19,622 - __main__ - ERROR - Failed to execute query: MATCH (n) 
+        WITH labels(n)[0] AS node_type, keys(n) AS props, n
+        UNWIND props AS prop_name
+        WITH node_type, prop_name, n[prop_name] AS prop_value
+        WHERE prop_value IS NOT NULL
+        WITH node_type, prop_name, collect(DISTINCT toString(prop_value))[0..3] AS sample_values, count(*) AS total_count
+        RETURN node_type, prop_name, sample_values, total_count
+        ORDER BY node_type, prop_name
+2025-07-31 17:48:19,623 - __main__ - ERROR - Error: {code: Neo.ClientError.Statement.TypeError} {message: Invalid input for function 'toString()': Expected a String, Float, Integer, Boolean, Temporal or Duration, got: StringArray[HDMI, DisplayPort]}
+2025-07-31 17:48:19,623 - __main__ - INFO - COMPREHENSIVE schema detection completed: 3 node types, 2 relationship types, 2 connection patterns
+2025-07-31 17:48:19,624 - werkzeug - INFO - 127.0.0.1 - - [31/Jul/2025 17:48:19] "GET /api/health HTTP/1.1" 200 -
+2025-07-31 17:48:49,609 - __main__ - INFO - Detecting COMPREHENSIVE live schema from Neo4j...
+2025-07-31 17:48:49,625 - __main__ - ERROR - Neo4j query error: {code: Neo.ClientError.Statement.TypeError} {message: Invalid input for function 'toString()': Expected a String, Float, Integer, Boolean, Temporal or Duration, got: StringArray[HDMI, DisplayPort]}
+2025-07-31 17:48:49,626 - __main__ - ERROR - Failed to execute query: MATCH (n) 
+        WITH labels(n)[0] AS node_type, keys(n) AS props, n
+        UNWIND props AS prop_name
+        WITH node_type, prop_name, n[prop_name] AS prop_value
+        WHERE prop_value IS NOT NULL
+        WITH node_type, prop_name, collect(DISTINCT toString(prop_value))[0..3] AS sample_values, count(*) AS total_count
+        RETURN node_type, prop_name, sample_values, total_count
+        ORDER BY node_type, prop_name
+2025-07-31 17:48:49,627 - __main__ - ERROR - Error: {code: Neo.ClientError.Statement.TypeError} {message: Invalid input for function 'toString()': Expected a String, Float, Integer, Boolean, Temporal or Duration, got: StringArray[HDMI, DisplayPort]}
+2025-07-31 17:48:49,627 - __main__ - INFO - COMPREHENSIVE schema detection completed: 3 node types, 2 relationship types, 2 connection patterns
+2025-07-31 17:48:49,628 - werkzeug - INFO - 127.0.0.1 - - [31/Jul/2025 17:48:49] "GET /api/health HTTP/1.1" 200 -
+2025-07-31 17:49:37,604 - __main__ - INFO - Detecting COMPREHENSIVE live schema from Neo4j...
+2025-07-31 17:49:37,620 - __main__ - ERROR - Neo4j query error: {code: Neo.ClientError.Statement.TypeError} {message: Invalid input for function 'toString()': Expected a String, Float, Integer, Boolean, Temporal or Duration, got: StringArray[HDMI, DisplayPort]}
+2025-07-31 17:49:37,621 - __main__ - ERROR - Failed to execute query: MATCH (n) 
+        WITH labels(n)[0] AS node_type, keys(n) AS props, n
+        UNWIND props AS prop_name
+        WITH node_type, prop_name, n[prop_name] AS prop_value
+        WHERE prop_value IS NOT NULL
+        WITH node_type, prop_name, collect(DISTINCT toString(prop_value))[0..3] AS sample_values, count(*) AS total_count
+        RETURN node_type, prop_name, sample_values, total_count
+        ORDER BY node_type, prop_name
+2025-07-31 17:49:37,621 - __main__ - ERROR - Error: {code: Neo.ClientError.Statement.TypeError} {message: Invalid input for function 'toString()': Expected a String, Float, Integer, Boolean, Temporal or Duration, got: StringArray[HDMI, DisplayPort]}
+2025-07-31 17:49:37,622 - __main__ - INFO - COMPREHENSIVE schema detection completed: 3 node types, 2 relationship types, 2 connection patterns
+2025-07-31 17:49:37,622 - werkzeug - INFO - 127.0.0.1 - - [31/Jul/2025 17:49:37] "GET /api/health HTTP/1.1" 200 -
+2025-07-31 17:50:37,598 - __main__ - INFO - Detecting COMPREHENSIVE live schema from Neo4j...
+2025-07-31 17:50:37,618 - __main__ - ERROR - Neo4j query error: {code: Neo.ClientError.Statement.TypeError} {message: Invalid input for function 'toString()': Expected a String, Float, Integer, Boolean, Temporal or Duration, got: StringArray[HDMI, DisplayPort]}
+2025-07-31 17:50:37,618 - __main__ - ERROR - Failed to execute query: MATCH (n) 
+        WITH labels(n)[0] AS node_type, keys(n) AS props, n
+        UNWIND props AS prop_name
+        WITH node_type, prop_name, n[prop_name] AS prop_value
+        WHERE prop_value IS NOT NULL
+        WITH node_type, prop_name, collect(DISTINCT toString(prop_value))[0..3] AS sample_values, count(*) AS total_count
+        RETURN node_type, prop_name, sample_values, total_count
+        ORDER BY node_type, prop_name
+2025-07-31 17:50:37,619 - __main__ - ERROR - Error: {code: Neo.ClientError.Statement.TypeError} {message: Invalid input for function 'toString()': Expected a String, Float, Integer, Boolean, Temporal or Duration, got: StringArray[HDMI, DisplayPort]}
+2025-07-31 17:50:37,619 - __main__ - INFO - COMPREHENSIVE schema detection completed: 3 node types, 2 relationship types, 2 connection patterns
+2025-07-31 17:50:37,620 - werkzeug - INFO - 127.0.0.1 - - [31/Jul/2025 17:50:37] "GET /api/health HTTP/1.1" 200 -
+2025-07-31 17:51:01,589 - __main__ - INFO - Detecting COMPREHENSIVE live schema from Neo4j...
+2025-07-31 17:51:01,629 - __main__ - ERROR - Neo4j query error: {code: Neo.ClientError.Statement.TypeError} {message: Invalid input for function 'toString()': Expected a String, Float, Integer, Boolean, Temporal or Duration, got: StringArray[HDMI, DisplayPort]}
+2025-07-31 17:51:01,630 - __main__ - ERROR - Failed to execute query: MATCH (n) 
+        WITH labels(n)[0] AS node_type, keys(n) AS props, n
+        UNWIND props AS prop_name
+        WITH node_type, prop_name, n[prop_name] AS prop_value
+        WHERE prop_value IS NOT NULL
+        WITH node_type, prop_name, collect(DISTINCT toString(prop_value))[0..3] AS sample_values, count(*) AS total_count
+        RETURN node_type, prop_name, sample_values, total_count
+        ORDER BY node_type, prop_name
+2025-07-31 17:51:01,632 - __main__ - ERROR - Error: {code: Neo.ClientError.Statement.TypeError} {message: Invalid input for function 'toString()': Expected a String, Float, Integer, Boolean, Temporal or Duration, got: StringArray[HDMI, DisplayPort]}
+2025-07-31 17:51:01,634 - __main__ - INFO - COMPREHENSIVE schema detection completed: 3 node types, 2 relationship types, 2 connection patterns
+2025-07-31 17:51:01,634 - werkzeug - INFO - 127.0.0.1 - - [31/Jul/2025 17:51:01] "GET /api/health HTTP/1.1" 200 -
+2025-07-31 17:51:18,856 - __main__ - INFO - Detecting COMPREHENSIVE live schema from Neo4j...
+2025-07-31 17:51:18,872 - __main__ - ERROR - Neo4j query error: {code: Neo.ClientError.Statement.TypeError} {message: Invalid input for function 'toString()': Expected a String, Float, Integer, Boolean, Temporal or Duration, got: StringArray[HDMI, DisplayPort]}
+2025-07-31 17:51:18,872 - __main__ - ERROR - Failed to execute query: MATCH (n) 
+        WITH labels(n)[0] AS node_type, keys(n) AS props, n
+        UNWIND props AS prop_name
+        WITH node_type, prop_name, n[prop_name] AS prop_value
+        WHERE prop_value IS NOT NULL
+        WITH node_type, prop_name, collect(DISTINCT toString(prop_value))[0..3] AS sample_values, count(*) AS total_count
+        RETURN node_type, prop_name, sample_values, total_count
+        ORDER BY node_type, prop_name
+2025-07-31 17:51:18,873 - __main__ - ERROR - Error: {code: Neo.ClientError.Statement.TypeError} {message: Invalid input for function 'toString()': Expected a String, Float, Integer, Boolean, Temporal or Duration, got: StringArray[HDMI, DisplayPort]}
+2025-07-31 17:51:18,873 - __main__ - INFO - COMPREHENSIVE schema detection completed: 3 node types, 2 relationship types, 2 connection patterns
+2025-07-31 17:51:18,874 - werkzeug - INFO - 127.0.0.1 - - [31/Jul/2025 17:51:18] "GET /api/health HTTP/1.1" 200 -
+2025-07-31 17:51:49,612 - __main__ - INFO - Detecting COMPREHENSIVE live schema from Neo4j...
+2025-07-31 17:51:49,631 - __main__ - ERROR - Neo4j query error: {code: Neo.ClientError.Statement.TypeError} {message: Invalid input for function 'toString()': Expected a String, Float, Integer, Boolean, Temporal or Duration, got: StringArray[HDMI, DisplayPort]}
+2025-07-31 17:51:49,632 - __main__ - ERROR - Failed to execute query: MATCH (n) 
+        WITH labels(n)[0] AS node_type, keys(n) AS props, n
+        UNWIND props AS prop_name
+        WITH node_type, prop_name, n[prop_name] AS prop_value
+        WHERE prop_value IS NOT NULL
+        WITH node_type, prop_name, collect(DISTINCT toString(prop_value))[0..3] AS sample_values, count(*) AS total_count
+        RETURN node_type, prop_name, sample_values, total_count
+        ORDER BY node_type, prop_name
+2025-07-31 17:51:49,632 - __main__ - ERROR - Error: {code: Neo.ClientError.Statement.TypeError} {message: Invalid input for function 'toString()': Expected a String, Float, Integer, Boolean, Temporal or Duration, got: StringArray[HDMI, DisplayPort]}
+2025-07-31 17:51:49,633 - __main__ - INFO - COMPREHENSIVE schema detection completed: 3 node types, 2 relationship types, 2 connection patterns
+2025-07-31 17:51:49,634 - werkzeug - INFO - 127.0.0.1 - - [31/Jul/2025 17:51:49] "GET /api/health HTTP/1.1" 200 -
+2025-07-31 17:52:19,607 - __main__ - INFO - Detecting COMPREHENSIVE live schema from Neo4j...
+2025-07-31 17:52:19,623 - __main__ - ERROR - Neo4j query error: {code: Neo.ClientError.Statement.TypeError} {message: Invalid input for function 'toString()': Expected a String, Float, Integer, Boolean, Temporal or Duration, got: StringArray[HDMI, DisplayPort]}
+2025-07-31 17:52:19,623 - __main__ - ERROR - Failed to execute query: MATCH (n) 
+        WITH labels(n)[0] AS node_type, keys(n) AS props, n
+        UNWIND props AS prop_name
+        WITH node_type, prop_name, n[prop_name] AS prop_value
+        WHERE prop_value IS NOT NULL
+        WITH node_type, prop_name, collect(DISTINCT toString(prop_value))[0..3] AS sample_values, count(*) AS total_count
+        RETURN node_type, prop_name, sample_values, total_count
+        ORDER BY node_type, prop_name
+2025-07-31 17:52:19,624 - __main__ - ERROR - Error: {code: Neo.ClientError.Statement.TypeError} {message: Invalid input for function 'toString()': Expected a String, Float, Integer, Boolean, Temporal or Duration, got: StringArray[HDMI, DisplayPort]}
+2025-07-31 17:52:19,624 - __main__ - INFO - COMPREHENSIVE schema detection completed: 3 node types, 2 relationship types, 2 connection patterns
+2025-07-31 17:52:19,625 - werkzeug - INFO - 127.0.0.1 - - [31/Jul/2025 17:52:19] "GET /api/health HTTP/1.1" 200 -
+2025-07-31 17:53:20,601 - __main__ - INFO - Detecting COMPREHENSIVE live schema from Neo4j...
+2025-07-31 17:53:20,618 - __main__ - ERROR - Neo4j query error: {code: Neo.ClientError.Statement.TypeError} {message: Invalid input for function 'toString()': Expected a String, Float, Integer, Boolean, Temporal or Duration, got: StringArray[HDMI, DisplayPort]}
+2025-07-31 17:53:20,618 - __main__ - ERROR - Failed to execute query: MATCH (n) 
+        WITH labels(n)[0] AS node_type, keys(n) AS props, n
+        UNWIND props AS prop_name
+        WITH node_type, prop_name, n[prop_name] AS prop_value
+        WHERE prop_value IS NOT NULL
+        WITH node_type, prop_name, collect(DISTINCT toString(prop_value))[0..3] AS sample_values, count(*) AS total_count
+        RETURN node_type, prop_name, sample_values, total_count
+        ORDER BY node_type, prop_name
+2025-07-31 17:53:20,619 - __main__ - ERROR - Error: {code: Neo.ClientError.Statement.TypeError} {message: Invalid input for function 'toString()': Expected a String, Float, Integer, Boolean, Temporal or Duration, got: StringArray[HDMI, DisplayPort]}
+2025-07-31 17:53:20,619 - __main__ - INFO - COMPREHENSIVE schema detection completed: 3 node types, 2 relationship types, 2 connection patterns
+2025-07-31 17:53:20,619 - werkzeug - INFO - 127.0.0.1 - - [31/Jul/2025 17:53:20] "GET /api/health HTTP/1.1" 200 -
+2025-07-31 17:53:48,868 - __main__ - INFO - Detecting COMPREHENSIVE live schema from Neo4j...
+2025-07-31 17:53:48,886 - __main__ - ERROR - Neo4j query error: {code: Neo.ClientError.Statement.TypeError} {message: Invalid input for function 'toString()': Expected a String, Float, Integer, Boolean, Temporal or Duration, got: StringArray[HDMI, DisplayPort]}
+2025-07-31 17:53:48,886 - __main__ - ERROR - Failed to execute query: MATCH (n) 
+        WITH labels(n)[0] AS node_type, keys(n) AS props, n
+        UNWIND props AS prop_name
+        WITH node_type, prop_name, n[prop_name] AS prop_value
+        WHERE prop_value IS NOT NULL
+        WITH node_type, prop_name, collect(DISTINCT toString(prop_value))[0..3] AS sample_values, count(*) AS total_count
+        RETURN node_type, prop_name, sample_values, total_count
+        ORDER BY node_type, prop_name
+2025-07-31 17:53:48,888 - __main__ - ERROR - Error: {code: Neo.ClientError.Statement.TypeError} {message: Invalid input for function 'toString()': Expected a String, Float, Integer, Boolean, Temporal or Duration, got: StringArray[HDMI, DisplayPort]}
+2025-07-31 17:53:48,888 - __main__ - INFO - COMPREHENSIVE schema detection completed: 3 node types, 2 relationship types, 2 connection patterns
+2025-07-31 17:53:48,889 - werkzeug - INFO - 127.0.0.1 - - [31/Jul/2025 17:53:48] "GET /api/health HTTP/1.1" 200 -
+2025-07-31 17:54:19,608 - __main__ - INFO - Detecting COMPREHENSIVE live schema from Neo4j...
+2025-07-31 17:54:19,637 - __main__ - ERROR - Neo4j query error: {code: Neo.ClientError.Statement.TypeError} {message: Invalid input for function 'toString()': Expected a String, Float, Integer, Boolean, Temporal or Duration, got: StringArray[HDMI, DisplayPort]}
+2025-07-31 17:54:19,638 - __main__ - ERROR - Failed to execute query: MATCH (n) 
+        WITH labels(n)[0] AS node_type, keys(n) AS props, n
+        UNWIND props AS prop_name
+        WITH node_type, prop_name, n[prop_name] AS prop_value
+        WHERE prop_value IS NOT NULL
+        WITH node_type, prop_name, collect(DISTINCT toString(prop_value))[0..3] AS sample_values, count(*) AS total_count
+        RETURN node_type, prop_name, sample_values, total_count
+        ORDER BY node_type, prop_name
+2025-07-31 17:54:19,640 - __main__ - ERROR - Error: {code: Neo.ClientError.Statement.TypeError} {message: Invalid input for function 'toString()': Expected a String, Float, Integer, Boolean, Temporal or Duration, got: StringArray[HDMI, DisplayPort]}
+2025-07-31 17:54:19,640 - __main__ - INFO - COMPREHENSIVE schema detection completed: 3 node types, 2 relationship types, 2 connection patterns
+2025-07-31 17:54:19,641 - werkzeug - INFO - 127.0.0.1 - - [31/Jul/2025 17:54:19] "GET /api/health HTTP/1.1" 200 -
+2025-07-31 17:54:49,604 - __main__ - INFO - Detecting COMPREHENSIVE live schema from Neo4j...
+2025-07-31 17:54:49,621 - __main__ - ERROR - Neo4j query error: {code: Neo.ClientError.Statement.TypeError} {message: Invalid input for function 'toString()': Expected a String, Float, Integer, Boolean, Temporal or Duration, got: StringArray[HDMI, DisplayPort]}
+2025-07-31 17:54:49,622 - __main__ - ERROR - Failed to execute query: MATCH (n) 
+        WITH labels(n)[0] AS node_type, keys(n) AS props, n
+        UNWIND props AS prop_name
+        WITH node_type, prop_name, n[prop_name] AS prop_value
+        WHERE prop_value IS NOT NULL
+        WITH node_type, prop_name, collect(DISTINCT toString(prop_value))[0..3] AS sample_values, count(*) AS total_count
+        RETURN node_type, prop_name, sample_values, total_count
+        ORDER BY node_type, prop_name
+2025-07-31 17:54:49,623 - __main__ - ERROR - Error: {code: Neo.ClientError.Statement.TypeError} {message: Invalid input for function 'toString()': Expected a String, Float, Integer, Boolean, Temporal or Duration, got: StringArray[HDMI, DisplayPort]}
+2025-07-31 17:54:49,624 - __main__ - INFO - COMPREHENSIVE schema detection completed: 3 node types, 2 relationship types, 2 connection patterns
+2025-07-31 17:54:49,625 - werkzeug - INFO - 127.0.0.1 - - [31/Jul/2025 17:54:49] "GET /api/health HTTP/1.1" 200 -
+2025-07-31 17:55:19,606 - __main__ - INFO - Detecting COMPREHENSIVE live schema from Neo4j...
+2025-07-31 17:55:19,622 - __main__ - ERROR - Neo4j query error: {code: Neo.ClientError.Statement.TypeError} {message: Invalid input for function 'toString()': Expected a String, Float, Integer, Boolean, Temporal or Duration, got: StringArray[HDMI, DisplayPort]}
+2025-07-31 17:55:19,623 - __main__ - ERROR - Failed to execute query: MATCH (n) 
+        WITH labels(n)[0] AS node_type, keys(n) AS props, n
+        UNWIND props AS prop_name
+        WITH node_type, prop_name, n[prop_name] AS prop_value
+        WHERE prop_value IS NOT NULL
+        WITH node_type, prop_name, collect(DISTINCT toString(prop_value))[0..3] AS sample_values, count(*) AS total_count
+        RETURN node_type, prop_name, sample_values, total_count
+        ORDER BY node_type, prop_name
+2025-07-31 17:55:19,623 - __main__ - ERROR - Error: {code: Neo.ClientError.Statement.TypeError} {message: Invalid input for function 'toString()': Expected a String, Float, Integer, Boolean, Temporal or Duration, got: StringArray[HDMI, DisplayPort]}
+2025-07-31 17:55:19,624 - __main__ - INFO - COMPREHENSIVE schema detection completed: 3 node types, 2 relationship types, 2 connection patterns
+2025-07-31 17:55:19,624 - werkzeug - INFO - 127.0.0.1 - - [31/Jul/2025 17:55:19] "GET /api/health HTTP/1.1" 200 -
+2025-07-31 17:55:48,869 - __main__ - INFO - Detecting COMPREHENSIVE live schema from Neo4j...
+2025-07-31 17:55:48,888 - __main__ - ERROR - Neo4j query error: {code: Neo.ClientError.Statement.TypeError} {message: Invalid input for function 'toString()': Expected a String, Float, Integer, Boolean, Temporal or Duration, got: StringArray[HDMI, DisplayPort]}
+2025-07-31 17:55:48,888 - __main__ - ERROR - Failed to execute query: MATCH (n) 
+        WITH labels(n)[0] AS node_type, keys(n) AS props, n
+        UNWIND props AS prop_name
+        WITH node_type, prop_name, n[prop_name] AS prop_value
+        WHERE prop_value IS NOT NULL
+        WITH node_type, prop_name, collect(DISTINCT toString(prop_value))[0..3] AS sample_values, count(*) AS total_count
+        RETURN node_type, prop_name, sample_values, total_count
+        ORDER BY node_type, prop_name
+2025-07-31 17:55:48,889 - __main__ - ERROR - Error: {code: Neo.ClientError.Statement.TypeError} {message: Invalid input for function 'toString()': Expected a String, Float, Integer, Boolean, Temporal or Duration, got: StringArray[HDMI, DisplayPort]}
+2025-07-31 17:55:48,889 - __main__ - INFO - COMPREHENSIVE schema detection completed: 3 node types, 2 relationship types, 2 connection patterns
+2025-07-31 17:55:48,890 - werkzeug - INFO - 127.0.0.1 - - [31/Jul/2025 17:55:48] "GET /api/health HTTP/1.1" 200 -
+2025-07-31 17:56:19,624 - __main__ - INFO - Detecting COMPREHENSIVE live schema from Neo4j...
+2025-07-31 17:56:19,656 - __main__ - ERROR - Neo4j query error: {code: Neo.ClientError.Statement.TypeError} {message: Invalid input for function 'toString()': Expected a String, Float, Integer, Boolean, Temporal or Duration, got: StringArray[HDMI, DisplayPort]}
+2025-07-31 17:56:19,656 - __main__ - ERROR - Failed to execute query: MATCH (n) 
+        WITH labels(n)[0] AS node_type, keys(n) AS props, n
+        UNWIND props AS prop_name
+        WITH node_type, prop_name, n[prop_name] AS prop_value
+        WHERE prop_value IS NOT NULL
+        WITH node_type, prop_name, collect(DISTINCT toString(prop_value))[0..3] AS sample_values, count(*) AS total_count
+        RETURN node_type, prop_name, sample_values, total_count
+        ORDER BY node_type, prop_name
+2025-07-31 17:56:19,657 - __main__ - ERROR - Error: {code: Neo.ClientError.Statement.TypeError} {message: Invalid input for function 'toString()': Expected a String, Float, Integer, Boolean, Temporal or Duration, got: StringArray[HDMI, DisplayPort]}
+2025-07-31 17:56:19,658 - __main__ - INFO - COMPREHENSIVE schema detection completed: 3 node types, 2 relationship types, 2 connection patterns
+2025-07-31 17:56:19,659 - werkzeug - INFO - 127.0.0.1 - - [31/Jul/2025 17:56:19] "GET /api/health HTTP/1.1" 200 -
+2025-07-31 17:56:49,649 - __main__ - INFO - Detecting COMPREHENSIVE live schema from Neo4j...
+2025-07-31 17:56:49,699 - __main__ - ERROR - Neo4j query error: {code: Neo.ClientError.Statement.TypeError} {message: Invalid input for function 'toString()': Expected a String, Float, Integer, Boolean, Temporal or Duration, got: StringArray[HDMI, DisplayPort]}
+2025-07-31 17:56:49,700 - __main__ - ERROR - Failed to execute query: MATCH (n) 
+        WITH labels(n)[0] AS node_type, keys(n) AS props, n
+        UNWIND props AS prop_name
+        WITH node_type, prop_name, n[prop_name] AS prop_value
+        WHERE prop_value IS NOT NULL
+        WITH node_type, prop_name, collect(DISTINCT toString(prop_value))[0..3] AS sample_values, count(*) AS total_count
+        RETURN node_type, prop_name, sample_values, total_count
+        ORDER BY node_type, prop_name
+2025-07-31 17:56:49,701 - __main__ - ERROR - Error: {code: Neo.ClientError.Statement.TypeError} {message: Invalid input for function 'toString()': Expected a String, Float, Integer, Boolean, Temporal or Duration, got: StringArray[HDMI, DisplayPort]}
+2025-07-31 17:56:49,702 - __main__ - INFO - COMPREHENSIVE schema detection completed: 3 node types, 2 relationship types, 2 connection patterns
+2025-07-31 17:56:49,704 - werkzeug - INFO - 127.0.0.1 - - [31/Jul/2025 17:56:49] "GET /api/health HTTP/1.1" 200 -
+2025-07-31 17:57:37,620 - __main__ - INFO - Detecting COMPREHENSIVE live schema from Neo4j...
+2025-07-31 17:57:38,038 - __main__ - ERROR - Neo4j query error: {code: Neo.ClientError.Statement.TypeError} {message: Invalid input for function 'toString()': Expected a String, Float, Integer, Boolean, Temporal or Duration, got: StringArray[HDMI, DisplayPort]}
+2025-07-31 17:57:38,038 - __main__ - ERROR - Failed to execute query: MATCH (n) 
+        WITH labels(n)[0] AS node_type, keys(n) AS props, n
+        UNWIND props AS prop_name
+        WITH node_type, prop_name, n[prop_name] AS prop_value
+        WHERE prop_value IS NOT NULL
+        WITH node_type, prop_name, collect(DISTINCT toString(prop_value))[0..3] AS sample_values, count(*) AS total_count
+        RETURN node_type, prop_name, sample_values, total_count
+        ORDER BY node_type, prop_name
+2025-07-31 17:57:38,040 - __main__ - ERROR - Error: {code: Neo.ClientError.Statement.TypeError} {message: Invalid input for function 'toString()': Expected a String, Float, Integer, Boolean, Temporal or Duration, got: StringArray[HDMI, DisplayPort]}
+2025-07-31 17:57:38,040 - __main__ - INFO - COMPREHENSIVE schema detection completed: 3 node types, 2 relationship types, 2 connection patterns
+2025-07-31 17:57:38,041 - werkzeug - INFO - 127.0.0.1 - - [31/Jul/2025 17:57:38] "GET /api/health HTTP/1.1" 200 -
+2025-07-31 17:58:37,615 - __main__ - INFO - Detecting COMPREHENSIVE live schema from Neo4j...
+2025-07-31 17:58:37,644 - __main__ - ERROR - Neo4j query error: {code: Neo.ClientError.Statement.TypeError} {message: Invalid input for function 'toString()': Expected a String, Float, Integer, Boolean, Temporal or Duration, got: StringArray[HDMI, DisplayPort]}
+2025-07-31 17:58:37,645 - __main__ - ERROR - Failed to execute query: MATCH (n) 
+        WITH labels(n)[0] AS node_type, keys(n) AS props, n
+        UNWIND props AS prop_name
+        WITH node_type, prop_name, n[prop_name] AS prop_value
+        WHERE prop_value IS NOT NULL
+        WITH node_type, prop_name, collect(DISTINCT toString(prop_value))[0..3] AS sample_values, count(*) AS total_count
+        RETURN node_type, prop_name, sample_values, total_count
+        ORDER BY node_type, prop_name
+2025-07-31 17:58:37,647 - __main__ - ERROR - Error: {code: Neo.ClientError.Statement.TypeError} {message: Invalid input for function 'toString()': Expected a String, Float, Integer, Boolean, Temporal or Duration, got: StringArray[HDMI, DisplayPort]}
+2025-07-31 17:58:37,647 - __main__ - INFO - COMPREHENSIVE schema detection completed: 3 node types, 2 relationship types, 2 connection patterns
+2025-07-31 17:58:37,648 - werkzeug - INFO - 127.0.0.1 - - [31/Jul/2025 17:58:37] "GET /api/health HTTP/1.1" 200 -
+2025-07-31 17:59:37,619 - __main__ - INFO - Detecting COMPREHENSIVE live schema from Neo4j...
+2025-07-31 17:59:37,663 - __main__ - ERROR - Neo4j query error: {code: Neo.ClientError.Statement.TypeError} {message: Invalid input for function 'toString()': Expected a String, Float, Integer, Boolean, Temporal or Duration, got: StringArray[HDMI, DisplayPort]}
+2025-07-31 17:59:37,666 - __main__ - ERROR - Failed to execute query: MATCH (n) 
+        WITH labels(n)[0] AS node_type, keys(n) AS props, n
+        UNWIND props AS prop_name
+        WITH node_type, prop_name, n[prop_name] AS prop_value
+        WHERE prop_value IS NOT NULL
+        WITH node_type, prop_name, collect(DISTINCT toString(prop_value))[0..3] AS sample_values, count(*) AS total_count
+        RETURN node_type, prop_name, sample_values, total_count
+        ORDER BY node_type, prop_name
+2025-07-31 17:59:37,668 - __main__ - ERROR - Error: {code: Neo.ClientError.Statement.TypeError} {message: Invalid input for function 'toString()': Expected a String, Float, Integer, Boolean, Temporal or Duration, got: StringArray[HDMI, DisplayPort]}
+2025-07-31 17:59:37,668 - __main__ - INFO - COMPREHENSIVE schema detection completed: 3 node types, 2 relationship types, 2 connection patterns
+2025-07-31 17:59:37,670 - werkzeug - INFO - 127.0.0.1 - - [31/Jul/2025 17:59:37] "GET /api/health HTTP/1.1" 200 -
+2025-07-31 18:00:37,647 - __main__ - INFO - Detecting COMPREHENSIVE live schema from Neo4j...
+2025-07-31 18:00:37,678 - __main__ - ERROR - Neo4j query error: {code: Neo.ClientError.Statement.TypeError} {message: Invalid input for function 'toString()': Expected a String, Float, Integer, Boolean, Temporal or Duration, got: StringArray[HDMI, DisplayPort]}
+2025-07-31 18:00:37,679 - __main__ - ERROR - Failed to execute query: MATCH (n) 
+        WITH labels(n)[0] AS node_type, keys(n) AS props, n
+        UNWIND props AS prop_name
+        WITH node_type, prop_name, n[prop_name] AS prop_value
+        WHERE prop_value IS NOT NULL
+        WITH node_type, prop_name, collect(DISTINCT toString(prop_value))[0..3] AS sample_values, count(*) AS total_count
+        RETURN node_type, prop_name, sample_values, total_count
+        ORDER BY node_type, prop_name
+2025-07-31 18:00:37,681 - __main__ - ERROR - Error: {code: Neo.ClientError.Statement.TypeError} {message: Invalid input for function 'toString()': Expected a String, Float, Integer, Boolean, Temporal or Duration, got: StringArray[HDMI, DisplayPort]}
+2025-07-31 18:00:37,682 - __main__ - INFO - COMPREHENSIVE schema detection completed: 3 node types, 2 relationship types, 2 connection patterns
+2025-07-31 18:00:37,684 - werkzeug - INFO - 127.0.0.1 - - [31/Jul/2025 18:00:37] "GET /api/health HTTP/1.1" 200 -
+2025-07-31 18:01:37,855 - __main__ - INFO - Detecting COMPREHENSIVE live schema from Neo4j...
+2025-07-31 18:01:38,134 - __main__ - ERROR - Neo4j query error: {code: Neo.ClientError.Statement.TypeError} {message: Invalid input for function 'toString()': Expected a String, Float, Integer, Boolean, Temporal or Duration, got: StringArray[HDMI, DisplayPort]}
+2025-07-31 18:01:38,143 - __main__ - ERROR - Failed to execute query: MATCH (n) 
+        WITH labels(n)[0] AS node_type, keys(n) AS props, n
+        UNWIND props AS prop_name
+        WITH node_type, prop_name, n[prop_name] AS prop_value
+        WHERE prop_value IS NOT NULL
+        WITH node_type, prop_name, collect(DISTINCT toString(prop_value))[0..3] AS sample_values, count(*) AS total_count
+        RETURN node_type, prop_name, sample_values, total_count
+        ORDER BY node_type, prop_name
+2025-07-31 18:01:38,159 - __main__ - ERROR - Error: {code: Neo.ClientError.Statement.TypeError} {message: Invalid input for function 'toString()': Expected a String, Float, Integer, Boolean, Temporal or Duration, got: StringArray[HDMI, DisplayPort]}
+2025-07-31 18:01:38,172 - __main__ - INFO - COMPREHENSIVE schema detection completed: 3 node types, 2 relationship types, 2 connection patterns
+2025-07-31 18:01:38,179 - werkzeug - INFO - 127.0.0.1 - - [31/Jul/2025 18:01:38] "GET /api/health HTTP/1.1" 200 -
+2025-07-31 18:02:37,909 - __main__ - INFO - Detecting COMPREHENSIVE live schema from Neo4j...
+2025-07-31 18:02:38,491 - __main__ - ERROR - Neo4j query error: {code: Neo.ClientError.Statement.TypeError} {message: Invalid input for function 'toString()': Expected a String, Float, Integer, Boolean, Temporal or Duration, got: StringArray[HDMI, DisplayPort]}
+2025-07-31 18:02:38,630 - __main__ - ERROR - Failed to execute query: MATCH (n) 
+        WITH labels(n)[0] AS node_type, keys(n) AS props, n
+        UNWIND props AS prop_name
+        WITH node_type, prop_name, n[prop_name] AS prop_value
+        WHERE prop_value IS NOT NULL
+        WITH node_type, prop_name, collect(DISTINCT toString(prop_value))[0..3] AS sample_values, count(*) AS total_count
+        RETURN node_type, prop_name, sample_values, total_count
+        ORDER BY node_type, prop_name
+2025-07-31 18:02:38,745 - __main__ - ERROR - Error: {code: Neo.ClientError.Statement.TypeError} {message: Invalid input for function 'toString()': Expected a String, Float, Integer, Boolean, Temporal or Duration, got: StringArray[HDMI, DisplayPort]}
+2025-07-31 18:02:38,970 - __main__ - INFO - COMPREHENSIVE schema detection completed: 3 node types, 2 relationship types, 2 connection patterns
+2025-07-31 18:02:39,066 - werkzeug - INFO - 127.0.0.1 - - [31/Jul/2025 18:02:39] "GET /api/health HTTP/1.1" 200 -
+2025-07-31 18:03:37,706 - __main__ - INFO - Detecting COMPREHENSIVE live schema from Neo4j...
+2025-07-31 18:03:38,730 - __main__ - ERROR - Neo4j query error: {code: Neo.ClientError.Statement.TypeError} {message: Invalid input for function 'toString()': Expected a String, Float, Integer, Boolean, Temporal or Duration, got: StringArray[HDMI, DisplayPort]}
+2025-07-31 18:03:38,740 - __main__ - ERROR - Failed to execute query: MATCH (n) 
+        WITH labels(n)[0] AS node_type, keys(n) AS props, n
+        UNWIND props AS prop_name
+        WITH node_type, prop_name, n[prop_name] AS prop_value
+        WHERE prop_value IS NOT NULL
+        WITH node_type, prop_name, collect(DISTINCT toString(prop_value))[0..3] AS sample_values, count(*) AS total_count
+        RETURN node_type, prop_name, sample_values, total_count
+        ORDER BY node_type, prop_name
+2025-07-31 18:03:38,799 - __main__ - ERROR - Error: {code: Neo.ClientError.Statement.TypeError} {message: Invalid input for function 'toString()': Expected a String, Float, Integer, Boolean, Temporal or Duration, got: StringArray[HDMI, DisplayPort]}
+2025-07-31 18:03:38,813 - __main__ - INFO - COMPREHENSIVE schema detection completed: 3 node types, 2 relationship types, 2 connection patterns
+2025-07-31 18:03:38,840 - werkzeug - INFO - 127.0.0.1 - - [31/Jul/2025 18:03:38] "GET /api/health HTTP/1.1" 200 -
+2025-07-31 18:04:38,468 - __main__ - INFO - Detecting COMPREHENSIVE live schema from Neo4j...
+2025-07-31 18:04:39,103 - __main__ - ERROR - Neo4j query error: {code: Neo.ClientError.Statement.TypeError} {message: Invalid input for function 'toString()': Expected a String, Float, Integer, Boolean, Temporal or Duration, got: StringArray[HDMI, DisplayPort]}
+2025-07-31 18:04:39,405 - __main__ - ERROR - Failed to execute query: MATCH (n) 
+        WITH labels(n)[0] AS node_type, keys(n) AS props, n
+        UNWIND props AS prop_name
+        WITH node_type, prop_name, n[prop_name] AS prop_value
+        WHERE prop_value IS NOT NULL
+        WITH node_type, prop_name, collect(DISTINCT toString(prop_value))[0..3] AS sample_values, count(*) AS total_count
+        RETURN node_type, prop_name, sample_values, total_count
+        ORDER BY node_type, prop_name
+2025-07-31 18:04:39,499 - __main__ - ERROR - Error: {code: Neo.ClientError.Statement.TypeError} {message: Invalid input for function 'toString()': Expected a String, Float, Integer, Boolean, Temporal or Duration, got: StringArray[HDMI, DisplayPort]}
+2025-07-31 18:04:39,860 - __main__ - INFO - COMPREHENSIVE schema detection completed: 3 node types, 2 relationship types, 2 connection patterns
+2025-07-31 18:04:40,077 - werkzeug - INFO - 127.0.0.1 - - [31/Jul/2025 18:04:40] "GET /api/health HTTP/1.1" 200 -
+2025-07-31 18:05:37,762 - __main__ - INFO - Detecting COMPREHENSIVE live schema from Neo4j...
+2025-07-31 18:05:38,055 - __main__ - ERROR - Neo4j query error: {code: Neo.ClientError.Statement.TypeError} {message: Invalid input for function 'toString()': Expected a String, Float, Integer, Boolean, Temporal or Duration, got: StringArray[HDMI, DisplayPort]}
+2025-07-31 18:05:38,125 - __main__ - ERROR - Failed to execute query: MATCH (n) 
+        WITH labels(n)[0] AS node_type, keys(n) AS props, n
+        UNWIND props AS prop_name
+        WITH node_type, prop_name, n[prop_name] AS prop_value
+        WHERE prop_value IS NOT NULL
+        WITH node_type, prop_name, collect(DISTINCT toString(prop_value))[0..3] AS sample_values, count(*) AS total_count
+        RETURN node_type, prop_name, sample_values, total_count
+        ORDER BY node_type, prop_name
+2025-07-31 18:05:38,271 - __main__ - ERROR - Error: {code: Neo.ClientError.Statement.TypeError} {message: Invalid input for function 'toString()': Expected a String, Float, Integer, Boolean, Temporal or Duration, got: StringArray[HDMI, DisplayPort]}
+2025-07-31 18:05:38,293 - __main__ - INFO - COMPREHENSIVE schema detection completed: 3 node types, 2 relationship types, 2 connection patterns
+2025-07-31 18:05:38,329 - werkzeug - INFO - 127.0.0.1 - - [31/Jul/2025 18:05:38] "GET /api/health HTTP/1.1" 200 -
+2025-07-31 18:06:37,836 - __main__ - INFO - Detecting COMPREHENSIVE live schema from Neo4j...
+2025-07-31 18:06:38,102 - __main__ - ERROR - Neo4j query error: {code: Neo.ClientError.Statement.TypeError} {message: Invalid input for function 'toString()': Expected a String, Float, Integer, Boolean, Temporal or Duration, got: StringArray[HDMI, DisplayPort]}
+2025-07-31 18:06:38,111 - __main__ - ERROR - Failed to execute query: MATCH (n) 
+        WITH labels(n)[0] AS node_type, keys(n) AS props, n
+        UNWIND props AS prop_name
+        WITH node_type, prop_name, n[prop_name] AS prop_value
+        WHERE prop_value IS NOT NULL
+        WITH node_type, prop_name, collect(DISTINCT toString(prop_value))[0..3] AS sample_values, count(*) AS total_count
+        RETURN node_type, prop_name, sample_values, total_count
+        ORDER BY node_type, prop_name
+2025-07-31 18:06:38,141 - __main__ - ERROR - Error: {code: Neo.ClientError.Statement.TypeError} {message: Invalid input for function 'toString()': Expected a String, Float, Integer, Boolean, Temporal or Duration, got: StringArray[HDMI, DisplayPort]}
+2025-07-31 18:06:38,156 - __main__ - INFO - COMPREHENSIVE schema detection completed: 3 node types, 2 relationship types, 2 connection patterns
+2025-07-31 18:06:38,178 - werkzeug - INFO - 127.0.0.1 - - [31/Jul/2025 18:06:38] "GET /api/health HTTP/1.1" 200 -
+2025-07-31 18:07:37,735 - __main__ - INFO - Detecting COMPREHENSIVE live schema from Neo4j...
+2025-07-31 18:07:38,013 - __main__ - ERROR - Neo4j query error: {code: Neo.ClientError.Statement.TypeError} {message: Invalid input for function 'toString()': Expected a String, Float, Integer, Boolean, Temporal or Duration, got: StringArray[HDMI, DisplayPort]}
+2025-07-31 18:07:38,031 - __main__ - ERROR - Failed to execute query: MATCH (n) 
+        WITH labels(n)[0] AS node_type, keys(n) AS props, n
+        UNWIND props AS prop_name
+        WITH node_type, prop_name, n[prop_name] AS prop_value
+        WHERE prop_value IS NOT NULL
+        WITH node_type, prop_name, collect(DISTINCT toString(prop_value))[0..3] AS sample_values, count(*) AS total_count
+        RETURN node_type, prop_name, sample_values, total_count
+        ORDER BY node_type, prop_name
+2025-07-31 18:07:38,054 - __main__ - ERROR - Error: {code: Neo.ClientError.Statement.TypeError} {message: Invalid input for function 'toString()': Expected a String, Float, Integer, Boolean, Temporal or Duration, got: StringArray[HDMI, DisplayPort]}
+2025-07-31 18:07:38,067 - __main__ - INFO - COMPREHENSIVE schema detection completed: 3 node types, 2 relationship types, 2 connection patterns
+2025-07-31 18:07:38,082 - werkzeug - INFO - 127.0.0.1 - - [31/Jul/2025 18:07:38] "GET /api/health HTTP/1.1" 200 -
