@@ -3,25 +3,28 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>🎬 Film Veritabanı Asistanı - Neo4j RAG</title>
-    <meta name="description" content="AI destekli film veritabanı sorgulama sistemi">
-    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🎬</text></svg>">
+    <title>Neo4j Veritabanı Asistanı - İnceHesap AI</title>
+    <meta name="description" content="İnceHesap AI destekli Neo4j veritabanı sorgulama sistemi - GraphRAG ile akıllı veri analizi">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🔗</text></svg>">
     
     <style>
         :root {
-            --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            --secondary-gradient: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
-            --success-color: #48bb78;
-            --error-color: #f56565;
-            --warning-color: #ed8936;
-            --text-primary: #2d3748;
-            --text-secondary: #718096;
-            --bg-light: #f8f9fa;
-            --border-color: #e2e8f0;
-            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-            --shadow-lg: 0 20px 40px rgba(0, 0, 0, 0.2);
-            --radius: 12px;
-            --radius-lg: 20px;
+            --incehesap-blue: #2563eb;
+            --incehesap-light-blue: #3b82f6;
+            --incehesap-dark-blue: #1d4ed8;
+            --incehesap-gray: #6b7280;
+            --incehesap-light-gray: #f3f4f6;
+            --incehesap-border: #d1d5db;
+            --incehesap-text: #111827;
+            --incehesap-text-light: #6b7280;
+            --success-color: #10b981;
+            --error-color: #ef4444;
+            --warning-color: #f59e0b;
+            --bg-light: #f9fafb;
+            --shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
+            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+            --radius: 8px;
+            --radius-lg: 12px;
         }
 
         * {
@@ -32,29 +35,86 @@
 
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-            background: var(--secondary-gradient);
+            background: var(--bg-light);
             min-height: 100vh;
+            line-height: 1.6;
+            color: var(--incehesap-text);
+        }
+
+        /* İnceHesap Header Style */
+        .incehesap-header {
+            background: white;
+            border-bottom: 1px solid var(--incehesap-border);
+            padding: 1rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
             display: flex;
             align-items: center;
-            justify-content: center;
-            padding: 20px;
-            line-height: 1.6;
+            justify-content: space-between;
+            padding: 0 20px;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--incehesap-blue);
+            text-decoration: none;
+        }
+
+        .logo-text {
+            background: linear-gradient(135deg, var(--incehesap-blue), var(--incehesap-light-blue));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .nav-menu {
+            display: flex;
+            align-items: center;
+            gap: 30px;
+        }
+
+        .nav-item {
+            color: var(--incehesap-text);
+            text-decoration: none;
+            font-weight: 500;
+            padding: 8px 12px;
+            border-radius: var(--radius);
+            transition: all 0.2s ease;
+        }
+
+        .nav-item:hover {
+            background: var(--incehesap-light-gray);
+            color: var(--incehesap-blue);
+        }
+
+        .nav-item.active {
+            background: var(--incehesap-blue);
+            color: white;
         }
 
         .container {
-            background: rgba(255, 255, 255, 0.98);
+            max-width: 1200px;
+            margin: 20px auto;
+            background: white;
             border-radius: var(--radius-lg);
-            box-shadow: var(--shadow-lg);
-            width: 100%;
-            max-width: 900px;
+            box-shadow: var(--shadow);
             overflow: hidden;
-            backdrop-filter: blur(10px);
         }
 
         .header {
-            background: var(--primary-gradient);
+            background: linear-gradient(135deg, var(--incehesap-blue), var(--incehesap-light-blue));
             color: white;
-            padding: 30px;
+            padding: 40px 30px;
             text-align: center;
             position: relative;
             overflow: hidden;
@@ -72,14 +132,15 @@
         }
 
         .header h1 {
-            font-size: 2.5em;
-            margin-bottom: 10px;
+            font-size: 2.2em;
+            margin-bottom: 8px;
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 10px;
+            gap: 12px;
             position: relative;
             z-index: 1;
+            font-weight: 600;
         }
 
         .header p {
@@ -87,6 +148,25 @@
             opacity: 0.95;
             position: relative;
             z-index: 1;
+            margin-bottom: 20px;
+        }
+
+        .header-badges {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            flex-wrap: wrap;
+            margin-top: 15px;
+        }
+
+        .badge {
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 0.85em;
+            font-weight: 500;
+            backdrop-filter: blur(10px);
         }
 
         .status-indicator {
@@ -98,6 +178,29 @@
             font-size: 0.8em;
             font-weight: 600;
             z-index: 2;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .status-online {
+            background: var(--success-color);
+            color: white;
+        }
+
+        .status-offline {
+            background: var(--error-color);
+            color: white;
+        }
+
+        .status-online::before {
+            content: '●';
+            color: #dcfce7;
+        }
+
+        .status-offline::before {
+            content: '●';
+            color: #fecaca;
         }
 
         .status-online {
@@ -116,6 +219,7 @@
             padding: 30px;
             background: var(--bg-light);
             scroll-behavior: smooth;
+            border-top: 1px solid var(--incehesap-border);
         }
 
         .chat-container::-webkit-scrollbar {
@@ -169,7 +273,7 @@
         }
 
         .message.user .message-content {
-            background: var(--primary-gradient);
+            background: var(--incehesap-blue);
             color: white;
             border-bottom-right-radius: 6px;
             box-shadow: var(--shadow);
@@ -177,10 +281,11 @@
 
         .message.assistant .message-content {
             background: white;
-            color: var(--text-primary);
+            color: var(--incehesap-text);
             border-bottom-left-radius: 6px;
             box-shadow: var(--shadow);
-            border-left: 4px solid var(--success-color);
+            border-left: 4px solid var(--incehesap-blue);
+            border: 1px solid var(--incehesap-border);
         }
 
         .cypher-container {
@@ -191,8 +296,8 @@
         }
 
         .cypher-header {
-            background: #2d3748;
-            color: #a0aec0;
+            background: var(--incehesap-blue);
+            color: white;
             padding: 8px 12px;
             font-size: 0.8em;
             font-weight: 600;
@@ -202,7 +307,7 @@
         }
 
         .cypher-query {
-            background: #1a202c;
+            background: #1e293b;
             color: var(--success-color);
             padding: 12px 16px;
             font-family: 'SF Mono', 'Monaco', 'Inconsolata', 'Roboto Mono', 'Source Code Pro', monospace;
@@ -217,7 +322,7 @@
         }
 
         .cypher-query::-webkit-scrollbar-track {
-            background: #2d3748;
+            background: var(--incehesap-blue);
         }
 
         .cypher-query::-webkit-scrollbar-thumb {
@@ -228,7 +333,7 @@
         .input-container {
             padding: 24px;
             background: white;
-            border-top: 1px solid var(--border-color);
+            border-top: 1px solid var(--incehesap-border);
         }
 
         .input-form {
@@ -240,7 +345,7 @@
         .input-field {
             flex: 1;
             padding: 16px;
-            border: 2px solid var(--border-color);
+            border: 2px solid var(--incehesap-border);
             border-radius: var(--radius);
             font-size: 16px;
             font-family: inherit;
@@ -252,13 +357,13 @@
 
         .input-field:focus {
             outline: none;
-            border-color: #667eea;
-            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+            border-color: var(--incehesap-blue);
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
         }
 
         .submit-button {
             padding: 16px 24px;
-            background: var(--primary-gradient);
+            background: var(--incehesap-blue);
             color: white;
             border: none;
             border-radius: var(--radius);
@@ -274,8 +379,9 @@
         }
 
         .submit-button:hover:not(:disabled) {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4);
+            background: var(--incehesap-dark-blue);
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
         }
 
         .submit-button:active {
@@ -283,10 +389,55 @@
         }
 
         .submit-button:disabled {
-            background: #cbd5e0;
+            background: var(--incehesap-gray);
             cursor: not-allowed;
             transform: none;
             box-shadow: none;
+        }
+
+        .welcome-message {
+            text-align: center;
+            color: var(--incehesap-text-light);
+            padding: 40px 20px;
+        }
+
+        .welcome-message h2 {
+            color: var(--incehesap-text);
+            margin-bottom: 20px;
+            font-size: 1.8em;
+            font-weight: 600;
+        }
+
+        .welcome-message p {
+            margin-bottom: 30px;
+            font-size: 1.1em;
+        }
+
+        .example-questions {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 12px;
+            margin-top: 20px;
+        }
+
+        .example-question {
+            background: white;
+            padding: 18px 22px;
+            border-radius: var(--radius);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 14px;
+            border: 2px solid var(--incehesap-border);
+            text-align: left;
+            font-weight: 500;
+            color: var(--incehesap-text);
+        }
+
+        .example-question:hover {
+            border-color: var(--incehesap-blue);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(37, 99, 235, 0.15);
+            background: #fafbff;
         }
 
         .submit-button .spinner {
@@ -303,48 +454,6 @@
             100% { transform: rotate(360deg); }
         }
 
-        .welcome-message {
-            text-align: center;
-            color: var(--text-secondary);
-            padding: 40px 20px;
-        }
-
-        .welcome-message h2 {
-            color: var(--text-primary);
-            margin-bottom: 20px;
-            font-size: 1.8em;
-        }
-
-        .welcome-message p {
-            margin-bottom: 30px;
-            font-size: 1.1em;
-        }
-
-        .example-questions {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 12px;
-            margin-top: 20px;
-        }
-
-        .example-question {
-            background: white;
-            padding: 16px 20px;
-            border-radius: var(--radius);
-            cursor: pointer;
-            transition: all 0.3s ease;
-            font-size: 14px;
-            border: 2px solid var(--border-color);
-            text-align: left;
-        }
-
-        .example-question:hover {
-            border-color: #667eea;
-            transform: translateY(-2px);
-            box-shadow: var(--shadow);
-            background: #f7fafc;
-        }
-
         .typing-indicator {
             display: flex;
             gap: 6px;
@@ -355,7 +464,7 @@
         .typing-dot {
             width: 8px;
             height: 8px;
-            background: var(--text-secondary);
+            background: var(--incehesap-blue);
             border-radius: 50%;
             animation: typing 1.4s infinite ease-in-out;
         }
@@ -380,12 +489,27 @@
         }
 
         .error-message {
-            background: #fed7d7;
-            color: #c53030;
+            background: #fef2f2;
+            color: #dc2626;
             padding: 16px;
             border-radius: var(--radius);
             margin-bottom: 20px;
             border-left: 4px solid var(--error-color);
+            border: 1px solid #fecaca;
+        }
+
+        .toast {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: var(--success-color);
+            color: white;
+            padding: 12px 20px;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow-lg);
+            z-index: 1000;
+            transform: translateX(100%);
+            transition: transform 0.3s ease;
         }
 
         .copy-button {
@@ -406,22 +530,36 @@
             background: rgba(255, 255, 255, 0.2);
         }
 
-        .toast {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            background: var(--success-color);
-            color: white;
-            padding: 12px 20px;
-            border-radius: var(--radius);
-            box-shadow: var(--shadow-lg);
-            z-index: 1000;
-            transform: translateX(100%);
-            transition: transform 0.3s ease;
-        }
-
         .toast.show {
             transform: translateX(0);
+        }
+
+        /* İnceHesap Price Tag Style */
+        .price-tag {
+            display: inline-block;
+            background: linear-gradient(135deg, #fbbf24, #f59e0b);
+            color: white;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 0.8em;
+            font-weight: 600;
+            margin-left: 8px;
+        }
+
+        /* İnceHesap Card Style */
+        .feature-card {
+            background: white;
+            border: 1px solid var(--incehesap-border);
+            border-radius: var(--radius);
+            padding: 20px;
+            margin: 10px 0;
+            transition: all 0.3s ease;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(37, 99, 235, 0.15);
+            border-color: var(--incehesap-light-blue);
         }
 
         /* Responsive Design */
@@ -535,12 +673,72 @@
         .example-question:focus,
         .submit-button:focus,
         .input-field:focus {
-            outline: 2px solid #667eea;
+            outline: 2px solid var(--incehesap-blue);
             outline-offset: 2px;
+        }
+
+        /* Mobile responsive adjustments */
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+                gap: 15px;
+                text-align: center;
+            }
+            
+            .nav-menu {
+                gap: 15px;
+            }
+            
+            .container {
+                margin: 10px;
+                border-radius: var(--radius);
+            }
+            
+            .header h1 {
+                font-size: 1.8em;
+            }
+            
+            .message-content {
+                max-width: 90%;
+            }
+            
+            .input-form {
+                flex-direction: column;
+                gap: 12px;
+            }
+            
+            .submit-button {
+                width: 100%;
+            }
+
+            .example-questions {
+                grid-template-columns: 1fr;
+            }
+
+            .chat-container {
+                height: 400px;
+                padding: 20px;
+            }
         }
     </style>
 </head>
 <body>
+    <!-- İnceHesap Header -->
+    <div class="incehesap-header">
+        <div class="header-content">
+            <a href="#" class="logo">
+                <span class="logo-text">incehesap</span>
+                <span style="color: #6b7280; font-size: 0.8em;">.com</span>
+            </a>
+            <nav class="nav-menu">
+                <a href="#" class="nav-item active">Veritabanı Asistanı</a>
+                <a href="#" class="nav-item">GraphRAG</a>
+                <a href="#" class="nav-item">Şema Analizi</a>
+                <a href="#" class="nav-item">Yardım</a>
+            </nav>
+        </div>
+    </div>
+
     <div class="container">
         <div class="header">
             <div class="status-indicator" id="statusIndicator">
@@ -548,33 +746,46 @@
             </div>
             
             <h1>
-                🎬 Film Veritabanı Asistanı
+                🔗 Neo4j Veritabanı Asistanı
             </h1>
-            <p>Neo4j ve AI ile güçlendirilmiş akıllı film arama sistemi</p>
+            <p>İnceHesap AI ile güçlendirilmiş GraphRAG tabanlı akıllı veri sorgulama sistemi</p>
+            
+            <div class="header-badges">
+                <span class="badge">✅ Neo4j Destekli</span>
+                <span class="badge">🤖 GraphRAG AI</span>
+                <span class="badge">🚀 Text2Cypher</span>
+                <span class="badge">📊 Dinamik Analiz</span>
+            </div>
         </div>
         
         <div class="chat-container" id="chatContainer">
             <div class="welcome-message" id="welcomeMessage">
-                <h2>Merhaba! Size nasıl yardımcı olabilirim? 👋</h2>
-                <p>Film veritabanımızda arama yapmak için aşağıdaki örnekleri deneyebilir veya kendi sorunuzu yazabilirsiniz:</p>
+                <h2>Neo4j Veritabanı Asistanı'na Hoşgeldiniz! 👋</h2>
+                <p>Veritabanınızdaki verileri sorgulamak için doğal dilde sorularınızı yazın. GraphRAG teknolojisi ile verilerinizi analiz ediyorum!</p>
                 <div class="example-questions">
-                    <div class="example-question" onclick="askExample('Matrix filminde kim oynadı?')" tabindex="0">
-                        🎭 Matrix filminde kim oynadı?
+                    <div class="example-question" onclick="askExample('Veritabanındaki tüm node türleri nelerdir?')" tabindex="0">
+                        🔍 Veritabanındaki tüm node türleri nelerdir?
+                        <span class="price-tag">Şema</span>
                     </div>
-                    <div class="example-question" onclick="askExample('Tom Cruise hangi filmlerde oynadı?')" tabindex="0">
-                        🌟 Tom Cruise hangi filmlerde oynadı?
+                    <div class="example-question" onclick="askExample('En çok bağlantısı olan node hangisidir?')" tabindex="0">
+                        📊 En çok bağlantısı olan node hangisidir?
+                        <span class="price-tag">Analiz</span>
                     </div>
-                    <div class="example-question" onclick="askExample('2000 sonrası çıkan filmler')" tabindex="0">
-                        📅 2000 sonrası çıkan filmler
+                    <div class="example-question" onclick="askExample('Veritabanında kaç adet ilişki var?')" tabindex="0">
+                        � Veritabanında kaç adet ilişki var?
+                        <span class="price-tag">İstatistik</span>
                     </div>
-                    <div class="example-question" onclick="askExample('Keanu Reeves filmlerden ne kadar kazandı?')" tabindex="0">
-                        💰 Keanu Reeves filmlerden ne kadar kazandı?
+                    <div class="example-question" onclick="askExample('Node\'lar arasındaki ilişki türleri nelerdir?')" tabindex="0">
+                        � Node'lar arasındaki ilişki türleri nelerdir?
+                        <span class="price-tag">Yapı</span>
                     </div>
-                    <div class="example-question" onclick="askExample('En yüksek hasılatlı filmler')" tabindex="0">
-                        🏆 En yüksek hasılatlı filmler
+                    <div class="example-question" onclick="askExample('En büyük bağlı bileşen nedir?')" tabindex="0">
+                        � En büyük bağlı bileşen nedir?
+                        <span class="price-tag">Graf</span>
                     </div>
-                    <div class="example-question" onclick="askExample('Hangi oyuncular en çok film çekti?')" tabindex="0">
-                        🎬 Hangi oyuncular en çok film çekti?
+                    <div class="example-question" onclick="askExample('Veritabanı şemasını göster')" tabindex="0">
+                        📋 Veritabanı şemasını göster
+                        <span class="price-tag">Genel</span>
                     </div>
                 </div>
             </div>
@@ -585,19 +796,30 @@
                 <textarea 
                     class="input-field" 
                     id="questionInput"
-                    placeholder="Sorunuzu yazın... (örn: 'Matrix filminde kim oynadı?')" 
+                    placeholder="Veritabanınız hakkında sorunuzu doğal dilde yazın... (örn: 'En çok bağlantısı olan node hangisi?')" 
                     rows="1"
-                    maxlength="500"
                     required
                 ></textarea>
                 <button type="submit" class="submit-button" id="submitButton">
-                    <span id="buttonText">Gönder</span>
+                    <span id="buttonText">Sorgula</span>
                     <svg id="buttonIcon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                         <path d="M22 2L11 13M22 2L15 22L11 13L2 9L22 2Z"/>
                     </svg>
                 </button>
             </form>
         </div>
+    </div>
+
+    <!-- İnceHesap Footer -->
+    <div style="text-align: center; padding: 20px; color: #6b7280; font-size: 0.9em;">
+        <p>© 2025 İnceHesap Neo4j Veritabanı Asistanı - GraphRAG ile güçlendirilmiş akıllı veri analizi</p>
+        <p style="margin-top: 8px;">
+            <span style="color: #10b981;">●</span> Neo4j Graph Database 
+            <span style="margin: 0 15px;">|</span>
+            <span style="color: #3b82f6;">●</span> OpenRouter AI
+            <span style="margin: 0 15px;">|</span>
+            <span style="color: #f59e0b;">●</span> Text2Cypher Technology
+        </p>
     </div>
 
     <!-- Toast notification -->
@@ -662,11 +884,6 @@
             const question = questionInput.value.trim();
             if (!question) return;
             
-            if (question.length > 500) {
-                showToast('Soru çok uzun (maksimum 500 karakter)', 'error');
-                return;
-            }
-            
             await askQuestion(question);
         }
 
@@ -683,7 +900,7 @@
             autoResizeTextarea();
             
             // Set loading state
-            setLoadingState(true);
+                setLoadingState(true);
             
             // Show typing indicator
             const typingId = showTypingIndicator();
@@ -744,7 +961,7 @@
                     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                         <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/>
                     </svg>
-                    Neo4j Cypher Query
+                    İnceHesap Neo4j Sorgusu
                 `;
                 
                 const cypherDiv = document.createElement('div');
@@ -766,9 +983,7 @@
             
             chatContainer.appendChild(messageDiv);
             chatContainer.scrollTop = chatContainer.scrollHeight;
-        }
-
-        function formatAssistantMessage(content) {
+        }        function formatAssistantMessage(content) {
             // Basic formatting for assistant messages
             return content
                 .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
@@ -810,10 +1025,10 @@
             submitButton.disabled = loading;
             
             if (loading) {
-                buttonText.textContent = 'Gönderiliyor...';
+                buttonText.textContent = 'Sorgulanıyor...';
                 buttonIcon.innerHTML = '<div class="spinner"></div>';
             } else {
-                buttonText.textContent = 'Gönder';
+                buttonText.textContent = 'Sorgula';
                 buttonIcon.innerHTML = '<path d="M22 2L11 13M22 2L15 22L11 13L2 9L22 2Z"/>';
                 questionInput.focus();
             }
@@ -832,10 +1047,10 @@
                 
                 if (data.neo4j) {
                     statusIndicator.className = 'status-indicator status-online';
-                    statusText.textContent = 'Çevrimiçi';
+                    statusText.textContent = 'İnceHesap Aktif';
                 } else {
                     statusIndicator.className = 'status-indicator status-offline';
-                    statusText.textContent = 'Neo4j Çevrimdışı';
+                    statusText.textContent = 'Veritabanı Çevrimdışı';
                 }
             } catch (error) {
                 statusIndicator.className = 'status-indicator status-offline';

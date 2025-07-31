@@ -6,6 +6,30 @@ from datetime import datetime, timedelta
 CACHE_FILE = "cache.json"
 CACHE_EXPIRE_HOURS = 24  # 24 saat sonra cache'i temizle
 
+def serialize_for_cache(obj):
+    """Neo4j objelerini cache'e kaydetmek için serialize et"""
+    if hasattr(obj, 'labels') and hasattr(obj, 'items'):  # Neo4j Node
+        return {
+            'type': 'neo4j_node',
+            'labels': list(obj.labels),
+            'properties': dict(obj.items()),
+            'id': obj.element_id if hasattr(obj, 'element_id') else str(obj.id)
+        }
+    elif hasattr(obj, 'type') and hasattr(obj, 'start_node'):  # Neo4j Relationship
+        return {
+            'type': 'neo4j_relationship',
+            'rel_type': obj.type,
+            'properties': dict(obj.items()),
+            'start_node': obj.start_node.element_id if hasattr(obj.start_node, 'element_id') else str(obj.start_node.id),
+            'end_node': obj.end_node.element_id if hasattr(obj.end_node, 'element_id') else str(obj.end_node.id)
+        }
+    elif isinstance(obj, list):
+        return [serialize_for_cache(item) for item in obj]
+    elif isinstance(obj, dict):
+        return {key: serialize_for_cache(value) for key, value in obj.items()}
+    else:
+        return obj
+
 def _load_cache():
     """Cache dosyasını yükle"""
     if not os.path.exists(CACHE_FILE):
@@ -80,17 +104,25 @@ def get_from_cache(key):
     return None
 
 def save_to_cache(key, data):
-    """Cache'e veri kaydet"""
-    cache = _load_cache()
-    hash_key = hashlib.sha256(key.encode()).hexdigest()
-    
-    cache[hash_key] = {
-        "data": data,
-        "timestamp": datetime.now().isoformat()
-    }
-    
-    _save_cache(cache)
-    print(f"💾 Cache'e kaydedildi: {key[:50]}...")
+    """Cache'e veri kaydet (Neo4j objelerini serialize ederek)"""
+    try:
+        cache = _load_cache()
+        hash_key = hashlib.sha256(key.encode()).hexdigest()
+        
+        # Serialize Neo4j objects
+        serialized_data = serialize_for_cache(data)
+        
+        cache[hash_key] = {
+            "data": serialized_data,
+            "timestamp": datetime.now().isoformat()
+        }
+        
+        _save_cache(cache)
+        print(f"💾 Cache'e kaydedildi: {key[:50]}...")
+        
+    except Exception as e:
+        print(f"❌ Cache kaydetme hatası: {e}")
+        # Don't raise exception, just log it
 
 def clear_cache():
     """Tüm cache'i temizle"""

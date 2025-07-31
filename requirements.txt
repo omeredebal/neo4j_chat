@@ -9,6 +9,12 @@ neo4j==5.15.0
 requests==2.31.0
 urllib3==2.1.0
 
+# GraphRAG Dependencies
+numpy==1.24.3
+
+# AI/ML APIs
+google-generativeai==0.8.3
+
 # Environment Variables
 python-dotenv==1.0.1
 
