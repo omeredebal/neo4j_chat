@@ -132,3 +132,88 @@ def clear_cache():
 
 # Başlangıçta eski cache'leri temizle
 _clean_expired_cache()
+
+
+# ========== SCHEMA CACHE İYİLEŞTİRMESİ ==========
+
+import time
+from typing import Optional, Dict, Any
+
+class SchemaCache:
+    """Schema bilgilerini cache'leyerek performansı artıran sınıf"""
+    
+    def __init__(self, ttl_seconds: int = 300):  # 5 dakika default
+        self.cache: Optional[Dict[str, Any]] = None
+        self.last_update: float = 0
+        self.ttl = ttl_seconds
+        self.cache_key = "neo4j_schema_cache"
+        
+        # Başlangıçta persistent cache'den yükle
+        self._load_from_persistent_cache()
+    
+    def get_schema(self) -> Optional[Dict[str, Any]]:
+        """Schema cache'ini al, expired ise None döndür"""
+        if self.is_expired():
+            return None
+        return self.cache
+    
+    def set_schema(self, schema: Dict[str, Any]) -> None:
+        """Schema'yı cache'le ve persistent storage'a kaydet"""
+        self.cache = schema
+        self.last_update = time.time()
+        
+        # Persistent cache'e de kaydet
+        self._save_to_persistent_cache(schema)
+        
+        print(f"📊 Schema cache güncellendi (TTL: {self.ttl}s)")
+    
+    def is_expired(self) -> bool:
+        """Cache'in süresi dolmuş mu?"""
+        if self.cache is None:
+            return True
+        return time.time() - self.last_update > self.ttl
+    
+    def get_cache_age(self) -> float:
+        """Cache'in yaşını saniye cinsinden döndür"""
+        if self.cache is None:
+            return float('inf')
+        return time.time() - self.last_update
+    
+    def clear_cache(self) -> None:
+        """Cache'i temizle"""
+        self.cache = None
+        self.last_update = 0
+        
+        # Persistent cache'den de sil
+        cache = _load_cache()
+        hash_key = hashlib.sha256(self.cache_key.encode()).hexdigest()
+        if hash_key in cache:
+            del cache[hash_key]
+            _save_cache(cache)
+        
+        print("🗑️ Schema cache temizlendi")
+    
+    def _load_from_persistent_cache(self) -> None:
+        """Persistent cache'den schema'yı yükle"""
+        try:
+            cached_schema = get_from_cache(self.cache_key)
+            if cached_schema:
+                self.cache = cached_schema
+                self.last_update = time.time()  # Fresh olarak işaretle
+                print("📂 Schema persistent cache'den yüklendi")
+        except Exception as e:
+            print(f"⚠️ Persistent cache yükleme hatası: {e}")
+    
+    def _save_to_persistent_cache(self, schema: Dict[str, Any]) -> None:
+        """Schema'yı persistent cache'e kaydet"""
+        try:
+            save_to_cache(self.cache_key, {
+                "schema": schema,
+                "memory_cache_time": self.last_update,
+                "ttl_seconds": self.ttl
+            })
+        except Exception as e:
+            print(f"⚠️ Persistent cache kaydetme hatası: {e}")
+
+# Global schema cache instance
+schema_cache = SchemaCache(ttl_seconds=300)  # 5 dakika TTL

@@ -2,6 +2,8 @@ import os
 import logging
 import sys
 import re
+import threading
+import time
 from datetime import datetime
 from flask import Flask, render_template, request, jsonify
 from neo4j import GraphDatabase
@@ -9,7 +11,7 @@ from neo4j.exceptions import Neo4jError
 import requests
 import json
 from dotenv import load_dotenv
-from cache import get_from_cache, save_to_cache
+from cache import get_from_cache, save_to_cache, schema_cache
 from history import add_to_history, load_history
 import google.generativeai as genai
 
@@ -210,6 +212,27 @@ def convert_neo4j_value(value):
         logger.warning(f"Failed to convert Neo4j value: {value}, error: {e}")
         return str(value)  # Fallback to string representation
 
+def get_cached_schema_info():
+    """Cache'li schema bilgilerini al - performans optimizasyonu"""
+    
+    # Önce cache'den kontrol et
+    cached_schema = schema_cache.get_schema()
+    if cached_schema:
+        cache_age = schema_cache.get_cache_age()
+        logger.info(f"📊 Schema cache'den alındı (yaş: {cache_age:.1f}s)")
+        return cached_schema
+    
+    # Cache yoksa veya expired ise yeni çek
+    logger.info("📊 Schema cache expired/missing, fetching fresh schema...")
+    fresh_schema = detect_live_schema()
+    
+    if fresh_schema:
+        # Başarılı ise cache'e kay Det
+        schema_cache.set_schema(fresh_schema)
+        logger.info("📊 Fresh schema cached successfully")
+    
+    return fresh_schema
+
 def detect_live_schema():
     """Neo4j'den canlı schema bilgilerini TAMAMEN dinamik olarak çeker"""
     if not neo4j_available:
@@ -262,7 +285,11 @@ def detect_live_schema():
         UNWIND props AS prop_name
         WITH node_type, prop_name, n[prop_name] AS prop_value
         WHERE prop_value IS NOT NULL
-        WITH node_type, prop_name, collect(DISTINCT toString(prop_value))[0..3] AS sample_values, count(*) AS total_count
+        WITH node_type, prop_name, 
+             collect(DISTINCT CASE 
+                       WHEN prop_value IS NULL THEN null
+                       ELSE coalesce(toString(prop_value), '[Complex Type]')
+                     END)[0..3] AS sample_values, count(*) AS total_count
         RETURN node_type, prop_name, sample_values, total_count
         ORDER BY node_type, prop_name
         """
@@ -311,7 +338,7 @@ def detect_live_schema():
 
 def generate_dynamic_schema():
     """Canlı schema bilgilerinden KAPSAMLI GraphRAG prompt oluştur"""
-    schema_info = detect_live_schema()
+    schema_info = get_cached_schema_info()  # Cache'li version kullan
     
     if not schema_info:
         return """
@@ -436,7 +463,8 @@ RETURN {from_label.lower()}, r, {to_label.lower()} LIMIT 10
 
 -- En merkezi node'ları bul (degree centrality)
 MATCH (n)
-WITH n, size([(n)-[]-() | 1]) AS degree
+OPTIONAL MATCH (n)-[r]-()
+WITH n, count(r) AS degree
 WHERE degree > 0
 RETURN n, degree
 ORDER BY degree DESC LIMIT 10
@@ -1149,6 +1177,32 @@ def internal_error(error):
 def rate_limit_error(error):
     return jsonify({"error": "Çok fazla istek. Lütfen biraz bekleyin"}), 429
 
+# ========== BACKGROUND SCHEMA UPDATER ==========
+
+def background_schema_updater():
+    """Background thread: Schema'yı periyodik olarak güncelle"""
+    update_interval = 300  # 5 dakika
+    
+    while True:
+        try:
+            time.sleep(update_interval)  # İlk güncellemeden önce bekle
+            
+            if neo4j_available:
+                logger.info("🔄 Background schema update başlıyor...")
+                fresh_schema = detect_live_schema()
+                
+                if fresh_schema:
+                    schema_cache.set_schema(fresh_schema)
+                    logger.info(f"✅ Background schema update tamamlandı - {time.strftime('%H:%M:%S')}")
+                else:
+                    logger.warning("⚠️ Background schema update başarısız")
+            else:
+                logger.debug("📴 Neo4j unavailable, skipping background schema update")
+                
+        except Exception as e:
+            logger.error(f"❌ Background schema update error: {e}")
+            time.sleep(60)  # Hata durumunda 1 dakika bekle
+
 if __name__ == "__main__":
     # Get configuration from environment
     debug = os.getenv('FLASK_DEBUG', 'False').lower() == 'true'
@@ -1160,5 +1214,11 @@ if __name__ == "__main__":
     logger.info(f"Gemini API available: {gemini_available}")
     if gemini_available:
         logger.info(f"Gemini model: {GEMINI_MODEL}")
+    
+    # Background schema updater başlat
+    if neo4j_available:
+        schema_thread = threading.Thread(target=background_schema_updater, daemon=True)
+        schema_thread.start()
+        logger.info("🔄 Background schema updater başlatıldı (5 dakika interval)")
     
     app.run(debug=debug, host=host, port=port)
