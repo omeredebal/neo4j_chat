@@ -1,0 +1,32 @@
+# Web Framework
+Flask==3.0.0
+Werkzeug==3.0.1
+
+# Database
+neo4j==5.15.0
+
+# HTTP Requests
+requests==2.31.0
+urllib3==2.1.0
+
+# GraphRAG Dependencies
+numpy==1.24.3
+
+# AI/ML APIs
+google-generativeai==0.8.3
+
+# Environment Variables
+python-dotenv==1.0.1
+
+# Data Processing
+python-dateutil==2.8.2
+
+# Security
+cryptography==41.0.8
+
+# Development Tools (optional)
+flask-cors==4.0.0
+
+# Production WSGI Server (optional)
+gunicorn==21.2.0
+waitress==3.0.0
